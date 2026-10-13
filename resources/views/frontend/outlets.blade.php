@@ -1,0 +1,29 @@
+@extends('frontend.layouts.app')
+
+@section('title', 'Find a Store | Pound Store Pakistan')
+@section('description', 'Search Pound Store Pakistan city and area listings on an interactive map. Demo markers are approximate city-centre locations.')
+
+@section('content')
+<main id="main">
+<section class="page-hero"><div class="container-wide page-hero-grid"><div><p class="eyebrow">Our network</p><h1>Find a Pound Store <span class="highlight">location.</span></h1><p class="lead">Explore the public city directory, compare the listed areas and open the map to see approximate locations. Use the directory cards below to search nearby results, then call to confirm the exact storefront before you set off.</p><span class="page-hero-kicker"><i class="bi bi-geo-alt" aria-hidden="true"></i> 54 listings · 44 cities/areas</span></div><img class="page-hero-image" data-parallax src="https://images.unsplash.com/photo-1604719312566-8912e9c8a213?auto=format&fit=crop&w=1000&q=82" alt="Product displays in a retail store" loading="eager"></div></section>
+<section class="section"><div class="container-wide"><div class="section-heading"><p class="eyebrow">Interactive branch overview</p><h2>Explore the network <span class="highlight">on the map.</span></h2><p>The published directory provides city-level counts. Because a detailed address and pin could not be verified for every branch, map markers indicate approximate city centres—not exact shop door locations.</p></div><div class="map-layout"><div class="map-panel"><div class="map-panel-head"><strong><i class="bi bi-map" aria-hidden="true"></i> City / area map</strong><span data-map-status>Loading directory…</span></div><div id="branchMap" class="network-map" role="application" aria-label="Interactive map with approximate Pound Store city and area markers"></div><div class="map-note"><strong>Demo data note:</strong> markers represent published city/area listings and their counts. Exact branch addresses, individual store pins and opening status should be imported from the approved branch master spreadsheet before launch.</div></div><aside class="map-results"><div class="map-controls"><div class="field"><label for="citySearch">Search city or area</label><input type="search" id="citySearch" data-city-search placeholder="e.g. Gujranwala, Sialkot"></div><p data-city-total class="map-note" style="margin:0">44 city/area records</p></div><div class="city-list" data-city-list aria-live="polite"></div></aside></div><div class="verified-branch"><p class="eyebrow">Detailed listing available</p><h3>Pound Store Warehouse · Gujranwala</h3><p><i class="bi bi-geo-alt" aria-hidden="true"></i> Alipur Chowk, Gujranwala, Punjab, Pakistan</p><p><i class="bi bi-telephone" aria-hidden="true"></i> 0347 0006050</p><a class="btn btn-primary btn-sm" href="https://maps.app.goo.gl/6cvsH4YfgBciFAMt7" target="_blank" rel="noopener noreferrer">Open published map directions <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a><p class="demo-note">Please call before travelling: the written address on the official site differs from the label shown in its map destination. Confirm the current warehouse pin with Pound Store.</p></div></div></section>
+
+<section class="section section-soft outlet-directory" id="outlet-directory" data-outlet-directory aria-labelledby="outletDirectoryTitle">
+  <div class="container-wide">
+    <div class="section-heading split outlet-directory-heading">
+      <div><p class="eyebrow">Browse by city</p><h2 id="outletDirectoryTitle">Your next stop is <span class="highlight">closer than you think.</span></h2><p>Explore the city and area names in the published Pound Store directory. Each card opens a Google Maps search for that area so you can check current results before travelling.</p></div>
+      <span class="directory-total-pill"><i class="bi bi-geo-alt" aria-hidden="true"></i> <strong data-outlet-result-count>44</strong> city / area listings</span>
+    </div>
+    <div class="outlet-directory-toolbar">
+      <div class="field outlet-search-field"><label for="outletSearch">Find a city or area</label><div class="outlet-search-wrap"><i class="bi bi-search" aria-hidden="true"></i><input type="search" id="outletSearch" data-outlet-search placeholder="Try Gujranwala, Sialkot or Islamabad" autocomplete="off"></div></div>
+      <div class="field outlet-sort-field"><label for="outletSort">Sort locations</label><select id="outletSort" data-outlet-sort><option value="popular">Most listings first</option><option value="az">City name A–Z</option><option value="za">City name Z–A</option></select></div>
+    </div>
+    <div class="outlet-grid" data-outlet-grid aria-live="polite" aria-busy="false"></div>
+    <div class="outlet-load-more-wrap"><p data-outlet-pagination-status aria-live="polite">Showing the first 9 areas</p><button class="btn btn-outline outlet-load-more" type="button" data-outlet-load-more>Show more locations <i class="bi bi-arrow-down-circle" aria-hidden="true"></i></button></div>
+    <p class="outlet-directory-note"><i class="bi bi-info-circle" aria-hidden="true"></i> <span>Important: the city counts come from the public directory, but exact storefront addresses and individual shop pins have not been verified for every entry. “Get directions” opens a Google Maps search for the selected city/area, not a confirmed shop door. Please call <a href="tel:+923470006050">0347 0006050</a> to confirm the exact branch before travelling.</span></p>
+  </div>
+</section>
+
+<section class="section section-soft"><div class="container-wide cta-band"><div><h2>Need a specific branch?</h2><p>Call the central contact number and ask the team to confirm its current address, timing and directions.</p></div><a href="tel:+923470006050" class="btn btn-primary"><i class="bi bi-telephone" aria-hidden="true"></i> Call 0347 0006050</a></div></section>
+</main>
+@endsection

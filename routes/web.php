@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PageController;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,16 @@ Route::prefix('admin')->middleware('adminauth')->group(function () {
                 Route::post('update/{category}', [CategoryController::class, 'update'])->name('update');
                 Route::delete('delete/{category}', [CategoryController::class, 'destroy'])->name('destroy');
                 Route::post('/bulk-delete', [CategoryController::class, 'bulkDelete'])->name('bulk-delete');
+        });
+
+        Route::prefix('product')->name('product.')->group(function () {
+            Route::get('/', [ProductController::class, 'index'])->name('index');
+            Route::get('create', [ProductController::class, 'create'])->name('create');
+            Route::post('store', [ProductController::class, 'store'])->name('store');
+            Route::get('edit/{product}', [ProductController::class, 'edit'])->name('edit');
+            Route::post('update/{product}', [ProductController::class, 'update'])->name('update');
+            Route::delete('delete/{product}', [ProductController::class, 'destroy'])->name('destroy');
+            Route::post('/bulk-delete', [ProductController::class, 'bulkDelete'])->name('bulk-delete');
         });
 
     }

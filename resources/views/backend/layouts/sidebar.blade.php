@@ -16,6 +16,12 @@
                             <span>Category</span>
                         </a>
                 </li>
+                <li class="{{ request()->routeIs('product.*') ? 'active' : '' }}">
+                        <a href="{{ route('product.index') }}">
+                            <img src="{{ asset('backend/assets/img/icons/product.svg') }}" alt="img">
+                            <span>Products</span>
+                        </a>
+                </li>
 
             </ul>
 

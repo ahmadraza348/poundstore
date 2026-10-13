@@ -21,9 +21,10 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_id');
     } 
 
+    // UPDATED: a product belongs to one category (products.category_id)
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'relational_categories', 'category_id', 'product_id');
+        return $this->hasMany(Product::class);
     }
 
     public function scopeOrdered($query)

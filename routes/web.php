@@ -4,9 +4,12 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FranchiseEnquiryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OutletController;
+use App\Http\Controllers\Frontend\FormController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PageController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +24,10 @@ Route::name('frontend.')->group(function () {
     Route::get('/sourcing', [PageController::class, 'sourcing'])->name('sourcing');
     Route::get('/faq', [PageController::class, 'faq'])->name('faq');
     Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+
+    // Form submissions (max 5 per minute per visitor to limit spam)
+    Route::post('/franchise/enquiry', [FormController::class, 'franchise'])->middleware('throttle:5,1')->name('franchise.submit');
+    Route::post('/contact/message', [FormController::class, 'contact'])->middleware('throttle:5,1')->name('contact.submit');
 });
 
 
@@ -65,6 +72,18 @@ Route::prefix('admin')->middleware('adminauth')->group(function () {
             Route::get('edit/{outlet}', [OutletController::class, 'edit'])->name('edit');
             Route::put('update/{outlet}', [OutletController::class, 'update'])->name('update');
             Route::delete('delete/{outlet}', [OutletController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('franchise-enquiries')->name('franchise-enquiry.')->group(function () {
+            Route::get('/', [FranchiseEnquiryController::class, 'index'])->name('index');
+            Route::get('{enquiry}', [FranchiseEnquiryController::class, 'show'])->name('show');
+            Route::delete('{enquiry}', [FranchiseEnquiryController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('contact-messages')->name('contact-message.')->group(function () {
+            Route::get('/', [ContactMessageController::class, 'index'])->name('index');
+            Route::get('{message}', [ContactMessageController::class, 'show'])->name('show');
+            Route::delete('{message}', [ContactMessageController::class, 'destroy'])->name('destroy');
         });
 
         Route::prefix('product')->name('product.')->group(function () {

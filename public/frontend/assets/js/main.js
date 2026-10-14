@@ -535,9 +535,12 @@
     });
   });
 
-  // Demo-only lead forms: validate locally and explicitly avoid claiming submission.
-  document.querySelectorAll('[data-demo-form]').forEach(function (form) {
+  // Franchise + Contact forms: validate in the browser, then send to Laravel with fetch.
+  // Forms use the data-ajax-form attribute. The URL comes from the form's action attribute.
+  document.querySelectorAll('[data-ajax-form]').forEach(function (form) {
     var status = form.querySelector('[data-form-status]');
+    var submitButton = form.querySelector('button[type="submit"]');
+
     function setError(field, message) {
       var holder = field.closest('.field');
       var existing = holder && holder.querySelector('.field-error');
@@ -546,10 +549,19 @@
         if (existing) { existing.textContent = message; field.setAttribute('aria-describedby', existing.id); }
       } else if (existing) { existing.remove(); field.removeAttribute('aria-describedby'); }
     }
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
+
+    function showStatus(message, isError) {
+      if (!status) return;
+      status.classList.add('show');
+      status.classList.toggle('is-error', !!isError);
+      status.textContent = message;
+    }
+
+    // Returns the first invalid field, or null when everything is fine.
+    function validate() {
       var firstInvalid = null;
       form.querySelectorAll('input,select,textarea').forEach(function (field) {
+        if (field.type === 'hidden' || field.name === 'hp_check') return;
         var value = String(field.value || '').trim();
         var message = '';
         if (field.required && !value) message = 'This field is required.';
@@ -561,18 +573,72 @@
         setError(field, message);
         if (message && !firstInvalid) firstInvalid = field;
       });
-      if (status) {
-        status.classList.add('show');
-        status.classList.toggle('is-error', !!firstInvalid);
-        if (firstInvalid) status.textContent = 'Please fix the highlighted fields. This demo form does not send or save your information.';
-        else status.textContent = 'Demo validation complete. This static preview is not connected to the company, so nothing was sent or saved. Please use the published phone or email to reach Pound Store.';
+      return firstInvalid;
+    }
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      var firstInvalid = validate();
+      if (firstInvalid) {
+        showStatus('Please fix the highlighted fields.', true);
+        firstInvalid.focus();
+        return;
       }
-      if (firstInvalid) firstInvalid.focus();
+
+      var originalLabel = submitButton ? submitButton.innerHTML : '';
+      if (submitButton) { submitButton.disabled = true; submitButton.textContent = 'Sending...'; }
+      showStatus('Sending, please wait...', false);
+
+      fetch(form.action, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+        body: new FormData(form) // includes the CSRF _token field from @csrf
+      })
+        .then(function (response) {
+          return response.json().catch(function () { return {}; }).then(function (data) {
+            return { ok: response.ok, status: response.status, data: data };
+          });
+        })
+        .then(function (result) {
+          if (result.ok) {
+            form.reset();
+            form.querySelectorAll('input,select,textarea').forEach(function (field) {
+              field.classList.remove('field-valid', 'field-invalid');
+              field.removeAttribute('aria-invalid');
+            });
+            showStatus(result.data.message || 'Thank you! Your message has been sent.', false);
+          } else if (result.status === 422 && result.data.errors) {
+            // Laravel validation errors: { errors: { fieldName: ['message'] } }
+            var firstField = null;
+            Object.keys(result.data.errors).forEach(function (name) {
+              var field = form.querySelector('[name="' + name + '"]');
+              if (!field) return;
+              field.classList.add('field-invalid');
+              field.setAttribute('aria-invalid', 'true');
+              setError(field, result.data.errors[name][0]);
+              if (!firstField) firstField = field;
+            });
+            showStatus('Please fix the highlighted fields.', true);
+            if (firstField) firstField.focus();
+          } else if (result.status === 429) {
+            showStatus('Too many attempts. Please wait a minute and try again.', true);
+          } else {
+            showStatus('Something went wrong. Please try again, or call us on 0347 0006050.', true);
+          }
+        })
+        .catch(function () {
+          showStatus('Could not reach the server. Please check your connection and try again.', true);
+        })
+        .then(function () {
+          if (submitButton) { submitButton.disabled = false; submitButton.innerHTML = originalLabel; }
+        });
     });
+
     form.querySelectorAll('input,select,textarea').forEach(function (field) {
       field.addEventListener('input', function () {
         field.classList.remove('field-invalid');
-        field.setAttribute('aria-invalid','false');
+        field.setAttribute('aria-invalid', 'false');
         setError(field, '');
       });
     });
@@ -776,5 +842,134 @@
       window.setTimeout(function () { map.invalidateSize(); }, 350);
     } catch (err) { /* fallback panel remains */ }
   })();
+
+
+
+    // Franchise + Contact forms: check the fields in the browser, then let the form submit normally.
+  // Forms use the data-validate-form attribute. Laravel handles the saving and shows the result after the page reloads.
+  document.querySelectorAll('[data-validate-form]').forEach(function (form) {
+    var status = form.querySelector('[data-form-status]');
+    var submitButton = form.querySelector('button[type="submit"]');
+    var submitLabel = submitButton ? submitButton.innerHTML : '';
+
+    // ---------- Validation rules (edit these to customize) ----------
+    // "required", "minlength" and "maxlength" are read from the HTML attributes of each field.
+    // The rules below add format checks by field name. Return an error message, or '' when the value is fine.
+    var PHONE_CHARS = /^[0-9+\-\s()]+$/;
+
+    function isEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    function isPhone(value) {
+      var digits = value.replace(/\D/g, '').length;
+      return PHONE_CHARS.test(value) && digits >= 10 && digits <= 15;
+    }
+
+    var formatRules = {
+      phone: function (value) {
+        return isPhone(value) ? '' : 'Enter a valid phone number (10 to 15 digits, e.g. 0300 1234567).';
+      },
+      email: function (value) {
+        return isEmail(value) ? '' : 'Enter a valid email address.';
+      },
+      contact: function (value) {
+        return (isEmail(value) || isPhone(value)) ? '' : 'Enter a valid phone number or email address.';
+      }
+    };
+
+    // Returns an error message for one field, or '' when it is valid.
+    function getError(field) {
+      var value = String(field.value || '').trim();
+
+      if (field.required && !value) return 'This field is required.';
+      if (!value) return ''; // optional and empty is fine
+
+      var min = parseInt(field.getAttribute('minlength'), 10);
+      var max = parseInt(field.getAttribute('maxlength'), 10);
+      if (min && value.length < min) return 'Please enter at least ' + min + ' characters.';
+      if (max && value.length > max) return 'Please enter no more than ' + max + ' characters.';
+
+      var rule = formatRules[field.name];
+      return rule ? rule(value) : '';
+    }
+
+    // ---------- UI helpers ----------
+    function setError(field, message) {
+      var holder = field.closest('.field');
+      var existing = holder && holder.querySelector('.field-error');
+      if (message) {
+        if (holder && !existing) { existing = document.createElement('span'); existing.className = 'field-error'; existing.id = (field.id || field.name) + 'Error'; holder.appendChild(existing); }
+        if (existing) { existing.textContent = message; field.setAttribute('aria-describedby', existing.id); }
+      } else if (existing) { existing.remove(); field.removeAttribute('aria-describedby'); }
+    }
+
+    function showStatus(message, isError) {
+      if (!status) return;
+      status.classList.add('show');
+      status.classList.toggle('is-error', !!isError);
+      status.textContent = message;
+    }
+
+    // Validates one field and updates its look. Returns true when valid.
+    function checkField(field) {
+      var message = getError(field);
+      var value = String(field.value || '').trim();
+      field.setAttribute('aria-invalid', message ? 'true' : 'false');
+      field.classList.toggle('field-invalid', !!message);
+      field.classList.toggle('field-valid', !message && !!value);
+      setError(field, message);
+      return !message;
+    }
+
+    // Validates every field. Returns the first invalid field, or null when all are valid.
+    function validateForm() {
+      var firstInvalid = null;
+      form.querySelectorAll('input,select,textarea').forEach(function (field) {
+        if (field.type === 'hidden' || field.name === 'hp_check') return;
+        if (!checkField(field) && !firstInvalid) firstInvalid = field;
+      });
+      return firstInvalid;
+    }
+
+    // ---------- Submit ----------
+    form.addEventListener('submit', function (event) {
+      var firstInvalid = validateForm();
+
+      if (firstInvalid) {
+        event.preventDefault(); // stop the submit, show the errors
+        showStatus('Please fix the highlighted fields.', true);
+        firstInvalid.focus();
+        return;
+      }
+
+      // All good: the browser now posts the form to Laravel. Just prevent double clicks.
+      if (submitButton) { submitButton.disabled = true; submitButton.textContent = 'Sending...'; }
+    });
+
+    // If the visitor presses the browser Back button, make the button usable again.
+    window.addEventListener('pageshow', function () {
+      if (submitButton) { submitButton.disabled = false; submitButton.innerHTML = submitLabel; }
+    });
+
+    // ---------- Live feedback ----------
+    form.querySelectorAll('input,select,textarea').forEach(function (field) {
+      if (field.name === 'hp_check') return;
+
+      // While typing: stop the phone field from accepting letters, and clear the old error.
+      field.addEventListener('input', function () {
+        if (field.name === 'phone') field.value = field.value.replace(/[^0-9+\-\s()]/g, '');
+        field.classList.remove('field-invalid');
+        field.setAttribute('aria-invalid', 'false');
+        setError(field, '');
+      });
+
+      // When leaving a field: validate it, but only if the visitor typed something.
+      // (Empty required fields are reported on submit, so tabbing past a field is not an error.)
+      field.addEventListener('blur', function () {
+        if (String(field.value || '').trim() !== '') checkField(field);
+      });
+    });
+  });
 
 })();

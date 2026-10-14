@@ -35,6 +35,19 @@
                     </a>
                 </li>
 
+                <li class="{{ request()->routeIs('franchise-enquiry.*') ? 'active' : '' }}">
+                    <a href="{{ route('franchise-enquiry.index') }}">
+                        <img src="{{ asset('backend/assets/img/icons/users1.svg') }}" alt="img">
+                        <span>Franchise Enquiries</span>   
+                    </a>                  
+                </li>
+                <li class="{{ request()->routeIs('contact-message.*') ? 'active' : '' }}">
+                    <a href="{{ route('contact-message.index') }}">
+                        <img src="{{ asset('backend/assets/img/icons/mail.svg') }}" alt="img">
+                        <span>Contact Messages</span>                       
+                    </a>
+                </li>
+
             </ul>
 
 

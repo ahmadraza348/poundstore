@@ -110,6 +110,18 @@ return [
     |
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | Enquiry Recipient
+    |--------------------------------------------------------------------------
+    |
+    | Franchise enquiries and contact messages are emailed to this address.
+    | Change it with ENQUIRY_MAIL_TO in your .env file.
+    |
+    */
+
+    'enquiry_to' => env('ENQUIRY_MAIL_TO', 'engr.ahmadraza348@gmail.com'),
+
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),

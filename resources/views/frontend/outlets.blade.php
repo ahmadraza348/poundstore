@@ -12,13 +12,14 @@
 @endphp
 <main id="main">
   <section class="page-hero">
-    <div class="container-wide page-hero-grid page-hero-grid--no-image">
+    <div class="container-wide page-hero-grid">
       <div>
         <p class="eyebrow">Our network</p>
         <h1>Find your nearest Pound Store <span class="highlight">branch.</span></h1>
         <p class="lead">Browse branches by city or area, check contact information and open directions for the location you plan to visit.</p>
         <span class="page-hero-kicker"><i class="bi bi-geo-alt" aria-hidden="true"></i> {{ $activeOutletCount }} active {{ $activeOutletCount === 1 ? 'branch' : 'branches' }} · {{ $activeCityCount }} {{ $activeCityCount === 1 ? 'city' : 'cities' }}</span>
       </div>
+      <img class="page-hero-image" data-parallax src="{{ asset('frontend/assets/images/banner-find-branch.jpg') }}" alt="Inside a Pound Store branch: bright aisles of homeware, toys and stationery" width="1100" height="906" loading="eager" fetchpriority="high">
     </div>
   </section>
 

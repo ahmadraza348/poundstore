@@ -182,7 +182,8 @@
     stepTimeline.classList.add('is-in-view');
   }
 
-  // Image-led franchise slider. Visitors control the slides; no aggressive auto-rotation.
+  // Image-led franchise slider. Auto-plays every 5s; pauses on hover/focus/touch, when the tab is hidden or
+  // the slider is off-screen, and is left manual for visitors who prefer reduced motion.
   var franchiseSlider = document.querySelector('[data-franchise-slider]');
   if (franchiseSlider) {
     var sliderTrack = franchiseSlider.querySelector('[data-slider-track]');
@@ -226,6 +227,34 @@
       touchStartX = null;
     }, { passive: true });
     showFranchiseSlide(0);
+
+    // ---- Autoplay ----
+    var SLIDER_DELAY = 5000;
+    var sliderTimer = null;
+    var sliderHover = false, sliderFocus = false, sliderTouch = false, sliderHidden = false, sliderOffscreen = false;
+    function sliderCanPlay() { return !reducedMotion && !sliderHover && !sliderFocus && !sliderTouch && !sliderHidden && !sliderOffscreen && sliderSlides.length > 1; }
+    function stopSliderAutoplay() { if (sliderTimer) { clearInterval(sliderTimer); sliderTimer = null; } }
+    function startSliderAutoplay() {
+      stopSliderAutoplay();
+      if (sliderCanPlay()) sliderTimer = setInterval(function () { showFranchiseSlide(sliderIndex + 1); }, SLIDER_DELAY);
+    }
+    function syncSliderAutoplay() { if (sliderCanPlay()) startSliderAutoplay(); else stopSliderAutoplay(); }
+    // Any manual change restarts the 5s countdown so the slide is never yanked away right after a click.
+    franchiseSlider.addEventListener('click', function () { if (sliderTimer) startSliderAutoplay(); });
+    franchiseSlider.addEventListener('mouseenter', function () { sliderHover = true; syncSliderAutoplay(); });
+    franchiseSlider.addEventListener('mouseleave', function () { sliderHover = false; syncSliderAutoplay(); });
+    franchiseSlider.addEventListener('focusin', function () { sliderFocus = true; syncSliderAutoplay(); });
+    franchiseSlider.addEventListener('focusout', function () { sliderFocus = false; syncSliderAutoplay(); });
+    franchiseSlider.addEventListener('touchstart', function () { sliderTouch = true; syncSliderAutoplay(); }, { passive: true });
+    franchiseSlider.addEventListener('touchend', function () { sliderTouch = false; startSliderAutoplay(); }, { passive: true });
+    document.addEventListener('visibilitychange', function () { sliderHidden = document.hidden; syncSliderAutoplay(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        sliderOffscreen = !entries[0].isIntersecting;
+        syncSliderAutoplay();
+      }, { threshold: 0.25 }).observe(franchiseSlider);
+    }
+    startSliderAutoplay();
   }
 
   // Bottom pagination for the longer category directory.
@@ -1051,5 +1080,215 @@
       });
     });
   });
+
+  // ---------- Custom select dropdowns ----------
+  // Replaces every native <select> on the public site with a styled, keyboard-accessible listbox.
+  // The real <select> stays in the DOM (hidden) so form posts, validation and 'change' listeners keep working.
+  (function () {
+    var uid = 0;
+    var openInstance = null;
+
+    function closeOpen(except) {
+      if (openInstance && openInstance !== except) openInstance.close();
+    }
+
+    function enhance(select) {
+      if (select.dataset.customSelect === 'ready' || select.multiple || select.size > 1) return;
+      select.dataset.customSelect = 'ready';
+      uid += 1;
+
+      var wrap = document.createElement('div');
+      wrap.className = 'cs';
+      var trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = 'cs-trigger';
+      trigger.setAttribute('role', 'combobox');
+      trigger.setAttribute('aria-haspopup', 'listbox');
+      trigger.setAttribute('aria-expanded', 'false');
+      var listId = 'cs-list-' + uid;
+      trigger.setAttribute('aria-controls', listId);
+      var label = select.id ? document.querySelector('label[for="' + select.id + '"]') : null;
+      if (label) {
+        if (!label.id) label.id = 'cs-label-' + uid;
+        trigger.setAttribute('aria-labelledby', label.id);
+      }
+      var valueNode = document.createElement('span');
+      valueNode.className = 'cs-value';
+      var chevron = document.createElement('i');
+      chevron.className = 'cs-chevron bi bi-chevron-down';
+      chevron.setAttribute('aria-hidden', 'true');
+      trigger.appendChild(valueNode);
+      trigger.appendChild(chevron);
+
+      var list = document.createElement('ul');
+      list.className = 'cs-list';
+      list.id = listId;
+      list.setAttribute('role', 'listbox');
+      list.setAttribute('tabindex', '-1');
+      list.hidden = true;
+
+      var items = [];
+      var active = -1;
+
+      Array.prototype.forEach.call(select.options, function (option, index) {
+        var li = document.createElement('li');
+        li.className = 'cs-option';
+        li.setAttribute('role', 'option');
+        li.id = listId + '-' + index;
+        li.dataset.index = String(index);
+        li.textContent = option.textContent;
+        if (option.disabled) li.setAttribute('aria-disabled', 'true');
+        if (option.value === '' ) li.classList.add('is-placeholder');
+        list.appendChild(li);
+        items.push(li);
+      });
+
+      function selectedText() {
+        var option = select.options[select.selectedIndex];
+        return option ? option.textContent : '';
+      }
+      function paint() {
+        var option = select.options[select.selectedIndex];
+        valueNode.textContent = selectedText();
+        wrap.classList.toggle('is-placeholder', !option || option.value === '');
+        items.forEach(function (li, index) {
+          var on = index === select.selectedIndex;
+          li.classList.toggle('is-selected', on);
+          li.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        trigger.disabled = select.disabled;
+        wrap.classList.toggle('is-disabled', select.disabled);
+        wrap.classList.toggle('is-invalid', select.classList.contains('field-invalid'));
+      }
+      function setActive(index, scroll) {
+        if (!items.length) return;
+        index = Math.max(0, Math.min(items.length - 1, index));
+        if (active > -1 && items[active]) items[active].classList.remove('is-active');
+        active = index;
+        items[active].classList.add('is-active');
+        trigger.setAttribute('aria-activedescendant', items[active].id);
+        if (scroll !== false) {
+          var top = items[active].offsetTop, bottom = top + items[active].offsetHeight;
+          if (top < list.scrollTop) list.scrollTop = top;
+          else if (bottom > list.scrollTop + list.clientHeight) list.scrollTop = bottom - list.clientHeight;
+        }
+      }
+      function nextEnabled(from, step) {
+        var i = from + step;
+        while (i >= 0 && i < items.length) {
+          if (!select.options[i].disabled) return i;
+          i += step;
+        }
+        return from;
+      }
+      function commit(index) {
+        if (select.options[index] && select.options[index].disabled) return;
+        var changed = select.selectedIndex !== index;
+        select.selectedIndex = index;
+        paint();
+        if (changed) {
+          select.dispatchEvent(new Event('input', { bubbles: true }));
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+      var instance = {
+        open: function () {
+          if (select.disabled || !list.hidden) return;
+          closeOpen(instance);
+          openInstance = instance;
+          list.hidden = false;
+          wrap.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+          // Flip upward when there is not enough room below.
+          var rect = trigger.getBoundingClientRect();
+          var room = window.innerHeight - rect.bottom;
+          wrap.classList.toggle('is-up', room < Math.min(list.scrollHeight, 280) + 16 && rect.top > room);
+          setActive(select.selectedIndex > -1 ? select.selectedIndex : 0);
+        },
+        close: function (refocus) {
+          if (list.hidden) return;
+          list.hidden = true;
+          wrap.classList.remove('is-open', 'is-up');
+          trigger.setAttribute('aria-expanded', 'false');
+          trigger.removeAttribute('aria-activedescendant');
+          if (openInstance === instance) openInstance = null;
+          if (refocus) trigger.focus();
+        },
+        paint: paint
+      };
+
+      trigger.addEventListener('click', function () { list.hidden ? instance.open() : instance.close(); });
+      list.addEventListener('mousedown', function (event) { event.preventDefault(); }); // keep focus on the trigger
+      list.addEventListener('click', function (event) {
+        var li = event.target.closest('.cs-option');
+        if (!li || li.getAttribute('aria-disabled') === 'true') return;
+        commit(Number(li.dataset.index));
+        instance.close(true);
+      });
+      list.addEventListener('mousemove', function (event) {
+        var li = event.target.closest('.cs-option');
+        if (li && Number(li.dataset.index) !== active) setActive(Number(li.dataset.index), false);
+      });
+
+      var typeBuffer = '', typeTimer = null;
+      trigger.addEventListener('keydown', function (event) {
+        var isOpen = !list.hidden;
+        switch (event.key) {
+          case 'ArrowDown':
+            event.preventDefault();
+            if (!isOpen) { instance.open(); } else { setActive(nextEnabled(active, 1)); }
+            break;
+          case 'ArrowUp':
+            event.preventDefault();
+            if (!isOpen) { instance.open(); } else { setActive(nextEnabled(active, -1)); }
+            break;
+          case 'Home': if (isOpen) { event.preventDefault(); setActive(nextEnabled(-1, 1)); } break;
+          case 'End': if (isOpen) { event.preventDefault(); setActive(nextEnabled(items.length, -1)); } break;
+          case 'Enter':
+          case ' ':
+            event.preventDefault();
+            if (!isOpen) { instance.open(); } else { commit(active); instance.close(true); }
+            break;
+          case 'Escape': if (isOpen) { event.preventDefault(); instance.close(true); } break;
+          case 'Tab': if (isOpen) instance.close(); break;
+          default:
+            if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+              typeBuffer += event.key.toLowerCase();
+              clearTimeout(typeTimer);
+              typeTimer = setTimeout(function () { typeBuffer = ''; }, 600);
+              for (var i = 0; i < items.length; i++) {
+                if (!select.options[i].disabled && items[i].textContent.trim().toLowerCase().indexOf(typeBuffer) === 0) {
+                  if (isOpen) setActive(i); else commit(i);
+                  break;
+                }
+              }
+            }
+        }
+      });
+
+      // Stay in sync when the page or a form reset changes the real select.
+      select.addEventListener('change', paint);
+      select.addEventListener('input', paint);
+      if (select.form) select.form.addEventListener('reset', function () { setTimeout(paint, 0); });
+      if (window.MutationObserver) {
+        new MutationObserver(paint).observe(select, { attributes: true, attributeFilter: ['class', 'disabled'] });
+      }
+
+      select.classList.add('cs-native');
+      select.setAttribute('tabindex', '-1');
+      select.setAttribute('aria-hidden', 'true');
+      select.parentNode.insertBefore(wrap, select);
+      wrap.appendChild(select);
+      wrap.appendChild(trigger);
+      wrap.appendChild(list);
+      paint();
+    }
+
+    document.addEventListener('mousedown', function (event) {
+      if (openInstance && !event.target.closest('.cs')) openInstance.close();
+    });
+    window.addEventListener('resize', function () { closeOpen(null); });
+    document.querySelectorAll('select').forEach(enhance);
+  })();
 
 })();

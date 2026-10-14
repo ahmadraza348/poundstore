@@ -12,7 +12,7 @@
                 <h1>Bring Pound Store to <span class="highlight">your city.</span></h1>
                 <p class="lead">A value-retail brand with sourcing, warehouse supply and a launch process behind it. Tell the franchise team where you would like to open, then work through the details together.</p>
                 <div class="hero-ctas"><a class="btn btn-yellow btn-lg" data-magnetic href="#enquiry">Start an enquiry <i class="bi bi-arrow-down" aria-hidden="true"></i></a><a class="btn btn-light btn-lg" href="#process">See the six steps</a></div>
-            </div><img class="page-hero-image" data-parallax src="https://images.unsplash.com/photo-1604719312566-8912e9c8a213?auto=format&fit=crop&w=1000&q=80" alt="Bright retail aisle with shelves of everyday products" loading="eager" fetchpriority="high">
+            </div><img class="page-hero-image" data-parallax src="{{ asset('frontend/assets/images/banner-franchise.jpg') }}" alt="A Pound Store branch with branded signage and well-stocked shelves" width="1000" height="833" loading="eager" fetchpriority="high">
         </div>
     </section>
     <section class="section sup" aria-labelledby="supTitle">
@@ -147,7 +147,6 @@
         <div class="container-wide">
             <div class="form-layout">
                 <aside class="form-aside form-aside--franchise">
-                    <p class="eyebrow">Step 1 · Enquire</p>
                     <h2 class="form-aside-title">Tell us what you’re exploring.</h2>
                     <p>Share your contact details, city and proposed location. The franchise team will review your enquiry and get back to you.</p>
                     <div class="contact-point"><i class="bi bi-telephone" aria-hidden="true"></i>

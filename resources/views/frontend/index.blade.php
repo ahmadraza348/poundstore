@@ -2,6 +2,7 @@
 @php
     $activeOutletCount = count($frontendOutlets ?? []);
     $activeCityCount = count($frontendCityListings ?? []);
+    $warehouseCount = (int) ($warehouseCount ?? 0);
 @endphp
 @section('content')
  <main id="main">
@@ -49,7 +50,7 @@
           <div><strong data-counter="{{ $activeCityCount }}">{{ $activeCityCount }}</strong><span>Cities with active branches</span></div>
         </div>
         <div class="proof-item proof-warehouse-item" data-reveal style="--reveal-delay:210ms"><i class="bi bi-box-seam" aria-hidden="true"></i>
-          <div class="proof-warehouse-copy"><strong>{{ $activeOutletCount }}</strong><span>Central Warehouses</span></div>
+          <div class="proof-warehouse-copy"><strong data-counter="{{ $warehouseCount }}">{{ $warehouseCount }}</strong><span>Central {{ $warehouseCount === 1 ? 'Warehouse' : 'Warehouses' }}</span></div>
         </div>
       </div>
     </section>
@@ -297,23 +298,26 @@
 
     <section class="final" aria-labelledby="finalTitle">
       <div class="container-wide final-inner" data-reveal>
-        <span class="final-shape" aria-hidden="true"></span>
-        <h2 id="finalTitle">Ready to visit, or to open your own?</h2>
-        <p>Find the closest listed area, or start a conversation with the team about a franchise.</p>
-        <div class="final-actions"><a class="btn btn-yellow btn-lg" data-magnetic href="{{ route('frontend.outlets') }}"><i
-              class="bi bi-geo-alt-fill" aria-hidden="true"></i> Find a branch</a><a class="btn btn-light btn-lg"
-            data-magnetic href="{{ route('frontend.franchise') }}">Open a Franchise <i class="bi bi-arrow-up-right"
-              aria-hidden="true"></i></a></div>
-        <ul class="final-contact">
-          <li><a href="tel:+923470006050"><i class="bi bi-telephone" aria-hidden="true"></i> 0347 0006050</a></li>
-          <li><a href="https://wa.me/923470006050" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp"
-                aria-hidden="true"></i> WhatsApp</a></li>
-          <li><a href="mailto:poundstorewarehouse@gmail.com"><i class="bi bi-envelope" aria-hidden="true"></i> Email the
-              team</a></li>
-        </ul>
+        <div class="final-main">
+          <p class="final-eyebrow">Visit or partner with us</p>
+          <h2 id="finalTitle">Ready to visit, or to open your own?</h2>
+          <p>Find the closest listed area, or start a conversation with the team about a franchise.</p>
+          <div class="final-actions"><a class="btn btn-yellow btn-lg" data-magnetic href="{{ route('frontend.outlets') }}"><i
+                class="bi bi-geo-alt-fill" aria-hidden="true"></i> Find a branch</a><a class="btn btn-light btn-lg"
+              data-magnetic href="{{ route('frontend.franchise') }}">Open a Franchise <i class="bi bi-arrow-up-right"
+                aria-hidden="true"></i></a></div>
+        </div>
+        <aside class="final-contact-card" aria-label="Contact the team">
+          <p class="final-contact-title">Talk to the team</p>
+          <ul class="final-contact">
+            <li><a href="tel:+923470006050"><span class="final-contact-icon"><i class="bi bi-telephone" aria-hidden="true"></i></span><span><small>Call</small>0347 0006050</span></a></li>
+            <li><a href="https://wa.me/923470006050" target="_blank" rel="noopener noreferrer"><span class="final-contact-icon"><i class="bi bi-whatsapp"
+                  aria-hidden="true"></i></span><span><small>Message</small>WhatsApp</span></a></li>
+            <li><a href="mailto:poundstorewarehouse@gmail.com"><span class="final-contact-icon"><i class="bi bi-envelope" aria-hidden="true"></i></span><span><small>Write</small>Email the team</span></a></li>
+          </ul>
+        </aside>
       </div>
     </section>
 
-   
   </main>
 @endsection

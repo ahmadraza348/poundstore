@@ -14,6 +14,7 @@ class HomeController extends Controller
             'homeCategories'        => $catalogue->getHomeCategories(5),
             'frontendCityListings'  => $stores->getCities(),
             'frontendOutlets'       => $stores->getOutlets(),
+            'warehouseCount'        => $stores->getWarehouseCount(),
         ]);
     }
 }

@@ -50,6 +50,20 @@ class StoreLocatorService
     }
 
     /**
+     * Number of active central warehouses, read live from the outlets table
+     * (outlet_type = warehouse). Same visibility rule as the public outlets:
+     * the outlet AND its city must both be active.
+     */
+    public function getWarehouseCount(): int
+    {
+        return Outlet::query()
+            ->active()
+            ->where('outlet_type', 'warehouse')
+            ->whereHas('city', fn ($q) => $q->where('status', true))
+            ->count();
+    }
+
+    /**
      * Active outlets for the outlet cards.
      */
     public function getOutlets(): array

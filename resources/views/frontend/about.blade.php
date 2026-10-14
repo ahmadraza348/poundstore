@@ -1,5 +1,32 @@
 @extends('frontend.layouts.app')
 
+@php
+    // Team & CEO portraits. Until a real photo exists, the generic empty portrait is shown.
+    // To use a real photo, upload it to public/frontend/assets/images/team/ using the file
+    // name listed below (.jpg, .jpeg, .png or .webp); the CEO photo is team/ceo.jpg.
+    // It is picked up automatically, no code change needed.
+    $teamImage = function (string $slug): string {
+        foreach (['jpg', 'jpeg', 'png', 'webp'] as $ext) {
+            if (file_exists(public_path("frontend/assets/images/team/{$slug}.{$ext}"))) {
+                return asset("frontend/assets/images/team/{$slug}.{$ext}");
+            }
+        }
+        return asset('frontend/assets/images/team-placeholder.svg');
+    };
+    $teamMembers = [
+        ['name' => "Waseem Hussain Shah", 'role' => "Chief Executive Officer", 'slug' => 'waseem-hussain-shah'],
+        ['name' => "Sohail Riaz", 'role' => "Chairman", 'slug' => 'sohail-riaz'],
+        ['name' => "Mouzzam Ali Shah", 'role' => "Managing Director", 'slug' => 'mouzzam-ali-shah'],
+        ['name' => "Peer Naseer ud Din Shah", 'role' => "Finance Director", 'slug' => 'peer-naseer-ud-din-shah'],
+        ['name' => "Qalab Abbas", 'role' => "Business Advisor", 'slug' => 'qalab-abbas'],
+        ['name' => "Nadeem Hussain Shah", 'role' => "Sales Advisor", 'slug' => 'nadeem-hussain-shah'],
+        ['name' => "Master Anar Sajid", 'role' => "Mentor & Moral Support", 'slug' => 'master-anar-sajid'],
+        ['name' => "Sheryar Haider", 'role' => "Operational Manager", 'slug' => 'sheryar-haider'],
+        ['name' => "Muhammad Naeem", 'role' => "Marketing & Development Manager", 'slug' => 'muhammad-naeem'],
+        ['name' => "Iqra Iftikhar", 'role' => "HR Manager & Trainer", 'slug' => 'iqra-iftikhar'],
+        ['name' => "Shoaib Ahmad", 'role' => "Social Media Influencer", 'slug' => 'shoaib-ahmad'],
+    ];
+@endphp
 @section('content')
   <main id="main">
     <section class="page-hero">
@@ -43,10 +70,10 @@
         <div class="section-heading">
           <p class="eyebrow">The people behind the brand</p>
           <h2>Leadership & <span class="highlight">team.</span></h2>
-          <p>Names and roles below are presented as listed on the public company website. The initials keep the team directory consistent until approved portraits are available.</p>
+          <p>Names and roles below are presented as listed on the public company website. Portraits will be added once approved photos are available.</p>
         </div>
 
-         <div class="ceo-message "style="margin: 3rem 0;" aria-label="CEO message"><span class="team-avatar team-monogram" aria-hidden="true">WH</span>
+         <div class="ceo-message "style="margin: 3rem 0;" aria-label="CEO message"><img class="team-avatar-image" src="{{ $teamImage('ceo') }}" alt="Portrait of Waseem Hussain Shah, Chief Executive Officer" width="100" height="100" loading="lazy" decoding="async">
           <div>
             <p class="eyebrow">Leadership perspective</p>
             <h3>Waseem Hussain Shah · Chief Executive Officer</h3>
@@ -57,50 +84,12 @@
         </div>
 
         <div class="team-grid">
-          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">WH</span>
-            <h3>Waseem Hussain Shah</h3>
-            <p>Chief Executive Officer</p>
-          </article>
-          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">SR</span>
-            <h3>Sohail Riaz</h3>
-            <p>Chairman</p>
-          </article>
-          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">MA</span>
-            <h3>Mouzzam Ali Shah</h3>
-            <p>Managing Director</p>
-          </article>
-          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">PN</span>
-            <h3>Peer Naseer ud Din Shah</h3>
-            <p>Finance Director</p>
-          </article>
-          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">QA</span>
-            <h3>Qalab Abbas</h3>
-            <p>Business Advisor</p>
-          </article>
-          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">NH</span>
-            <h3>Nadeem Hussain Shah</h3>
-            <p>Sales Advisor</p>
-          </article>
-          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">MA</span>
-            <h3>Master Anar Sajid</h3>
-            <p>Mentor & Moral Support</p>
-          </article>
-          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">SH</span>
-            <h3>Sheryar Haider</h3>
-            <p>Operational Manager</p>
-          </article>
-          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">MN</span>
-            <h3>Muhammad Naeem</h3>
-            <p>Marketing & Development Manager</p>
-          </article>
-          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">II</span>
-            <h3>Iqra Iftikhar</h3>
-            <p>HR Manager & Trainer</p>
-          </article>
-          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">SA</span>
-            <h3>Shoaib Ahmad</h3>
-            <p>Social Media Influencer</p>
-          </article>
+          @foreach ($teamMembers as $member)
+            <article class="team-card"><img class="team-avatar-image" src="{{ $teamImage($member['slug']) }}" alt="Portrait of {{ $member['name'] }}" width="82" height="82" loading="lazy" decoding="async">
+              <h3>{{ $member['name'] }}</h3>
+              <p>{{ $member['role'] }}</p>
+            </article>
+          @endforeach
         </div>
       </div>
     </section>

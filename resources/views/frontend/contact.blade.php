@@ -12,7 +12,7 @@
         <div class="form-layout">
             <aside class="form-aside">
                 <p class="eyebrow">Before you send</p>
-                <h2>How can we help?</h2>
+                <h2 style="color:white">How can we help?</h2>
                 <p>Choose a subject and leave a note below. The team will read your message and reply as soon as possible.</p>
                 <div class="contact-point"><i class="bi bi-shop" aria-hidden="true"></i><div><strong>Branch assistance</strong><span>Current branch address, hours and availability</span></div></div>
                 <div class="contact-point"><i class="bi bi-people" aria-hidden="true"></i><div><strong>Franchise enquiries</strong><span>Location, process and current requirements</span></div></div>

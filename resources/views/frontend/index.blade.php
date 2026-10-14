@@ -8,11 +8,11 @@
     <section class="hx" id="hero" aria-labelledby="heroTitle">
       <div class="hx-media" aria-hidden="true">
         <div class="hx-layer" data-hero-parallax>
-          <!-- Poster image is a representative stock photo, not a real Pound Store outlet. Replace with approved brand photography. -->
+          <!-- Local store image keeps the hero visually complete before video playback. -->
           <img class="hx-poster"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfLoUOdPu3FAZ_qaELx5m8B1xe5heNHAR6XmJEsAet9T2Vzy_dl9jiP6a5&s=10"
+            src="{{ asset('frontend/assets/images/hero-store.jpg') }}"
             alt="" fetchpriority="high" decoding="async" width="1800" height="1200">
-          <!-- Replace assets/video/pound-store-hero.mp4 with approved brand footage (see assets/video/README.txt). -->
+          <!-- Brand video fallback is served from the existing public asset folder. -->
           <video class="hx-video" data-hero-video autoplay muted loop playsinline preload="metadata"
             poster="{{ asset('frontend/assets/images/herobanner.jpg') }}">
             <source src="{{ asset('frontend/assets/video/bannervideo.mp4#t=5') }}" type="video/mp4">
@@ -26,10 +26,9 @@
         <p class="hx-eyebrow hx-in" style="--i:0">Value retail across Pakistan, since 2017</p>
         <h1 id="heroTitle"><span class="hx-line"><span class="hx-in" style="--i:1">Everyday finds.</span></span><span
             class="hx-line"><span class="hx-in hx-yellow" style="--i:2">Prices that make sense.</span></span></h1>
-        <p class="hx-lead hx-in" style="--i:3">Crockery, stationery, gifts, toys, perfumes and home essentials, all
-          under one roof at Pound Store Pakistan.</p>
+        <p class="hx-lead hx-in" style="--i:3">Crockery, stationery, gifts, toys, perfumes and home essentials, all under one roof at Pound Store Pakistan.</p>
         <div class="hx-actions hx-in" style="--i:4"><a class="btn btn-yellow btn-lg" data-magnetic
-            href="{{ route('frontend.outlets') }}"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i> Find a Store</a><a
+            href="{{ route('frontend.outlets') }}"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i> Find a branch</a><a
             class="btn btn-light btn-lg" data-magnetic href="{{ route('frontend.categories') }}">Explore Categories <i
               class="bi bi-arrow-right" aria-hidden="true"></i></a><a class="hx-link" href="{{ route('frontend.franchise') }}">Open a
             Franchise <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a></div>
@@ -43,15 +42,14 @@
           <div><strong>2017</strong><span>Founded</span></div>
         </div>
         <div class="proof-item" data-reveal style="--reveal-delay:70ms"><i class="bi bi-shop" aria-hidden="true"></i>
-          <div><strong data-counter="{{ $activeOutletCount }}">{{ $activeOutletCount }}</strong><span>Active outlets</span></div>
+          <div><strong data-counter="{{ $activeOutletCount }}">{{ $activeOutletCount }}</strong><span>Active branches</span></div>
         </div>
         <div class="proof-item" data-reveal style="--reveal-delay:140ms"><i class="bi bi-pin-map"
             aria-hidden="true"></i>
-          <div><strong data-counter="{{ $activeCityCount }}">{{ $activeCityCount }}</strong><span>Cities with active outlets</span></div>
+          <div><strong data-counter="{{ $activeCityCount }}">{{ $activeCityCount }}</strong><span>Cities with active branches</span></div>
         </div>
-        <div class="proof-item" data-reveal style="--reveal-delay:210ms"><i class="bi bi-box-seam"
-            aria-hidden="true"></i>
-          <div><strong>Find a store</strong><span>Across our network</span></div>
+        <div class="proof-item proof-warehouse-item" data-reveal style="--reveal-delay:210ms"><i class="bi bi-box-seam" aria-hidden="true"></i>
+          <div class="proof-warehouse-copy"><strong>{{ $activeOutletCount }}</strong><span>Central Warehouses</span></div>
         </div>
       </div>
     </section>
@@ -61,7 +59,7 @@
         <div class="sec-head" data-reveal>
           <div>
             <h2 id="catsTitle">Find your kind of everyday useful.</h2>
-            <p>Pick a category to browse our products. Availability and prices can vary by outlet.</p>
+            <p>Pick a category to browse our products. Availability and prices can vary by branch.</p>
           </div><a class="btn btn-outline" href="{{ route('frontend.categories') }}">All categories <i class="bi bi-arrow-up-right"
               aria-hidden="true"></i></a>
         </div>
@@ -84,15 +82,13 @@
         <div class="netmap-grid">
           <div class="netmap-copy" data-reveal>
             <h2 id="mapTitle">A network that keeps growing across Pakistan.</h2>
-            <p>{{ $activeOutletCount }} active {{ $activeOutletCount === 1 ? 'outlet' : 'outlets' }} across {{ $activeCityCount }} {{ $activeCityCount === 1 ? 'city' : 'cities' }} are currently published from the admin panel. Choose a city to see its outlet count.</p>
+            <p>{{ $activeOutletCount }} active {{ $activeOutletCount === 1 ? 'branch' : 'branches' }} across {{ $activeCityCount }} {{ $activeCityCount === 1 ? 'city' : 'cities' }} are currently published from the admin panel. Choose a city to see individual branch pins on the map.</p>
             <div class="netmap-card" data-map-card aria-live="polite">
               <p class="netmap-card-kicker">Selected area</p>
               <h3 data-map-city>{{ $frontendCityListings[0]['city'] ?? 'No active cities yet' }}</h3>
-              <p><strong data-map-count>{{ $frontendCityListings[0]['count'] ?? 0 }}</strong> <span data-map-count-label>active outlets in this city</span></p>
-              <small>Markers show approximate city or area centres, not exact storefronts. Confirm a branch address by
-                phone before you travel.</small>
+              <p><strong data-map-count>{{ $frontendCityListings[0]['count'] ?? 0 }}</strong> <span data-map-count-label>active branches in this city</span></p>
             </div>
-            <ul class="city-chips" data-city-chips aria-label="Cities with active Pound Store outlets"></ul>
+            <ul class="city-chips" data-city-chips aria-label="Cities with active Pound Store branches"></ul>
             <a class="btn btn-primary" href="{{ route('frontend.outlets') }}">Explore All Locations <i class="bi bi-arrow-up-right"
                 aria-hidden="true"></i></a>
           </div>
@@ -103,7 +99,7 @@
             </div>
             <div id="homeMap" class="netmap-canvas" role="application"
               aria-label="Map of approximate Pound Store city and area coverage across Pakistan"></div>
-            <p class="netmap-note"><i class="bi bi-info-circle" aria-hidden="true"></i> City-centre coordinates are maintained in the admin panel; they are not exact branch entrance pins.</p>
+            <p class="netmap-note"><i class="bi bi-info-circle" aria-hidden="true"></i> Select a city to display its saved branch locations. Branches without coordinates remain available through their directions links.</p>
           </div>
         </div>
       </div>
@@ -111,7 +107,7 @@
 
     <section class="section story" id="sourcing-story" aria-labelledby="storyTitle" data-story>
       <div class="story-bg" aria-hidden="true">
-        <div class="story-bg-img" data-parallax="0.09"
+        <div class="story-bg-img story-bg-img--parallax" data-parallax="0.12"
           style="background-image:url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1800&q=80')">
         </div>
       </div>
@@ -119,8 +115,7 @@
         <div class="sec-head sec-head-light" data-reveal>
           <div>
             <h2 id="storyTitle">From source to your local shelf.</h2>
-            <p>Follow the published supply journey. Photography here is representative stock imagery, to be replaced by
-              approved warehouse and store media.</p>
+            <p>From trusted sourcing and quality checks to warehouse distribution, each step helps bring useful everyday products to local branches.</p>
           </div><a class="btn btn-yellow" href="{{ route('frontend.sourcing') }}">Full sourcing story <i class="bi bi-arrow-up-right"
               aria-hidden="true"></i></a>
         </div>
@@ -209,9 +204,9 @@
           <h2 id="frTitle">Open a Pound Store in your city.</h2>
           <p>The company describes support across sourcing, setup, branding and territory. Talk to the franchise team
             about current requirements for your area. No profit or return is promised or implied.</p>
-          <div class="fr-actions"><a class="btn btn-primary btn-lg" data-magnetic href="">Start an
+          <div class="fr-actions"><a class="btn btn-primary btn-lg" data-magnetic href="{{ route('frontend.franchise') }}#enquiry">Start an
               enquiry <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a><a class="text-link"
-              href="">See the six-step process <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+              href="{{ route('frontend.franchise') }}#enquiry">See the six-step process <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
           </div>
         </div>
         <div class="franchise-slider" data-franchise-slider aria-roledescription="carousel"
@@ -221,10 +216,10 @@
               <article class="franchise-slide is-active" data-franchise-slide aria-label="Slide 1 of 4">
                 <div class="franchise-slide-image"><img
                     src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80"
-                    alt="Representative stock photo of organised warehouse shelves" loading="lazy"
+                    alt="Rows of stocked shelving in a large warehouse" loading="lazy"
                     decoding="async"><span class="slide-image-label"><i class="bi bi-box-seam" aria-hidden="true"></i>
                     Supply</span></div>
-                <div class="franchise-slide-copy"><span class="slide-kicker">01 · Sourcing & warehouse supply</span>
+                <div class="franchise-slide-copy"><span class="slide-kicker">Sourcing & warehouse supply</span>
                   <h3>Stock that keeps moving.</h3>
                   <p>The published model links volume-led sourcing with central warehouse supply for a broad everyday
                     range.</p>
@@ -237,10 +232,10 @@
               <article class="franchise-slide" data-franchise-slide aria-label="Slide 2 of 4" aria-hidden="true">
                 <div class="franchise-slide-image"><img
                     src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1000&q=80"
-                    alt="Representative stock photo of a tidy retail store floor" loading="lazy" decoding="async"><span
+                    alt="Bright retail store interior with organised shelves" loading="lazy" decoding="async"><span
                     class="slide-image-label"><i class="bi bi-wrench-adjustable" aria-hidden="true"></i> Setup</span>
                 </div>
-                <div class="franchise-slide-copy"><span class="slide-kicker">02 · Setup & training</span>
+                <div class="franchise-slide-copy"><span class="slide-kicker">Setup & training</span>
                   <h3>From empty shop to opening day.</h3>
                   <p>Support areas include layout and merchandising guidance, staff training and launch preparation.</p>
                   <ul>
@@ -253,9 +248,9 @@
               <article class="franchise-slide" data-franchise-slide aria-label="Slide 3 of 4" aria-hidden="true">
                 <div class="franchise-slide-image"><img
                     src="https://images.unsplash.com/photo-1604719312566-8912e9c8a213?auto=format&fit=crop&w=1000&q=80"
-                    alt="Representative stock photo of colourful retail shelves" loading="lazy" decoding="async"><span
+                    alt="Colourful products arranged on retail shelves" loading="lazy" decoding="async"><span
                     class="slide-image-label"><i class="bi bi-megaphone" aria-hidden="true"></i> Brand</span></div>
-                <div class="franchise-slide-copy"><span class="slide-kicker">03 · Marketing & branding</span>
+                <div class="franchise-slide-copy"><span class="slide-kicker">Marketing & branding</span>
                   <h3>A familiar name on your street.</h3>
                   <p>Signage, campaign material and central social media support are listed as part of the proposition.
                   </p>
@@ -268,9 +263,9 @@
               <article class="franchise-slide" data-franchise-slide aria-label="Slide 4 of 4" aria-hidden="true">
                 <div class="franchise-slide-image"><img
                     src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80"
-                    alt="Representative stock photo of a home goods display" loading="lazy" decoding="async"><span
+                    alt="Home goods displayed in an organised retail setting" loading="lazy" decoding="async"><span
                     class="slide-image-label"><i class="bi bi-geo" aria-hidden="true"></i> Territory</span></div>
-                <div class="franchise-slide-copy"><span class="slide-kicker">04 · Territory arrangements</span>
+                <div class="franchise-slide-copy"><span class="slide-kicker">Territory arrangements</span>
                   <h3>A catchment that makes sense.</h3>
                   <p>Defined catchment areas are referenced in the published model. Exact terms and availability are
                     confirmed with the team.</p>
@@ -306,7 +301,7 @@
         <h2 id="finalTitle">Ready to visit, or to open your own?</h2>
         <p>Find the closest listed area, or start a conversation with the team about a franchise.</p>
         <div class="final-actions"><a class="btn btn-yellow btn-lg" data-magnetic href="{{ route('frontend.outlets') }}"><i
-              class="bi bi-geo-alt-fill" aria-hidden="true"></i> Find a Store</a><a class="btn btn-light btn-lg"
+              class="bi bi-geo-alt-fill" aria-hidden="true"></i> Find a branch</a><a class="btn btn-light btn-lg"
             data-magnetic href="{{ route('frontend.franchise') }}">Open a Franchise <i class="bi bi-arrow-up-right"
               aria-hidden="true"></i></a></div>
         <ul class="final-contact">
@@ -318,5 +313,7 @@
         </ul>
       </div>
     </section>
+
+   
   </main>
 @endsection

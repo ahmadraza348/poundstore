@@ -5087,7 +5087,7 @@ h3 {
 }
 
 .section {
-  padding: clamp(64px, 9vw, 112px) 0
+  padding: clamp(64px, 4vw, 112px) 0
 }
 
 .sec-head {
@@ -7570,3 +7570,126 @@ h3, .category-body h3, .feature-card h3, .benefit-card h3, .step-card h3, .value
 
 /* Card-level headings stay a step below section headings */
 .form-card h2, .catalogue-toolbar h2 { font-size: clamp(22px, 2.2vw, 26px) }
+
+
+/* Image-free branch-finder banner uses the full measure instead of leaving an empty image column. */
+.page-hero-grid--no-image {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 950px;
+  margin-inline: auto;
+}
+.page-hero-grid--no-image .page-hero-kicker { margin-top: 24px; }
+
+/* Clear, premium native dropdown styling across the public site. */
+.field select,
+.catalogue-controls select,
+.outlet-sort-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 46px 12px 15px;
+  border: 1.5px solid #cad6c9;
+  border-radius: 14px;
+  color: var(--green-deep);
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' stroke='%23103d29' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  box-shadow: 0 3px 12px rgba(16, 61, 41, .035);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.field select:hover,
+.catalogue-controls select:hover,
+.outlet-sort-field select:hover { border-color: #7da58a; }
+.field select:focus,
+.catalogue-controls select:focus,
+.outlet-sort-field select:focus {
+  outline: 0;
+  border-color: var(--green);
+  box-shadow: 0 0 0 4px rgba(23,107,61,.14);
+}
+.field select option { color: #173c2b; background: #fff; }
+.field select:disabled { opacity: .6; cursor: not-allowed; }
+
+
+/* Category map location pins and popups. */
+.branch-pin {
+  width: 34px; height: 34px; display: grid; place-items: center;
+  border: 3px solid #fff; border-radius: 50% 50% 50% 9px;
+  background: var(--yellow); color: var(--green-deep);
+  transform: rotate(-45deg); box-shadow: 0 5px 16px rgba(9,43,27,.3);
+  font-size: 14px; font-weight: 900;
+}
+.branch-pin i { transform: rotate(45deg); }
+.branch-map-popup { min-width: 190px; max-width: 260px; }
+.branch-map-popup strong { display:block; margin-bottom:4px; color:var(--green-deep); font-size:14px; }
+.branch-map-popup span { display:block; margin-bottom:8px; color:#5d6b61; font-size:12px; line-height:1.45; }
+.branch-map-popup a { display:inline-flex; align-items:center; gap:6px; color:var(--green); font-weight:800; text-decoration:none; }
+.branch-map-popup a:hover { text-decoration:underline; }
+.city-result-button { width:100%; border:0; background:#fff; color:inherit; text-align:left; cursor:pointer; transition:background .18s ease; }
+.city-result-button:hover,
+.city-result-button:focus-visible { background:#f3f8f0; outline:0; }
+.city-result-button.is-active { background:var(--green-soft); box-shadow:inset 4px 0 0 var(--green); }
+
+/* Branch cards: clear permanent open-status label replaces time/date snippets. */
+.branch-open-status { display:inline-flex; align-items:center; gap:6px; margin-top:7px; color:#1e713f; font-size:12px; font-weight:850; }
+.branch-open-status i { color:#1e8b4c; font-size:14px; }
+.outlet-card-title-row { align-items:flex-start; }
+.outlet-card .outlet-count-badge { display:none; }
+.outlet-card-image img { background:#edf2ea; }
+
+/* Three homepage CTA concepts are intentionally separate so one or two can be removed manually. */
+.final-cta-option { padding: clamp(44px, 7vw, 86px) 0; }
+.final-cta-option-b { background:#f4f7f1; }
+.final-cta-split { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.92fr); align-items:center; gap:clamp(28px,5vw,72px); }
+.final-cta-image { position:relative; min-height:330px; overflow:hidden; border-radius:30px 90px 30px 30px; background:#dce6d9; box-shadow:14px 14px 0 var(--yellow); }
+.final-cta-image img { width:100%; height:100%; min-height:330px; object-fit:cover; display:block; }
+.final-cta-image-label { position:absolute; left:18px; bottom:18px; display:inline-flex; align-items:center; gap:8px; padding:11px 15px; border-radius:999px; background:rgba(255,255,255,.94); color:var(--green-deep); font-size:13px; font-weight:850; }
+.final-cta-content .eyebrow, .final-cta-banner .eyebrow { color:var(--green); text-transform:uppercase; letter-spacing:.12em; font-weight:900; font-size:12px; }
+.final-cta-content h2 { color:var(--green-deep); font-size:clamp(34px,4.2vw,56px); line-height:1.07; margin:0 0 18px; }
+.final-cta-content > p:not(.eyebrow) { max-width:39em; color:#5b6b5d; font-size:17px; line-height:1.7; }
+.final-cta-content .final-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:25px; }
+.final-cta-option-c { background:var(--green-deep); }
+.final-cta-banner { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:24px; align-items:center; padding:clamp(24px,4vw,42px); border:1px solid rgba(255,255,255,.14); border-radius:28px; background:linear-gradient(115deg,#164b32,#0b2c1d 68%,#164b32); color:#fff; box-shadow:0 25px 60px rgba(0,0,0,.14); }
+.final-cta-banner-icon { width:78px; height:78px; display:grid; place-items:center; flex:none; border-radius:24px; background:var(--yellow); color:var(--green-deep); font-size:34px; transform:rotate(-5deg); }
+.final-cta-banner h2 { margin:0 0 8px; color:#fff; font-size:clamp(25px,3vw,38px); line-height:1.15; }
+.final-cta-banner p:not(.eyebrow) { margin:0; color:rgba(255,255,255,.78); max-width:58em; font-size:15px; line-height:1.65; }
+.final-cta-banner .eyebrow { margin:0 0 8px; color:var(--yellow); }
+.final-cta-banner-actions { display:flex; flex-direction:column; align-items:stretch; gap:10px; min-width:195px; }
+.final-cta-banner-actions .btn { justify-content:center; white-space:nowrap; }
+.team-monogram { border-radius:50%; letter-spacing:.03em; background:linear-gradient(145deg,#e7f0e3,#fff4bc); border:1px solid #d6e3d1; }
+.form-required-note { margin:10px 0 0; color:#526558; font-size:13px; }
+.form-aside--franchise { position:relative; overflow:hidden; }
+.form-aside--franchise::after { content:""; position:absolute; right:-40px; bottom:-65px; width:240px; height:240px; border-radius:50%; background:url('../images/hero-store.jpg') center/cover; opacity:.12; pointer-events:none; }
+.form-aside--franchise .form-aside-title { display:block; position:relative; z-index:1; color:#fff; visibility:visible; opacity:1; }
+.form-aside--franchise > * { position:relative; z-index:1; }
+.story-bg-img--parallax { transform:translate3d(0,var(--parallax-offset,0px),0) scale(1.12); }
+
+@media(max-width:900px) {
+  .final-cta-split { grid-template-columns:1fr; }
+  .final-cta-image, .final-cta-image img { min-height:260px; }
+  .final-cta-banner { grid-template-columns:auto minmax(0,1fr); }
+  .final-cta-banner-actions { grid-column:1 / -1; flex-direction:row; flex-wrap:wrap; min-width:0; }
+}
+@media(max-width:560px) {
+  .proof-warehouse-item { padding:14px 12px; gap:10px; }
+  .proof-warehouse-item > i { font-size:21px; }
+  .proof-warehouse-copy span { font-size:11px; }
+  .final-cta-banner { grid-template-columns:1fr; }
+  .final-cta-banner-icon { width:58px; height:58px; border-radius:18px; font-size:26px; }
+  .final-cta-banner-actions { flex-direction:column; }
+  .final-cta-content .final-actions { flex-direction:column; align-items:stretch; }
+  .final-cta-content .final-actions .btn { justify-content:center; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .story-bg-img--parallax { transform:none !important; }
+}
+
+.warehouse-quantity-track { display:block; height:4px; width:min(100%, 190px); overflow:hidden; border-radius:99px; margin-top:6px; background:rgba(255,255,255,.18); }
+.warehouse-quantity-track i { display:block; width:100%; height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--yellow),#ffffff); transform-origin:left; animation:warehouse-track-in 1s ease-out both; }
+@keyframes warehouse-track-in { from { transform:scaleX(.15); opacity:.5; } to { transform:scaleX(1); opacity:1; } }
+@media(prefers-reduced-motion:reduce) { .warehouse-quantity-track i { animation:none; } }

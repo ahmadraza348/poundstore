@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Services\Frontend\CatalogueService;
 use App\Services\Frontend\StoreLocatorService;
-use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
@@ -16,16 +15,9 @@ class PageController extends Controller
         ]);
     }
 
-    public function category(Request $request, CatalogueService $catalogue)
+    public function category(CatalogueService $catalogue, string $category)
     {
-        $slug = $request->query('category');
-
-        // No category in the URL -> go back to the categories list
-        if (!is_string($slug) || $slug === '') {
-            return redirect()->route('frontend.categories');
-        }
-
-        $page = $catalogue->getCategoryPage($slug);
+        $page = $catalogue->getCategoryPage($category);
 
         // Category not found or inactive -> 404 page
         abort_if($page === null, 404);

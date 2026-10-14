@@ -19,8 +19,8 @@
     <section class="section">
       <div class="container-wide story-grid">
         <div class="story-image-wrap"><img class="story-image" data-parallax
-            src="https://images.unsplash.com/photo-1604719312566-8912e9c8a213?auto=format&fit=crop&w=1000&q=82"
-            alt="Product shelves in a retail environment" loading="lazy">
+            src="{{ asset('frontend/assets/images/hero-store.jpg') }}"
+            alt="A well-stocked everyday retail store with organised product shelves" loading="lazy">
           <div class="story-year"><strong>2017</strong><span>Our beginning</span></div>
         </div>
         <div class="story-copy">
@@ -31,13 +31,81 @@
           <p>Its store network and franchise model are central to the way Pound Store presents its continued growth. The
             website brings together product-category discovery, branch information and business enquiries so visitors
             can choose the next useful step.</p>
-          <p>As the frontend moves into Laravel, this story, leadership information and network statistics can be
-            managed as structured content instead of being duplicated across pages.</p><a class="text-link"
+          <p>The story continues through a growing branch network, a broad everyday range and a franchise model built around local communities.</p><a class="text-link"
             href="{{ route('frontend.outlets') }}">Explore the network <i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
     </section>
-    <section class="section section-soft">
+
+    <section class="section">
+      <div class="container-wide">
+        
+        <div class="section-heading">
+          <p class="eyebrow">The people behind the brand</p>
+          <h2>Leadership & <span class="highlight">team.</span></h2>
+          <p>Names and roles below are presented as listed on the public company website. The initials keep the team directory consistent until approved portraits are available.</p>
+        </div>
+
+         <div class="ceo-message "style="margin: 3rem 0;" aria-label="CEO message"><span class="team-avatar team-monogram" aria-hidden="true">WH</span>
+          <div>
+            <p class="eyebrow">Leadership perspective</p>
+            <h3>Waseem Hussain Shah · Chief Executive Officer</h3>
+            <p>Our progress is built on hard work, a better shopping experience and a wide choice of useful products at
+              prices that feel fair. We welcome franchise partners who share our ambition to build trusted local stores
+              with the right guidance and support.</p>
+          </div>
+        </div>
+
+        <div class="team-grid">
+          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">WH</span>
+            <h3>Waseem Hussain Shah</h3>
+            <p>Chief Executive Officer</p>
+          </article>
+          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">SR</span>
+            <h3>Sohail Riaz</h3>
+            <p>Chairman</p>
+          </article>
+          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">MA</span>
+            <h3>Mouzzam Ali Shah</h3>
+            <p>Managing Director</p>
+          </article>
+          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">PN</span>
+            <h3>Peer Naseer ud Din Shah</h3>
+            <p>Finance Director</p>
+          </article>
+          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">QA</span>
+            <h3>Qalab Abbas</h3>
+            <p>Business Advisor</p>
+          </article>
+          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">NH</span>
+            <h3>Nadeem Hussain Shah</h3>
+            <p>Sales Advisor</p>
+          </article>
+          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">MA</span>
+            <h3>Master Anar Sajid</h3>
+            <p>Mentor & Moral Support</p>
+          </article>
+          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">SH</span>
+            <h3>Sheryar Haider</h3>
+            <p>Operational Manager</p>
+          </article>
+          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">MN</span>
+            <h3>Muhammad Naeem</h3>
+            <p>Marketing & Development Manager</p>
+          </article>
+          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">II</span>
+            <h3>Iqra Iftikhar</h3>
+            <p>HR Manager & Trainer</p>
+          </article>
+          <article class="team-card"><span class="team-avatar team-monogram" aria-hidden="true">SA</span>
+            <h3>Shoaib Ahmad</h3>
+            <p>Social Media Influencer</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+        <section class="section section-soft">
       <div class="container-wide">
         <div class="section-heading">
           <p class="eyebrow">What guides us</p>
@@ -87,86 +155,7 @@
               keep innovating as retail needs evolve.</p>
           </article>
         </div>
-        <div class="ceo-message" aria-label="CEO message"><img class="team-avatar team-avatar-image"
-            src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-            alt="Generic team portrait placeholder — replace with an approved photo">
-          <div>
-            <p class="eyebrow">Leadership perspective</p>
-            <h3>Waseem Hussain Shah · Chief Executive Officer</h3>
-            <p>Our progress is built on hard work, a better shopping experience and a wide choice of useful products at
-              prices that feel fair. We welcome franchise partners who share our ambition to build trusted local stores
-              with the right guidance and support.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container-wide">
-        <div class="section-heading">
-          <p class="eyebrow">The people behind the brand</p>
-          <h2>Leadership & <span class="highlight">team.</span></h2>
-          <p>Names and roles below are presented as listed on the public company website. A consistent portrait
-            placeholder is used until approved team photos are supplied.</p>
-        </div>
-        <div class="team-grid">
-          <article class="team-card"><img class="team-avatar team-avatar-image" src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-              alt="Generic team portrait placeholder — replace with an approved photo">
-            <h3>Waseem Hussain Shah</h3>
-            <p>Chief Executive Officer</p>
-          </article>
-          <article class="team-card"><img class="team-avatar team-avatar-image" src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-              alt="Generic team portrait placeholder — replace with an approved photo">
-            <h3>Sohail Riaz</h3>
-            <p>Chairman</p>
-          </article>
-          <article class="team-card"><img class="team-avatar team-avatar-image" src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-              alt="Generic team portrait placeholder — replace with an approved photo">
-            <h3>Mouzzam Ali Shah</h3>
-            <p>Managing Director</p>
-          </article>
-          <article class="team-card"><img class="team-avatar team-avatar-image" src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-              alt="Generic team portrait placeholder — replace with an approved photo">
-            <h3>Peer Naseer ud Din Shah</h3>
-            <p>Finance Director</p>
-          </article>
-          <article class="team-card"><img class="team-avatar team-avatar-image" src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-              alt="Generic team portrait placeholder — replace with an approved photo">
-            <h3>Qalab Abbas</h3>
-            <p>Business Advisor</p>
-          </article>
-          <article class="team-card"><img class="team-avatar team-avatar-image" src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-              alt="Generic team portrait placeholder — replace with an approved photo">
-            <h3>Nadeem Hussain Shah</h3>
-            <p>Sales Advisor</p>
-          </article>
-          <article class="team-card"><img class="team-avatar team-avatar-image" src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-              alt="Generic team portrait placeholder — replace with an approved photo">
-            <h3>Master Anar Sajid</h3>
-            <p>Mentor & Moral Support</p>
-          </article>
-          <article class="team-card"><img class="team-avatar team-avatar-image" src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-              alt="Generic team portrait placeholder — replace with an approved photo">
-            <h3>Sheryar Haider</h3>
-            <p>Operational Manager</p>
-          </article>
-          <article class="team-card"><img class="team-avatar team-avatar-image" src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-              alt="Generic team portrait placeholder — replace with an approved photo">
-            <h3>Muhammad Naeem</h3>
-            <p>Marketing & Development Manager</p>
-          </article>
-          <article class="team-card"><img class="team-avatar team-avatar-image" src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-              alt="Generic team portrait placeholder — replace with an approved photo">
-            <h3>Iqra Iftikhar</h3>
-            <p>HR Manager & Trainer</p>
-          </article>
-          <article class="team-card"><img class="team-avatar team-avatar-image" src="{{asset('frontend/assets/images/team-placeholder.svg')}}"
-              alt="Generic team portrait placeholder — replace with an approved photo">
-            <h3>Shoaib Ahmad</h3>
-            <p>Social Media Influencer</p>
-          </article>
-        </div>
-        <p class="team-note">Before launch, confirm current titles and add company-approved portraits with the team’s
-          permission.</p>
+       
       </div>
     </section>
     <section class="section section-soft">
@@ -174,7 +163,7 @@
         <div>
           <h2>Get to know Pound Store in person.</h2>
           <p>Explore the category range, find a location or ask about the franchise model.</p>
-        </div><a href="{{ route('frontend.outlets') }}" class="btn btn-primary">Find a store <i class="bi bi-arrow-up-right"></i></a>
+        </div><a href="{{ route('frontend.outlets') }}" class="btn btn-primary">Find a branch <i class="bi bi-arrow-up-right"></i></a>
       </div>
     </section>
   </main>

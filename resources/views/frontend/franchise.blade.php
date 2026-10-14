@@ -12,8 +12,7 @@
                 <h1>Bring Pound Store to <span class="highlight">your city.</span></h1>
                 <p class="lead">A value-retail brand with sourcing, warehouse supply and a launch process behind it. Tell the franchise team where you would like to open, then work through the details together.</p>
                 <div class="hero-ctas"><a class="btn btn-yellow btn-lg" data-magnetic href="#enquiry">Start an enquiry <i class="bi bi-arrow-down" aria-hidden="true"></i></a><a class="btn btn-light btn-lg" href="#process">See the six steps</a></div>
-                <p class="hero-fine"><i class="bi bi-info-circle" aria-hidden="true"></i> Investment and territory details are confirmed directly with the team. No returns are promised.</p>
-            </div><img class="page-hero-image" data-parallax src="https://images.unsplash.com/photo-1604719312566-8912e9c8a213?auto=format&fit=crop&w=1000&q=80" alt="Representative stock photo of bright retail shelves (not a Pound Store branch)" loading="eager" fetchpriority="high">
+            </div><img class="page-hero-image" data-parallax src="https://images.unsplash.com/photo-1604719312566-8912e9c8a213?auto=format&fit=crop&w=1000&q=80" alt="Bright retail aisle with shelves of everyday products" loading="eager" fetchpriority="high">
         </div>
     </section>
     <section class="section sup" aria-labelledby="supTitle">
@@ -147,9 +146,9 @@
     <section class="section form-section" id="enquiry">
         <div class="container-wide">
             <div class="form-layout">
-                <aside class="form-aside">
+                <aside class="form-aside form-aside--franchise">
                     <p class="eyebrow">Step 1 · Enquire</p>
-                    <h2>Tell us what you’re exploring.</h2>
+                    <h2 class="form-aside-title">Tell us what you’re exploring.</h2>
                     <p>Share your contact details, city and proposed location. The franchise team will review your enquiry and get back to you.</p>
                     <div class="contact-point"><i class="bi bi-telephone" aria-hidden="true"></i>
                         <div><strong>Head office</strong><span>0347 0006050</span></div>
@@ -216,7 +215,7 @@
                                 <button class="btn btn-primary" type="submit">Send enquiry <i class="bi bi-arrow-right"></i></button>
                                 {{-- Shows the success message (or a general error) after the page reloads --}}
                                 <div class="form-status {{ session('success') || $errors->any() ? 'show' : '' }} {{ $errors->any() ? 'is-error' : '' }}" data-form-status role="status" aria-live="polite">@if (session('success')){{ session('success') }}@elseif ($errors->any())Please fix the highlighted fields.@endif</div>
-                                <p class="demo-note">* Required fields.</p>
+                                <p class="form-required-note">* Required fields.</p>
                             </div>
                         </div>
                     </form>

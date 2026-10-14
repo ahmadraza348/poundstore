@@ -9,13 +9,13 @@
             <div class="alert alert-danger"><strong>Please correct the following:</strong><ul class="mb-0 mt-2">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
         @endif
         @if($cities->isEmpty())
-            <div class="alert alert-warning">You need to create a city before creating an outlet. <a href="{{ route('city.create') }}" class="alert-link">Create a city now</a>.</div>
+            <div class="alert alert-warning">You need to create a city before creating a branch. <a href="{{ route('city.create') }}" class="alert-link">Create a city now</a>.</div>
         @endif
 
         <h5 class="mb-3">Branch Information</h5>
         <div class="row g-4">
             <div class="col-lg-6 form-group">
-                <label for="name">Outlet / Branch Name <span class="text-danger">*</span></label>
+                <label for="name">Branch Name <span class="text-danger">*</span></label>
                 <input type="text" required maxlength="180" class="form-control" name="name" id="name" value="{{ old('name', $outlet->name ?? '') }}" placeholder="e.g. Pound Store Main Market">
                 @error('name')<small class="text-danger">{{ $message }}</small>@enderror
             </div>
@@ -35,7 +35,7 @@
                 @error('city_id')<small class="text-danger">{{ $message }}</small>@enderror
             </div>
             <div class="col-lg-6 form-group">
-                <label for="outlet_type">Outlet Type <span class="text-danger">*</span></label>
+                <label for="outlet_type">Branch Type <span class="text-danger">*</span></label>
                 <select required class="form-control" name="outlet_type" id="outlet_type">
                     <option value="retail_store" {{ old('outlet_type', $outlet->outlet_type ?? 'retail_store') === 'retail_store' ? 'selected' : '' }}>Retail Store</option>
                     <option value="warehouse" {{ old('outlet_type', $outlet->outlet_type ?? '') === 'warehouse' ? 'selected' : '' }}>Warehouse</option>
@@ -79,8 +79,8 @@
 
         <hr class="my-4"><h5 class="mb-3">Map & Directions</h5>
         <div class="row g-4">
-            <div class="col-lg-6 form-group"><label for="latitude">Outlet Latitude</label><input type="number" step="any" min="-90" max="90" class="form-control" name="latitude" id="latitude" value="{{ old('latitude', $outlet->latitude ?? '') }}" placeholder="Enter the branch's own coordinates">@error('latitude')<small class="text-danger">{{ $message }}</small>@enderror</div>
-            <div class="col-lg-6 form-group"><label for="longitude">Outlet Longitude</label><input type="number" step="any" min="-180" max="180" class="form-control" name="longitude" id="longitude" value="{{ old('longitude', $outlet->longitude ?? '') }}" placeholder="Enter the branch's own coordinates">@error('longitude')<small class="text-danger">{{ $message }}</small>@enderror</div>
+            <div class="col-lg-6 form-group"><label for="latitude">Branch Latitude</label><input type="number" step="any" min="-90" max="90" class="form-control" name="latitude" id="latitude" value="{{ old('latitude', $outlet->latitude ?? '') }}" placeholder="Enter the branch's own coordinates">@error('latitude')<small class="text-danger">{{ $message }}</small>@enderror</div>
+            <div class="col-lg-6 form-group"><label for="longitude">Branch Longitude</label><input type="number" step="any" min="-180" max="180" class="form-control" name="longitude" id="longitude" value="{{ old('longitude', $outlet->longitude ?? '') }}" placeholder="Enter the branch's own coordinates">@error('longitude')<small class="text-danger">{{ $message }}</small>@enderror</div>
             <div class="col-12 form-group"><label for="maps_url">Google Maps URL <small class="text-muted">(optional, preferred when you have the approved branch pin)</small></label><input type="url" class="form-control" maxlength="2048" name="maps_url" id="maps_url" value="{{ old('maps_url', $outlet->maps_url ?? '') }}" placeholder="https://maps.app.goo.gl/...">@error('maps_url')<small class="text-danger">{{ $message }}</small>@enderror</div>
             <div class="col-12">
                 <div class="form-check mb-2">
@@ -115,14 +115,14 @@
         <div class="row g-4">
             <div class="col-lg-6 form-group"><label for="description">Short Description</label><textarea class="form-control" rows="4" maxlength="5000" name="description" id="description" placeholder="Optional information shown on the branch card">{{ old('description', $outlet->description ?? '') }}</textarea>@error('description')<small class="text-danger">{{ $message }}</small>@enderror</div>
             <div class="col-lg-6 form-group">
-                <label for="image">Outlet Image <small class="text-muted">(JPG, PNG, WEBP; max 3 MB)</small></label>
+                <label for="image">Branch Image <small class="text-muted">(JPG, PNG, WEBP; max 3 MB)</small></label>
                 <input type="file" class="form-control" name="image" id="image" accept="image/jpeg,image/png,image/webp" onchange="outletPreviewImage(event)">
                 @error('image')<small class="text-danger">{{ $message }}</small>@enderror
                 <div class="mt-3">
                     @if($outlet?->image_url)
-                        <img id="outletImagePreview" src="{{ $outlet->image_url }}" alt="Outlet image preview" style="max-width:220px;max-height:150px;object-fit:cover;border-radius:8px">
+                        <img id="outletImagePreview" src="{{ $outlet->image_url }}" alt="Branch image preview" style="max-width:220px;max-height:150px;object-fit:cover;border-radius:8px">
                     @else
-                        <img id="outletImagePreview" src="#" alt="Outlet image preview" style="display:none;max-width:220px;max-height:150px;object-fit:cover;border-radius:8px">
+                        <img id="outletImagePreview" src="#" alt="Branch image preview" style="display:none;max-width:220px;max-height:150px;object-fit:cover;border-radius:8px">
                     @endif
                 </div>
                 <small class="text-muted d-block mt-2">Uploading a replacement image will replace the old file. Leave this blank to keep the current image.</small>
@@ -144,7 +144,7 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-submit me-2" type="submit" {{ $cities->isEmpty() ? 'disabled' : '' }}>{{ $outlet ? 'Update Outlet' : 'Save Outlet' }}</button>
+            <button class="btn btn-submit me-2" type="submit" {{ $cities->isEmpty() ? 'disabled' : '' }}>{{ $outlet ? 'Update Branch' : 'Save Branch' }}</button>
             <a href="{{ route('outlet.index') }}" class="btn btn-cancel">Cancel</a>
         </div>
     </div>

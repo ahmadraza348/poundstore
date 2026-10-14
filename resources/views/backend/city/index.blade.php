@@ -6,7 +6,7 @@
         <div class="page-header">
             <div class="page-title">
                 <h4>Manage Cities / Areas</h4>
-                <h6>Create cities first, then assign one or more outlets to each city.</h6>
+                <h6>Create cities first, then assign one or more branches to each city.</h6>
             </div>
             <div class="page-btn"><a href="{{ route('city.create') }}" class="btn btn-added"><img src="{{ asset('backend/assets/img/icons/plus.svg') }}" alt=""> Add City</a></div>
         </div>
@@ -24,7 +24,7 @@
 
                 <div class="table-responsive">
                     <table class="table">
-                        <thead><tr><th>City / Area</th><th>Slug</th><th>District</th><th>Province</th><th>Outlets</th><th>Map Coordinates</th><th>Status</th><th>Action</th></tr></thead>
+                        <thead><tr><th>City / Area</th><th>Slug</th><th>District</th><th>Province</th><th>Branches</th><th>Map Coordinates</th><th>Status</th><th>Action</th></tr></thead>
                         <tbody>
                         @forelse ($cities as $city)
                             <tr>
@@ -45,12 +45,12 @@
                                     <a href="{{ route('city.edit', $city) }}" class="me-3" title="Edit city"><img src="{{ asset('backend/assets/img/icons/edit.svg') }}" alt="Edit"></a>
                                     <form id="deleteCity-{{ $city->id }}" action="{{ route('city.destroy', $city) }}" method="POST" class="d-inline">
                                         @csrf @method('DELETE')
-                                        <button type="submit" class="btn btn-link p-0" title="Delete city" onclick="return confirm('Delete this city? Cities with assigned outlets cannot be deleted.');"><img src="{{ asset('backend/assets/img/icons/delete.svg') }}" alt="Delete"></button>
+                                        <button type="submit" class="btn btn-link p-0" title="Delete city" onclick="return confirm('Delete this city? Cities with assigned branches cannot be deleted.');"><img src="{{ asset('backend/assets/img/icons/delete.svg') }}" alt="Delete"></button>
                                     </form>
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="8" class="text-center py-4">No cities found. Create a city before adding an outlet.</td></tr>
+                            <tr><td colspan="8" class="text-center py-4">No cities found. Create a city before adding a branch.</td></tr>
                         @endforelse
                         </tbody>
                     </table>

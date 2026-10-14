@@ -74,14 +74,14 @@ class CatalogueService
             'category' => [
                 'name'        => $category->name,
                 'description' => $this->cleanText($category->description),
-                'image'       => $category->image_url ?? asset('frontend/assets/images/placeholder.svg'),
+                'image'       => $category->image_url ?? asset('frontend/assets/images/hero-store.jpg'),
             ],
             'products' => $products->map(fn ($product) => [
                 'name'     => $product->name,
                 'category' => $product->category->name ?? $category->name,
                 'price'    => (float) $product->price,
                 'tag'      => $product->tag,
-                'image'    => $product->image_url ?? asset('frontend/assets/images/placeholder.svg'),
+                'image'    => $product->image_url ?? asset('frontend/assets/images/hero-store.jpg'),
             ])->all(),
         ];
     }
@@ -96,7 +96,7 @@ class CatalogueService
             'name'          => $category->name,
             'url'           => route('frontend.category', ['category' => $category->slug]),
             'description'   => Str::limit($this->cleanText($category->description), 110),
-            'image'         => $category->image_url ?? asset('frontend/assets/images/placeholder.svg'),
+            'image'         => $category->image_url ?? asset('frontend/assets/images/hero-store.jpg'),
             'parent'        => $category->parent->name ?? null,
             'product_count' => $counts[$category->id] ?? 0,
         ];

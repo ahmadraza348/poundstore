@@ -3,7 +3,7 @@
 
   function escapeHtml(value) {
     return String(value == null ? '' : value).replace(/[&<>"']/g, function (char) {
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char];
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char];
     });
   }
 
@@ -266,7 +266,7 @@
     if (header) header.classList.toggle('scrolled', window.scrollY > 12);
     if (backTop) backTop.classList.toggle('visible', window.scrollY > 500);
   }
-  window.addEventListener('scroll', handleScroll, {passive:true});
+  window.addEventListener('scroll', handleScroll, { passive: true });
   handleScroll();
   document.querySelectorAll('[data-current-year]').forEach(function (node) { node.textContent = String(new Date().getFullYear()); });
 
@@ -283,8 +283,8 @@
       if (mobileNav.matches) {
         if ('inert' in navPanel) navPanel.inert = !open;
       }
-      if (open && mobileNav.matches) { var first = navFocusables()[0]; if (first) window.setTimeout(function () { first.focus({preventScroll:true}); }, 60); }
-      if (!open && returnFocus) menuToggle.focus({preventScroll:true});
+      if (open && mobileNav.matches) { var first = navFocusables()[0]; if (first) window.setTimeout(function () { first.focus({ preventScroll: true }); }, 60); }
+      if (!open && returnFocus) menuToggle.focus({ preventScroll: true });
     }
     function syncNav() { if ('inert' in navPanel) navPanel.inert = mobileNav.matches && !navPanel.classList.contains('open'); if (!mobileNav.matches) navPanel.classList.remove('open'); menuToggle.setAttribute('aria-expanded', String(navPanel.classList.contains('open'))); }
     syncNav();
@@ -308,7 +308,7 @@
       if (navPanel.classList.contains('open') && mobileNav.matches && !navPanel.contains(event.target) && !menuToggle.contains(event.target)) setNav(false, false);
     });
   }
-  if (backTop) backTop.addEventListener('click', function () { window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); });
+  if (backTop) backTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); });
 
   // Catalogue page: products come from the database (window.POUND_STORE_CATALOGUE, set in category.blade.php).
   var productRoot = document.querySelector('[data-product-grid]');
@@ -325,16 +325,16 @@
     function formatPrice(value) {
       var price = Number(value) || 0;
       if (price <= 0) return 'Ask in store';
-      return 'PKR ' + price.toLocaleString('en-PK', {minimumFractionDigits: 0, maximumFractionDigits: 2});
+      return 'PKR ' + price.toLocaleString('en-PK', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
     }
     function renderProducts() {
       var term = searchNode ? searchNode.value.trim().toLowerCase() : '';
       var sorted = allProducts.filter(function (item) {
         return !term || (item.name + ' ' + (item.tag || '')).toLowerCase().indexOf(term) !== -1;
       });
-      if (sortNode && sortNode.value === 'name') sorted.sort(function (a,b) { return a.name.localeCompare(b.name); });
-      if (sortNode && sortNode.value === 'price-low') sorted.sort(function (a,b) { return a.price - b.price; });
-      if (sortNode && sortNode.value === 'price-high') sorted.sort(function (a,b) { return b.price - a.price; });
+      if (sortNode && sortNode.value === 'name') sorted.sort(function (a, b) { return a.name.localeCompare(b.name); });
+      if (sortNode && sortNode.value === 'price-low') sorted.sort(function (a, b) { return a.price - b.price; });
+      if (sortNode && sortNode.value === 'price-high') sorted.sort(function (a, b) { return b.price - a.price; });
       if (countNode) countNode.textContent = plural(sorted.length, 'item', 'items');
       var totalPages = Math.max(1, Math.ceil(sorted.length / productPageSize));
       productPage = Math.min(productPage, totalPages);
@@ -348,7 +348,7 @@
       var pageItems = sorted.slice((productPage - 1) * productPageSize, productPage * productPageSize);
       productRoot.innerHTML = pageItems.map(function (item) {
         var badge = item.tag ? '<span class="product-badge">' + escapeHtml(item.tag) + '</span>' : '';
-        return '<article class="product-card"><div class="product-image"><img src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.name) + '" loading="lazy" decoding="async">' + badge + '</div><div class="product-content"><p class="product-category">' + escapeHtml(item.category) + '</p><h3>' + escapeHtml(item.name) + '</h3><div class="product-price-row"><div class="product-price"><small>Price</small>' + escapeHtml(formatPrice(item.price)) + '</div><a class="product-link" href="' + escapeHtml(outletsUrl) + '">Find a store <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a></div></div></article>';
+        return '<article class="product-card"><div class="product-image"><img src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.name) + '" loading="lazy" decoding="async">' + badge + '</div><div class="product-content"><p class="product-category">' + escapeHtml(item.category) + '</p><h3>' + escapeHtml(item.name) + '</h3><div class="product-price-row"><div class="product-price"><small>Price</small>' + escapeHtml(formatPrice(item.price)) + '</div><a class="product-link" href="' + escapeHtml(outletsUrl) + '">Find a branch <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a></div></div></article>';
       }).join('');
       registerReveal(productRoot.querySelectorAll('.product-card'));
       if (productPagination) renderPagination(productPagination, productPage, totalPages, sorted.length, productPageSize, 'products', function (nextPage) {
@@ -362,10 +362,11 @@
     renderProducts();
   }
 
-  // Interactive city-level branch overview using OpenStreetMap/Leaflet. Exact shop pins are not available in source data.
+  // Store finder map: city markers provide an overview; choosing a city reveals its saved branch coordinates.
   var mapElement = document.getElementById('branchMap');
   if (mapElement) {
     var cityListings = Array.isArray(window.POUND_STORE_CITY_LISTINGS) ? window.POUND_STORE_CITY_LISTINGS.slice() : [];
+    var branchListings = Array.isArray(window.POUND_STORE_OUTLETS) ? window.POUND_STORE_OUTLETS.slice() : [];
     var mappableCities = cityListings.filter(hasCoords);
     var citySearch = document.querySelector('[data-city-search]');
     var cityList = document.querySelector('[data-city-list]');
@@ -373,49 +374,99 @@
     var mapStatus = document.querySelector('[data-map-status]');
     var map;
     var markersByCity = {};
+    var markerLayer = null;
+    var selectedCityName = null;
+
+    function branchesWithPins(cityName) {
+      return branchListings.filter(function (branch) {
+        return branch.city === cityName && branch.lat !== null && branch.lat !== undefined && branch.lat !== '' && branch.lon !== null && branch.lon !== undefined && branch.lon !== '' && hasCoords({ lat: Number(branch.lat), lon: Number(branch.lon) });
+      });
+    }
     function renderCityList() {
       if (!cityList) return;
       var term = citySearch ? citySearch.value.trim().toLowerCase() : '';
       var matches = cityListings.filter(function (item) { return !term || item.city.toLowerCase().indexOf(term) !== -1; });
       cityList.innerHTML = matches.map(function (item) {
-        return '<button type="button" class="city-result city-result-button" data-city-jump="' + escapeHtml(item.city) + '"><span><strong>' + escapeHtml(item.city) + '</strong><small>' + plural(item.count, 'active outlet', 'active outlets') + '</small></span><span class="city-count" aria-label="' + item.count + ' listings">' + item.count + '</span></button>';
+        return '<button type="button" class="city-result city-result-button' + (selectedCityName === item.city ? ' is-active' : '') + '" data-city-jump="' + escapeHtml(item.city) + '" aria-pressed="' + String(selectedCityName === item.city) + '"><span><strong>' + escapeHtml(item.city) + '</strong><small>' + plural(item.count, 'active branch', 'active branches') + '</small></span><span class="city-count" aria-label="' + item.count + ' listings">' + item.count + '</span></button>';
       }).join('') || '<div class="city-result"><div><h3>No city found</h3><p>Try a different search.</p></div></div>';
-      if (cityTotal) cityTotal.textContent = matches.length + ' of ' + plural(cityListings.length, 'city', 'cities') + ' with active outlets';
+      if (cityTotal) cityTotal.textContent = matches.length + ' of ' + plural(cityListings.length, 'city', 'cities') + ' with active branches';
+    }
+    function branchPopup(branch) {
+      var address = [branch.address, branch.area, branch.city].filter(Boolean).join(', ');
+      var directions = safeUrl(branch.directions_url);
+      return '<div class="branch-map-popup"><strong>' + escapeHtml(branch.name) + '</strong><span>' + escapeHtml(address || 'Address details not provided') + '</span><a href="' + escapeHtml(directions) + '" target="_blank" rel="noopener noreferrer">Get directions <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a></div>';
+    }
+    function showCity(item, fly) {
+      if (!item || !map || !markerLayer) return;
+      selectedCityName = item.city;
+      markerLayer.clearLayers();
+      Object.keys(markersByCity).forEach(function (key) { delete markersByCity[key]; });
+      var pins = branchesWithPins(item.city);
+      var bounds = [];
+      if (pins.length) {
+        pins.forEach(function (branch) {
+          var icon = window.L.divIcon({ className: '', html: '<span class="branch-pin"><i class="bi bi-shop" aria-hidden="true"></i></span>', iconSize: [34, 34], iconAnchor: [17, 30] });
+          var marker = window.L.marker([Number(branch.lat), Number(branch.lon)], { icon: icon, title: branch.name, keyboard: true, riseOnHover: true }).addTo(markerLayer);
+          marker.bindPopup(branchPopup(branch));
+          bounds.push([Number(branch.lat), Number(branch.lon)]);
+        });
+        if (mapStatus) mapStatus.textContent = pins.length + ' of ' + item.count + ' branches mapped in ' + item.city;
+      } else if (hasCoords(item)) {
+        var cityIcon = window.L.divIcon({ className: '', html: '<span class="branch-marker">' + item.count + '</span>', iconSize: [34, 34], iconAnchor: [17, 17] });
+        var cityMarker = window.L.marker([item.lat, item.lon], { icon: cityIcon, title: item.city + ' approximate city location' }).addTo(markerLayer);
+        cityMarker.bindPopup('<strong>' + escapeHtml(item.city) + '</strong><span>No branch coordinates have been saved for this city yet. Use the directions links in the branch directory.</span>');
+        bounds.push([item.lat, item.lon]);
+        if (mapStatus) mapStatus.textContent = 'Branch coordinates are not available yet for ' + item.city;
+      }
+      renderCityList();
+      if (bounds.length) {
+        if (fly || pins.length) map.flyToBounds(bounds, { padding: [42, 42], maxZoom: pins.length > 1 ? 15 : 11, duration: reducedMotion ? 0 : .55 });
+        else map.fitBounds(bounds, { padding: [36, 36], maxZoom: 11 });
+      }
+    }
+    function renderCities() {
+      if (!map || !markerLayer) return;
+      selectedCityName = null;
+      markerLayer.clearLayers();
+      var bounds = [];
+      mappableCities.forEach(function (item) {
+        var icon = window.L.divIcon({ className: '', html: '<span class="branch-marker">' + item.count + '</span>', iconSize: [32, 32], iconAnchor: [16, 16] });
+        var marker = window.L.marker([item.lat, item.lon], { icon: icon, title: item.city + ': ' + plural(item.count, 'active branch', 'active branches') }).addTo(markerLayer);
+        marker.bindTooltip('<strong>' + escapeHtml(item.city) + '</strong> · ' + plural(item.count, 'branch', 'branches'), { direction: 'top', offset: [0, -10], className: 'ps-tip' });
+        marker.on('click', function () { showCity(item, true); });
+        markersByCity[item.city] = marker;
+        bounds.push([item.lat, item.lon]);
+      });
+      if (bounds.length) map.fitBounds(bounds, { padding: [30, 30], maxZoom: 7 });
+      if (mapStatus) mapStatus.textContent = plural(branchListings.length, 'active branch', 'active branches') + ' across ' + plural(cityListings.length, 'city', 'cities') + '. Select a city to see its branch pins.';
     }
     if (citySearch) citySearch.addEventListener('input', renderCityList);
     if (cityList) {
       cityList.addEventListener('click', function (event) {
         var button = event.target.closest('[data-city-jump]');
         var cityName = button && button.getAttribute('data-city-jump');
-        if (!cityName || !map || !markersByCity[cityName]) return;
-        var item = mappableCities.find(function (record) { return record.city === cityName; });
+        var item = cityListings.find(function (record) { return record.city === cityName; });
         if (!item) return;
-        map.flyTo([item.lat, item.lon], 10, {duration:0.45});
-        markersByCity[cityName].openPopup();
-      });
-      cityList.addEventListener('keydown', function (event) {
-        if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('[data-city-jump]')) { event.preventDefault(); event.target.click(); }
+        if (map && mappableCities.some(function (record) { return record.city === cityName; })) showCity(item, true);
+        else if (mapStatus) mapStatus.textContent = 'No saved map coordinates for ' + cityName + '. Use the directions links below.';
       });
     }
     renderCityList();
     if (window.L && mappableCities.length) {
-      map = window.L.map(mapElement, {scrollWheelZoom:false, zoomControl:true}).setView([31.8,73.4], 6);
-      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom:18,
-        attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
-      }).addTo(map);
-      var markerBounds = [];
-      mappableCities.forEach(function (item) {
-        var icon = window.L.divIcon({className:'',html:'<span class="branch-marker">' + item.count + '</span>',iconSize:[32,32],iconAnchor:[16,16]});
-        var marker = window.L.marker([item.lat,item.lon],{icon:icon}).addTo(map);
-        marker.bindPopup('<strong>' + escapeHtml(item.city) + '</strong><span>' + plural(item.count, 'active outlet', 'active outlets') + '</span><small>Approximate city-centre marker. Use an outlet card for branch directions.</small>');
-        markersByCity[item.city] = marker;
-        markerBounds.push([item.lat,item.lon]);
-      });
-      map.fitBounds(markerBounds,{padding:[24,24],maxZoom:7});
-      if (mapStatus) mapStatus.textContent = plural(cityListings.reduce(function (sum,item) { return sum + item.count; },0), 'active outlet', 'active outlets') + ' across ' + plural(cityListings.length, 'city', 'cities');
+      try {
+        map = window.L.map(mapElement, { scrollWheelZoom: false, zoomControl: true, attributionControl: true }).setView([31.8, 73.4], 6);
+        window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        markerLayer = window.L.layerGroup().addTo(map);
+        renderCities();
+        window.setTimeout(function () { map.invalidateSize(); }, 350);
+      } catch (err) {
+        if (mapStatus) mapStatus.textContent = 'The map could not load. Search the city list and use branch directions below.';
+      }
     } else if (mapStatus) {
-      mapStatus.textContent = cityListings.length ? 'The map is unavailable. Use the city list and outlet directory below.' : 'No active outlets have been published yet.';
+      mapStatus.textContent = cityListings.length ? 'The map is unavailable. Use the city list and branch directory below.' : 'No active branches have been published yet.';
     }
   }
 
@@ -431,7 +482,7 @@
     var directoryItems = Array.isArray(window.POUND_STORE_OUTLETS) ? window.POUND_STORE_OUTLETS.slice() : [];
     var directoryPageSize = 9;
     var directoryVisibleCount = directoryPageSize;
-    var outletTypeLabels = {retail_store: 'Retail store', warehouse: 'Warehouse', head_office: 'Head office'};
+    var outletTypeLabels = { retail_store: 'Retail store', warehouse: 'Warehouse', head_office: 'Head office' };
 
     function filterOutlets() {
       var term = directorySearch ? directorySearch.value.trim().toLowerCase() : '';
@@ -443,7 +494,7 @@
         matches.sort(function (a, b) { return a.name.localeCompare(b.name); });
       } else if (directorySort && directorySort.value === 'za') {
         matches.sort(function (a, b) { return b.name.localeCompare(a.name); });
-      } // "Featured first" keeps the order sent by the server (featured, sort order, name).
+      } // The default order follows the order configured by the admin team.
       return matches;
     }
 
@@ -451,16 +502,15 @@
       var directions = safeUrl(item.directions_url);
       var address = [item.address, item.area].filter(Boolean).join(', ');
       if (item.landmark) address += ' · Near ' + item.landmark;
-      var typeLabel = outletTypeLabels[item.outlet_type] || 'Outlet';
-      var featured = item.is_featured ? '<span class="outlet-count-badge"><strong><i class="bi bi-star-fill" aria-hidden="true"></i></strong><small>Featured</small></span>' : '';
-      var footerLeft = item.phone ? '<i class="bi bi-telephone" aria-hidden="true"></i> ' + escapeHtml(item.phone) : '<i class="bi bi-info-circle" aria-hidden="true"></i> Call the team for details';
+      var typeLabel = outletTypeLabels[item.outlet_type] || 'Branch';
+      var footerLeft = item.phone ? '<i class="bi bi-telephone" aria-hidden="true"></i> ' + escapeHtml(item.phone) : '<i class="bi bi-info-circle" aria-hidden="true"></i> Branch support';
       return '<article class="outlet-card" style="--reveal-delay:' + ((index % 3) * 85) + 'ms">' +
         '<a class="outlet-card-image" href="' + escapeHtml(directions) + '" target="_blank" rel="noopener noreferrer" aria-label="Get directions to ' + escapeHtml(item.name) + '">' +
         '<img src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.name) + '" loading="lazy" decoding="async">' +
         '<span class="outlet-image-badge"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i> ' + escapeHtml(typeLabel) + '</span>' +
         '<span class="outlet-image-arrow" aria-hidden="true"><i class="bi bi-arrow-up-right"></i></span></a>' +
-        '<div class="outlet-card-body"><div class="outlet-card-title-row"><div><span class="outlet-card-kicker">' + escapeHtml(item.city || 'Pakistan') + '</span><h3>' + escapeHtml(item.name) + '</h3></div>' + featured + '</div>' +
-        '<p class="outlet-card-address"><i class="bi bi-pin-map" aria-hidden="true"></i><span>' + escapeHtml(address) + '<br>' + escapeHtml(item.hours_today || '') + '</span></p>' +
+        '<div class="outlet-card-body"><div class="outlet-card-title-row"><div><span class="outlet-card-kicker">' + escapeHtml(item.city || 'Pakistan') + '</span><h3>' + escapeHtml(item.name) + '</h3></div></div>' +
+        '<p class="outlet-card-address"><i class="bi bi-pin-map" aria-hidden="true"></i><span>' + escapeHtml(address || 'Address details available on request') + '<br><span class="branch-open-status"><i class="bi bi-clock-fill" aria-hidden="true"></i> Always open</span></span></p>' +
         '<div class="outlet-card-footer"><span>' + footerLeft + '</span><a href="' + escapeHtml(directions) + '" target="_blank" rel="noopener noreferrer">Get directions <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a></div></div></article>';
     }
 
@@ -469,22 +519,22 @@
       var matches = filterOutlets();
       if (directoryCount) directoryCount.textContent = String(matches.length);
       if (!matches.length) {
-        var none = directoryItems.length ? 'No outlet matched your search' : 'No outlets published yet';
-        var hint = directoryItems.length ? 'Try another outlet name, city or area, or clear your search.' : 'Please check back soon.';
+        var none = directoryItems.length ? 'No branch matched your search' : 'No branches published yet';
+        var hint = directoryItems.length ? 'Try another branch name, city or area, or clear your search.' : 'Please check back soon.';
         directoryGrid.innerHTML = '<div class="outlet-empty-state"><span class="outlet-empty-icon"><i class="bi bi-search" aria-hidden="true"></i></span><h3>' + none + '</h3><p>' + hint + '</p></div>';
         if (directoryLoadMore) directoryLoadMore.hidden = true;
-        if (directoryStatus) directoryStatus.textContent = 'No outlets found';
+        if (directoryStatus) directoryStatus.textContent = 'No branches found';
         return;
       }
       var visibleItems = matches.slice(0, directoryVisibleCount);
       directoryGrid.innerHTML = visibleItems.map(outletCard).join('');
       registerReveal(directoryGrid.querySelectorAll('.outlet-card'));
-      if (directoryStatus) directoryStatus.textContent = 'Showing ' + visibleItems.length + ' of ' + plural(matches.length, 'outlet', 'outlets');
+      if (directoryStatus) directoryStatus.textContent = 'Showing ' + visibleItems.length + ' of ' + plural(matches.length, 'branch', 'branches');
       if (directoryLoadMore) {
         directoryLoadMore.hidden = matches.length <= directoryPageSize;
         directoryLoadMore.innerHTML = directoryVisibleCount >= matches.length
-          ? 'Show fewer outlets <i class="bi bi-arrow-up-circle" aria-hidden="true"></i>'
-          : 'Show more outlets <i class="bi bi-arrow-down-circle" aria-hidden="true"></i>';
+          ? 'Show fewer branches <i class="bi bi-arrow-up-circle" aria-hidden="true"></i>'
+          : 'Show more branches <i class="bi bi-arrow-down-circle" aria-hidden="true"></i>';
       }
     }
 
@@ -502,7 +552,7 @@
       renderOutletDirectory();
       if (directoryVisibleCount === directoryPageSize && matchesCount > directoryPageSize) {
         var directoryHeading = document.getElementById('outletDirectoryTitle');
-        if (directoryHeading) directoryHeading.scrollIntoView({behavior: reducedMotion ? 'auto' : 'smooth', block: 'start'});
+        if (directoryHeading) directoryHeading.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
       }
     });
     renderOutletDirectory();
@@ -644,7 +694,7 @@
     });
   });
 
-  // Image failures should remain graceful for demo/preview deployments without external connectivity.
+  // Keep image failures graceful for deployments with external connectivity restrictions.
   document.addEventListener('error', function (event) {
     var target = event.target;
     if (target && target.tagName === 'IMG' && target.dataset.fallbackApplied !== '1') {
@@ -788,64 +838,94 @@
     window.addEventListener('blur', function () { document.documentElement.classList.remove('cursor-on'); shown = false; });
   })();
 
-  // Homepage network map: approximate city-level markers from the active cities in the admin panel, with a visible fallback.
+  // Homepage map: clicking a city switches from the national overview to the saved branch pins for that city.
   (function initHomeMap() {
     var el = document.getElementById('homeMap');
     if (!el) return;
     var frame = el.closest('.netmap-frame');
     var listings = Array.isArray(window.POUND_STORE_CITY_LISTINGS) ? window.POUND_STORE_CITY_LISTINGS.slice() : [];
+    var branches = Array.isArray(window.POUND_STORE_OUTLETS) ? window.POUND_STORE_OUTLETS.slice() : [];
     var mappable = listings.filter(hasCoords);
     var card = document.querySelector('[data-map-card]');
     var cityNode = document.querySelector('[data-map-city]');
     var countNode = document.querySelector('[data-map-count]');
     var countLabel = document.querySelector('[data-map-count-label]');
     var chipsRoot = document.querySelector('[data-city-chips]');
-    var markers = {};
-    var map = null, activeCity = null;
+    var map = null, activeCity = null, cityMarkersLayer = null, branchLayer = null;
+    function branchesWithPins(cityName) {
+      return branches.filter(function (branch) { return branch.city === cityName && branch.lat !== null && branch.lat !== undefined && branch.lat !== '' && branch.lon !== null && branch.lon !== undefined && branch.lon !== '' && hasCoords({ lat: Number(branch.lat), lon: Number(branch.lon) }); });
+    }
+    function popupForBranch(branch) {
+      var address = [branch.address, branch.area, branch.city].filter(Boolean).join(', ');
+      return '<div class="branch-map-popup"><strong>' + escapeHtml(branch.name) + '</strong><span>' + escapeHtml(address || 'Address details not provided') + '</span><a href="' + escapeHtml(safeUrl(branch.directions_url)) + '" target="_blank" rel="noopener noreferrer">Get directions <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a></div>';
+    }
     function select(item, fly) {
       if (!item) return;
       activeCity = item.city;
       if (cityNode) cityNode.textContent = item.city;
       if (countNode) countNode.textContent = String(item.count);
-      if (countLabel) countLabel.textContent = (item.count === 1 ? 'active outlet' : 'active outlets') + ' in this city';
+      if (countLabel) countLabel.textContent = (item.count === 1 ? 'active branch' : 'active branches') + ' in this city';
       if (card) { card.classList.remove('bump'); void card.offsetWidth; card.classList.add('bump'); }
-      if (chipsRoot) chipsRoot.querySelectorAll('.city-chip').forEach(function (chip) { var on = chip.getAttribute('data-city') === item.city; chip.classList.toggle('is-active', on); chip.setAttribute('aria-pressed', String(on)); });
-      Object.keys(markers).forEach(function (name) { var node = markers[name].getElement && markers[name].getElement(); var inner = node && node.querySelector('.branch-marker'); if (inner) inner.classList.toggle('is-active', name === item.city); });
-      if (map && fly && hasCoords(item)) map.flyTo([item.lat, item.lon], Math.max(map.getZoom(), 8), { duration: reducedMotion ? 0 : 0.7 });
+      if (chipsRoot) chipsRoot.querySelectorAll('.city-chip').forEach(function (chip) {
+        var on = chip.getAttribute('data-city') === item.city;
+        chip.classList.toggle('is-active', on); chip.setAttribute('aria-pressed', String(on));
+      });
+      if (!map || !branchLayer || !cityMarkersLayer) return;
+      cityMarkersLayer.clearLayers(); branchLayer.clearLayers();
+      var pins = branchesWithPins(item.city);
+      var bounds = [];
+      if (pins.length) {
+        pins.forEach(function (branch) {
+          var icon = window.L.divIcon({ className: '', html: '<span class="branch-pin"><i class="bi bi-shop" aria-hidden="true"></i></span>', iconSize: [34, 34], iconAnchor: [17, 30] });
+          window.L.marker([Number(branch.lat), Number(branch.lon)], { icon: icon, title: branch.name, keyboard: true, riseOnHover: true }).bindPopup(popupForBranch(branch)).addTo(branchLayer);
+          bounds.push([Number(branch.lat), Number(branch.lon)]);
+        });
+        if (countLabel) countLabel.textContent = pins.length + ' branch locations mapped in this city';
+      } else if (hasCoords(item)) {
+        var iconCity = window.L.divIcon({ className: '', html: '<span class="branch-marker">' + item.count + '</span>', iconSize: [34, 34], iconAnchor: [17, 17] });
+        window.L.marker([item.lat, item.lon], { icon: iconCity, title: item.city + ' approximate city location' }).bindPopup('<strong>' + escapeHtml(item.city) + '</strong><span>Branch coordinates are not available yet. Use the branch directory for directions.</span>').addTo(branchLayer);
+        bounds.push([item.lat, item.lon]);
+        if (countLabel) countLabel.textContent = 'branch locations awaiting coordinates';
+      }
+      if (bounds.length) {
+        if (fly) map.flyToBounds(bounds, { padding: [40, 40], maxZoom: pins.length > 1 ? 15 : 11, duration: reducedMotion ? 0 : .6 });
+        else map.fitBounds(bounds, { padding: [35, 35], maxZoom: pins.length > 1 ? 14 : 10 });
+      }
     }
-    // Chips (also the fallback interaction when the map cannot load): highest listing counts first.
-    var top = listings.slice().sort(function (a, b) { return b.count - a.count || a.city.localeCompare(b.city); }).slice(0, 10);
+    var sortedCities = listings.slice().sort(function (a, b) { return b.count - a.count || a.city.localeCompare(b.city); });
     if (chipsRoot) {
-      chipsRoot.innerHTML = top.map(function (item) { return '<li><button type="button" class="city-chip" data-city="' + escapeHtml(item.city) + '" aria-pressed="false">' + escapeHtml(item.city) + '<b>' + item.count + '</b></button></li>'; }).join('');
+      chipsRoot.innerHTML = sortedCities.map(function (item) { return '<li><button type="button" class="city-chip" data-city="' + escapeHtml(item.city) + '" aria-pressed="false">' + escapeHtml(item.city) + '<b>' + item.count + '</b></button></li>'; }).join('');
       chipsRoot.addEventListener('click', function (event) {
         var chip = event.target.closest('.city-chip'); if (!chip) return;
-        select(listings.find(function (r) { return r.city === chip.getAttribute('data-city'); }), true);
+        select(listings.find(function (record) { return record.city === chip.getAttribute('data-city'); }), true);
       });
     }
-    if (top[0]) select(top[0], false);
-    if (!window.L || !mappable.length) return; // fallback panel stays visible
+    if (!window.L || !mappable.length) {
+      if (sortedCities[0]) select(sortedCities[0], false);
+      return;
+    }
     try {
       map = window.L.map(el, { scrollWheelZoom: false, zoomControl: true, attributionControl: true }).setView([31.2, 73.4], 6);
-      var layer = window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors' }).addTo(map);
-      layer.once('tileload', function () { if (frame) frame.classList.add('is-live'); });
-      var bounds = [];
+      var tileLayer = window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors' }).addTo(map);
+      tileLayer.once('tileload', function () { if (frame) frame.classList.add('is-live'); });
+      cityMarkersLayer = window.L.layerGroup().addTo(map);
+      branchLayer = window.L.layerGroup().addTo(map);
       mappable.forEach(function (item) {
         var size = 30 + Math.min(item.count, 5) * 3;
         var icon = window.L.divIcon({ className: '', html: '<span class="branch-marker" style="width:' + size + 'px;height:' + size + 'px">' + item.count + '</span>', iconSize: [size, size], iconAnchor: [size / 2, size / 2] });
-        var marker = window.L.marker([item.lat, item.lon], { icon: icon, title: item.city + ': ' + plural(item.count, 'active outlet', 'active outlets') + ' (approximate city marker)', keyboard: true, riseOnHover: true }).addTo(map);
-        marker.bindTooltip('<strong>' + escapeHtml(item.city) + '</strong> · ' + plural(item.count, 'outlet', 'outlets'), { direction: 'top', offset: [0, -10], className: 'ps-tip' });
-        marker.on('click', function () { select(item, false); });
-        markers[item.city] = marker; bounds.push([item.lat, item.lon]);
+        var marker = window.L.marker([item.lat, item.lon], { icon: icon, title: item.city + ': ' + plural(item.count, 'active branch', 'active branches'), keyboard: true, riseOnHover: true }).addTo(cityMarkersLayer);
+        marker.bindTooltip('<strong>' + escapeHtml(item.city) + '</strong> · ' + plural(item.count, 'branch', 'branches'), { direction: 'top', offset: [0, -10], className: 'ps-tip' });
+        marker.on('click', function () { select(item, true); });
       });
-      map.fitBounds(bounds, { padding: [30, 30], maxZoom: 7 });
-      if (activeCity) select(listings.find(function (r) { return r.city === activeCity; }), false);
+      var points = mappable.map(function (item) { return [item.lat, item.lon]; });
+      map.fitBounds(points, { padding: [30, 30], maxZoom: 7 });
+      if (sortedCities[0]) select(sortedCities[0], false);
       window.setTimeout(function () { map.invalidateSize(); }, 350);
-    } catch (err) { /* fallback panel remains */ }
+    } catch (err) { /* the text city selector remains usable as a fallback */ }
   })();
 
 
-
-    // Franchise + Contact forms: check the fields in the browser, then let the form submit normally.
+  // Franchise + Contact forms: check the fields in the browser, then let the form submit normally.
   // Forms use the data-validate-form attribute. Laravel handles the saving and shows the result after the page reloads.
   document.querySelectorAll('[data-validate-form]').forEach(function (form) {
     var status = form.querySelector('[data-form-status]');

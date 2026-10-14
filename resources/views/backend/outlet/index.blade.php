@@ -1,11 +1,11 @@
 @extends('backend.layouts.layout')
-@section('title', 'Outlets - Pound Store')
+@section('title', 'Branches - Pound Store')
 @section('content')
 <div class="page-wrapper">
     <div class="content">
         <div class="page-header">
-            <div class="page-title"><h4>Manage Outlets</h4><h6>Every outlet is a separate branch and belongs to one city.</h6></div>
-            <div class="page-btn"><a href="{{ route('outlet.create') }}" class="btn btn-added"><img src="{{ asset('backend/assets/img/icons/plus.svg') }}" alt=""> Add Outlet</a></div>
+            <div class="page-title"><h4>Manage Branches</h4><h6>Each branch belongs to one city and has its own location details.</h6></div>
+            <div class="page-btn"><a href="{{ route('outlet.create') }}" class="btn btn-added"><img src="{{ asset('backend/assets/img/icons/plus.svg') }}" alt=""> Add Branch</a></div>
         </div>
 
         <div class="card"><div class="card-body">
@@ -14,7 +14,7 @@
             @endif
             <form method="GET" action="{{ route('outlet.index') }}" class="row align-items-end mb-4">
                 <div class="col-md-5 col-lg-4 form-group mb-2">
-                    <label for="q">Search outlet, branch code, area or address</label>
+                    <label for="q">Search branch, branch code, area or address</label>
                     <input id="q" type="search" name="q" value="{{ $search }}" class="form-control" placeholder="e.g. Main Market">
                 </div>
                 <div class="col-md-4 col-lg-3 form-group mb-2">
@@ -30,7 +30,7 @@
 
             <div class="table-responsive">
                 <table class="table">
-                    <thead><tr><th>Image</th><th>Outlet</th><th>City / Area</th><th>Type</th><th>Phone</th><th>Featured</th><th>Status</th><th>Action</th></tr></thead>
+                    <thead><tr><th>Image</th><th>Branch</th><th>City / Area</th><th>Type</th><th>Phone</th><th>Featured</th><th>Status</th><th>Action</th></tr></thead>
                     <tbody>
                     @forelse($outlets as $outlet)
                         <tr>
@@ -48,15 +48,15 @@
                             <td>@if($outlet->is_featured)<span class="badge rounded-pill bg-success">Yes</span>@else<span class="badge rounded-pill bg-secondary">No</span>@endif</td>
                             <td>@if($outlet->status)<span class="badge rounded-pill bg-success">Active</span>@else<span class="badge rounded-pill bg-danger">Inactive</span>@endif</td>
                             <td class="text-nowrap">
-                                <a href="{{ route('outlet.edit', $outlet) }}" class="me-3" title="Edit outlet"><img src="{{ asset('backend/assets/img/icons/edit.svg') }}" alt="Edit"></a>
+                                <a href="{{ route('outlet.edit', $outlet) }}" class="me-3" title="Edit branch"><img src="{{ asset('backend/assets/img/icons/edit.svg') }}" alt="Edit"></a>
                                 <form action="{{ route('outlet.destroy', $outlet) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-link p-0" title="Delete outlet" onclick="return confirm('Permanently delete this outlet and its uploaded image?');"><img src="{{ asset('backend/assets/img/icons/delete.svg') }}" alt="Delete"></button>
+                                    <button type="submit" class="btn btn-link p-0" title="Delete branch" onclick="return confirm('Permanently delete this branch and its uploaded image?');"><img src="{{ asset('backend/assets/img/icons/delete.svg') }}" alt="Delete"></button>
                                 </form>
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="8" class="text-center py-4">No outlets found. Add a city and create your first outlet to populate the website.</td></tr>
+                        <tr><td colspan="8" class="text-center py-4">No branches found. Add a city and create your first branch to populate the website.</td></tr>
                     @endforelse
                     </tbody>
                 </table>

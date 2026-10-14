@@ -70,7 +70,10 @@ class StoreLocatorService
             'landmark'       => $outlet->landmark,
             'phone'          => $outlet->phone,
             'directions_url' => $this->safeUrl($outlet->directions_url),
-            'image'          => $outlet->image_url ?? asset('frontend/assets/images/placeholder.svg'),
+            'image'          => $outlet->image_url ?? asset('frontend/assets/images/hero-store.jpg'),
+            'lat'            => $outlet->latitude,
+            'lon'            => $outlet->longitude,
+            'location_verified' => (bool) $outlet->location_verified,
             'hours_today'    => $outlet->opening_hours_today,
             'is_featured'    => (bool) $outlet->is_featured,
         ])->all();

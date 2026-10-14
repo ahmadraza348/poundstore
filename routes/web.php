@@ -17,8 +17,18 @@ use Illuminate\Support\Facades\Route;
 Route::name('frontend.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/categories', [PageController::class, 'categories'])->name('categories');
-    Route::get('/category', [PageController::class, 'category'])->name('category');
-    Route::get('/outlets', [PageController::class, 'outlets'])->name('outlets');
+    Route::get('/category', function (\Illuminate\Http\Request $request) {
+        $slug = $request->query('category');
+        return is_string($slug) && $slug !== ''
+            ? redirect('/category/' . rawurlencode($slug), 301)
+            : redirect()->route('frontend.categories');
+    })->name('category.legacy');
+    Route::get('/category/{category}', [PageController::class, 'category'])->name('category');
+    // Canonical public URL uses the requested 'branches' wording; keep old links working.
+    Route::get('/outlets', function () {
+        return redirect()->route('frontend.outlets', [], 301);
+    })->name('outlets.legacy');
+    Route::get('/branches', [PageController::class, 'outlets'])->name('outlets');
     Route::get('/about', [PageController::class, 'about'])->name('about');
     Route::get('/franchise', [PageController::class, 'franchise'])->name('franchise');
     Route::get('/sourcing', [PageController::class, 'sourcing'])->name('sourcing');

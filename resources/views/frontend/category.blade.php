@@ -10,8 +10,8 @@
             <div>
                 <p class="eyebrow"><a href="{{ route('frontend.categories') }}" style="text-decoration:none;color:inherit">Product categories</a> &nbsp; / &nbsp; <span data-category-crumb>{{ $category['name'] }}</span></p>
                 <h1 data-category-title>{{ $category['name'] }}</h1>
-                <p class="lead" data-category-description>{{ $category['description'] ?: 'Browse products from this category.' }}</p><span class="page-hero-kicker"><i class="bi bi-box-seam" aria-hidden="true"></i> {{ count($products) }} {{ count($products) === 1 ? 'product' : 'products' }} · Availability varies by outlet</span>
-            </div><img class="page-hero-image category-hero-image" data-category-hero-image data-parallax src="{{ $category['image'] ?: asset('frontend/assets/images/placeholder.svg') }}" alt="{{ $category['name'] }}" fetchpriority="high">
+                <p class="lead" data-category-description>{{ $category['description'] ?: 'Browse products from this category.' }}</p><span class="page-hero-kicker"><i class="bi bi-box-seam" aria-hidden="true"></i> {{ count($products) }} {{ count($products) === 1 ? 'product' : 'products' }} · Availability varies by branch</span>
+            </div><img class="page-hero-image category-hero-image" data-category-hero-image data-parallax src="{{ $category['image'] ?: asset('frontend/assets/images/hero-store.jpg') }}" alt="{{ $category['name'] }}" fetchpriority="high">
         </div>
     </section>
     <section class="section">
@@ -41,7 +41,7 @@
             <div>
                 <h2>Found something you like?</h2>
                 <p>Contact or visit a store to confirm current products, prices and availability.</p>
-            </div><a href="{{ route('frontend.outlets') }}" class="btn btn-primary">Find a store <i class="bi bi-arrow-up-right"></i></a>
+            </div><a href="{{ route('frontend.outlets') }}" class="btn btn-primary">Find a branch <i class="bi bi-arrow-up-right"></i></a>
         </div>
     </section>
 </main>

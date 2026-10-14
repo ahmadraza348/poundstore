@@ -31,7 +31,7 @@
                 <li class="{{ request()->routeIs('outlet.*') ? 'active' : '' }}">
                     <a href="{{ route('outlet.index') }}">
                         <img src="{{ asset('backend/assets/img/icons/product.svg') }}" alt="img">
-                        <span>Outlets</span>
+                        <span>Branches</span>
                     </a>
                 </li>
 

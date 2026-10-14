@@ -41,8 +41,8 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
-    // These arrays are built from active Cities and Outlets records by AppServiceProvider.
-    // Do not reintroduce the old hard-coded demo directory here.
+    // These arrays are built from active city and branch records by AppServiceProvider.
+    // The public directory is built from active database records.
     window.POUND_STORE_CITY_LISTINGS = {{ \Illuminate\Support\Js::from($frontendCityListings ?? []) }};
     window.POUND_STORE_OUTLETS = {{ \Illuminate\Support\Js::from($frontendOutlets ?? []) }};
   </script>

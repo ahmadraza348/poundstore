@@ -43,13 +43,13 @@
             <div class="col-lg-6 form-group">
                 <label for="status">Status <span class="text-danger">*</span></label>
                 <select name="status" id="status" class="form-control" required>
-                    <option value="1" {{ (string)old('status', isset($city) ? (int)$city->status : 1) === '1' ? 'selected' : '' }}>Active — visible on website when it has active outlets</option>
-                    <option value="0" {{ (string)old('status', isset($city) ? (int)$city->status : 1) === '0' ? 'selected' : '' }}>Inactive — hide its outlets from public pages</option>
+                    <option value="1" {{ (string)old('status', isset($city) ? (int)$city->status : 1) === '1' ? 'selected' : '' }}>Active — visible on website when it has active branches</option>
+                    <option value="0" {{ (string)old('status', isset($city) ? (int)$city->status : 1) === '0' ? 'selected' : '' }}>Inactive — hide its branches from public pages</option>
                 </select>
                 @error('status')<small class="text-danger">{{ $message }}</small>@enderror
             </div>
             <div class="col-12">
-                <div class="alert alert-info mb-0"><strong>Map tip:</strong> City coordinates represent an approximate city-centre marker. For exact branch directions, set the individual outlet's own verified coordinates or Google Maps URL.</div>
+                <div class="alert alert-info mb-0"><strong>Map tip:</strong> City coordinates represent an approximate city-centre marker. For exact branch directions, set the individual branch's own verified coordinates or Google Maps URL.</div>
             </div>
             <div class="col-12">
                 <button class="btn btn-submit me-2" type="submit">{{ $city ? 'Update City' : 'Save City' }}</button>

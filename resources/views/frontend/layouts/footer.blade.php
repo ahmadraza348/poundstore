@@ -10,7 +10,7 @@
           <h3 class="footer-heading">Explore</h3>
           <ul class="footer-links">
             <li><a href="{{ route('frontend.categories') }}">Product categories</a></li>
-            <li><a href="{{ route('frontend.outlets') }}">Find a store</a></li>
+            <li><a href="{{ route('frontend.outlets') }}">Find a branch</a></li>
             <li><a href="{{ route('frontend.about') }}">About Pound Store</a></li>
           </ul>
         </div>
@@ -40,8 +40,8 @@
                   class="bi bi-facebook" aria-hidden="true"></i></a>
               <a href="https://www.tiktok.com/@poundstore.com" target="_blank" rel="noopener noreferrer"
                 aria-label="Pound Store on TikTok" title="TikTok"><i class="bi bi-tiktok" aria-hidden="true"></i></a>
-              <a href="https://linktr.ee/pakistanpoundstore" target="_blank" rel="noopener noreferrer"
-                aria-label="All official social links" title="All social links"><i class="bi bi-link-45deg"
+              <a href="https://www.instagram.com/poundstore.com/" target="_blank" rel="noopener noreferrer"
+                aria-label="Pound Store on Instagram" title="Instagram"><i class="bi bi-instagram"
                   aria-hidden="true"></i></a>
               <a href="https://wa.me/923470006050" target="_blank" rel="noopener noreferrer"
                 aria-label="Pound Store on WhatsApp" title="WhatsApp"><i class="bi bi-whatsapp"
@@ -51,7 +51,7 @@
         </div>
       </div>
       <div class="footer-bottom"><span>© <span data-current-year>2026</span> Pound Store Pakistan. All rights
-          reserved.</span><span>Product availability and prices can vary by outlet</span><a href="#top">Back to top ↑</a>
+          reserved.</span><span>Product availability and prices can vary by branch</span><a href="#top">Back to top ↑</a>
       </div>
     </div>
   </footer>

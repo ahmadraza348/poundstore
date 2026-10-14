@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pound Store Pakistan | Everyday Finds & Retail Value</title>
+  <title>@yield('title', 'Pound Store Pakistan | Everyday Finds & Retail Value')</title>
   <meta name="description"
-    content="Everyday finds at prices that make sense. Explore Pound Store Pakistan categories, find a store and learn about franchise opportunities.">
+    content="@yield('description', 'Everyday finds at prices that make sense. Explore Pound Store Pakistan categories, find a store and learn about franchise opportunities.')">
   <meta name="theme-color" content="#103d29">
   <link rel="icon" type="image/png" href="{{ asset('frontend/assets/images/pound-store-logo.png') }}">
   <meta property="og:type" content="website">
@@ -40,7 +40,12 @@
       aria-hidden="true"></i></button>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script src="{{ asset('frontend/assets/js/outlets-data.js') }}"></script>
+  <script>
+    // These arrays are built from active Cities and Outlets records by AppServiceProvider.
+    // Do not reintroduce the old hard-coded demo directory here.
+    window.POUND_STORE_CITY_LISTINGS = @json($frontendCityListings ?? []);
+    window.POUND_STORE_OUTLETS = @json($frontendOutlets ?? []);
+  </script>
   <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
 </body>
 

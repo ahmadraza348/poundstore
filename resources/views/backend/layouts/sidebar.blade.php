@@ -22,6 +22,18 @@
                             <span>Products</span>
                         </a>
                 </li>
+                <li class="{{ request()->routeIs('city.*') ? 'active' : '' }}">
+                    <a href="{{ route('city.index') }}">
+                        <img src="{{ asset('backend/assets/img/icons/users1.svg') }}" alt="img">
+                        <span>Cities / Areas</span>
+                    </a>
+                </li>
+                <li class="{{ request()->routeIs('outlet.*') ? 'active' : '' }}">
+                    <a href="{{ route('outlet.index') }}">
+                        <img src="{{ asset('backend/assets/img/icons/product.svg') }}" alt="img">
+                        <span>Outlets</span>
+                    </a>
+                </li>
 
             </ul>
 

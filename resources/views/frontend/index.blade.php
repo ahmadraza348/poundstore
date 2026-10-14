@@ -1,4 +1,8 @@
 @extends('frontend.layouts.app')
+@php
+    $activeOutletCount = count($frontendOutlets ?? []);
+    $activeCityCount = count($frontendCityListings ?? []);
+@endphp
 @section('content')
  <main id="main">
     <section class="hx" id="hero" aria-labelledby="heroTitle">
@@ -39,15 +43,15 @@
           <div><strong>2017</strong><span>Founded</span></div>
         </div>
         <div class="proof-item" data-reveal style="--reveal-delay:70ms"><i class="bi bi-shop" aria-hidden="true"></i>
-          <div><strong data-counter="54">54</strong><span>Published branch listings</span></div>
+          <div><strong data-counter="{{ $activeOutletCount }}">{{ $activeOutletCount }}</strong><span>Active outlets</span></div>
         </div>
         <div class="proof-item" data-reveal style="--reveal-delay:140ms"><i class="bi bi-pin-map"
             aria-hidden="true"></i>
-          <div><strong data-counter="44">44</strong><span>Cities and areas listed</span></div>
+          <div><strong data-counter="{{ $activeCityCount }}">{{ $activeCityCount }}</strong><span>Cities with active outlets</span></div>
         </div>
         <div class="proof-item" data-reveal style="--reveal-delay:210ms"><i class="bi bi-box-seam"
             aria-hidden="true"></i>
-          <div><strong>Gujranwala</strong><span>Central warehouse</span></div>
+          <div><strong>Find a store</strong><span>Across our network</span></div>
         </div>
       </div>
     </section>
@@ -113,16 +117,15 @@
         <div class="netmap-grid">
           <div class="netmap-copy" data-reveal>
             <h2 id="mapTitle">A network that keeps growing across Pakistan.</h2>
-            <p>54 branch listings across 44 cities and areas are published in the public directory. Choose a place to
-              see its listing count.</p>
+            <p>{{ $activeOutletCount }} active {{ $activeOutletCount === 1 ? 'outlet' : 'outlets' }} across {{ $activeCityCount }} {{ $activeCityCount === 1 ? 'city' : 'cities' }} are currently published from the admin panel. Choose a city to see its outlet count.</p>
             <div class="netmap-card" data-map-card aria-live="polite">
               <p class="netmap-card-kicker">Selected area</p>
-              <h3 data-map-city>Mandi Bahauddin</h3>
-              <p><strong data-map-count>5</strong> <span data-map-count-label>listings in the directory</span></p>
+              <h3 data-map-city>{{ $frontendCityListings[0]['city'] ?? 'No active cities yet' }}</h3>
+              <p><strong data-map-count>{{ $frontendCityListings[0]['count'] ?? 0 }}</strong> <span data-map-count-label>active outlets in this city</span></p>
               <small>Markers show approximate city or area centres, not exact storefronts. Confirm a branch address by
                 phone before you travel.</small>
             </div>
-            <ul class="city-chips" data-city-chips aria-label="Cities with the most published listings"></ul>
+            <ul class="city-chips" data-city-chips aria-label="Cities with active Pound Store outlets"></ul>
             <a class="btn btn-primary" href="{{ route('frontend.outlets') }}">Explore All Locations <i class="bi bi-arrow-up-right"
                 aria-hidden="true"></i></a>
           </div>
@@ -133,8 +136,7 @@
             </div>
             <div id="homeMap" class="netmap-canvas" role="application"
               aria-label="Map of approximate Pound Store city and area coverage across Pakistan"></div>
-            <p class="netmap-note"><i class="bi bi-info-circle" aria-hidden="true"></i> Approximate city-level coverage,
-              based on the published directory.</p>
+            <p class="netmap-note"><i class="bi bi-info-circle" aria-hidden="true"></i> City-centre coordinates are maintained in the admin panel; they are not exact branch entrance pins.</p>
           </div>
         </div>
       </div>

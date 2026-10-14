@@ -3,8 +3,10 @@
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\OutletController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PageController;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +47,24 @@ Route::prefix('admin')->middleware('adminauth')->group(function () {
                 Route::post('update/{category}', [CategoryController::class, 'update'])->name('update');
                 Route::delete('delete/{category}', [CategoryController::class, 'destroy'])->name('destroy');
                 Route::post('/bulk-delete', [CategoryController::class, 'bulkDelete'])->name('bulk-delete');
+        });
+
+        Route::prefix('city')->name('city.')->group(function () {
+            Route::get('/', [CityController::class, 'index'])->name('index');
+            Route::get('create', [CityController::class, 'create'])->name('create');
+            Route::post('store', [CityController::class, 'store'])->name('store');
+            Route::get('edit/{city}', [CityController::class, 'edit'])->name('edit');
+            Route::put('update/{city}', [CityController::class, 'update'])->name('update');
+            Route::delete('delete/{city}', [CityController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('outlet')->name('outlet.')->group(function () {
+            Route::get('/', [OutletController::class, 'index'])->name('index');
+            Route::get('create', [OutletController::class, 'create'])->name('create');
+            Route::post('store', [OutletController::class, 'store'])->name('store');
+            Route::get('edit/{outlet}', [OutletController::class, 'edit'])->name('edit');
+            Route::put('update/{outlet}', [OutletController::class, 'update'])->name('update');
+            Route::delete('delete/{outlet}', [OutletController::class, 'destroy'])->name('destroy');
         });
 
         Route::prefix('product')->name('product.')->group(function () {

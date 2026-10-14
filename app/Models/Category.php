@@ -27,6 +27,12 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    /** Full public URL of the category image (null when no image uploaded). */
+    public function getImageUrlAttribute(): ?string
+    {
+        return $this->image ? asset('storage/' . $this->image) : null;
+    }
+
     public function scopeOrdered($query)
     {
         return $query->orderBy('name', 'ASC');

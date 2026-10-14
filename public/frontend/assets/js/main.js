@@ -1,70 +1,19 @@
 (function () {
   'use strict';
 
-  var categories = [
-    {slug:'home-kitchen',name:'Home & Kitchen',desc:'Useful tools and everyday essentials for home routines.',photo:'photo-1556911220-e15b29be8c8f'},
-    {slug:'crockery',name:'Crockery & Dining',desc:'Tableware, cups, bowls and everyday dining pieces.',photo:'photo-1551892974-bbb8a5216e07'},
-    {slug:'stationery',name:'Stationery',desc:'School, office and creative supplies for all ages.',photo:'photo-1513364776144-60967b0f800f'},
-    {slug:'toys',name:'Toys',desc:'Playful finds, games and creative activities for kids.',photo:'photo-1596461404969-9ae70f2830c1'},
-    {slug:'gifts',name:'Gifts & Gift Items',desc:'Little surprises, giftable finds and occasion essentials.',photo:'photo-1513201099705-a9746e1e201f'},
-    {slug:'beauty',name:'Beauty & Personal Care',desc:'Everyday self-care and personal grooming accessories.',photo:'photo-1596462502278-27bfdc403348'},
-    {slug:'perfumes',name:'Perfumes',desc:'Fragrance options and scent-led personal finds.',photo:'photo-1541643600914-78b084683601'},
-    {slug:'home-decor',name:'Home Décor',desc:'Small touches to bring more personality to your space.',photo:'photo-1600210492486-724fe5c67fb0'},
-    {slug:'home-general',name:'Home & General',desc:'Practical household utility and multipurpose items.',photo:'photo-1583947215259-38e31be8751f'},
-    {slug:'accessories',name:'Accessories',desc:'Useful add-ons and small everyday carry essentials.',photo:'photo-1523275335684-37898b6baf30'}
-  ];
-
-  var products = [
-    {name:'Stackable Storage Basket',category:'home-kitchen',price:650,tag:'Everyday essential',image:'photo-1556911220-e15b29be8c8f'},
-    {name:'Kitchen Utensil Set',category:'home-kitchen',price:890,tag:'Demo pick',image:'photo-1556911220-e15b29be8c8f'},
-    {name:'Glass Oil Dispenser',category:'home-kitchen',price:480,tag:'Useful find',image:'photo-1602143407151-7111542de6e8'},
-    {name:'Multi-purpose Organizer',category:'home-kitchen',price:550,tag:'Everyday essential',image:'photo-1583947215259-38e31be8751f'},
-    {name:'Ceramic Bowl Set',category:'crockery',price:750,tag:'Demo pick',image:'photo-1551892974-bbb8a5216e07'},
-    {name:'Everyday Dinner Plate',category:'crockery',price:320,tag:'Tableware',image:'photo-1514228742587-6b1558fcca3d'},
-    {name:'Tea Cup & Saucer',category:'crockery',price:420,tag:'Tableware',image:'photo-1493857671505-72967e2e2760'},
-    {name:'Clear Glass Tumblers',category:'crockery',price:390,tag:'Demo pick',image:'photo-1514228742587-6b1558fcca3d'},
-    {name:'Colour Marker Set',category:'stationery',price:350,tag:'Creative pick',image:'photo-1513364776144-60967b0f800f'},
-    {name:'Hardcover Notebook',category:'stationery',price:280,tag:'Everyday essential',image:'photo-1455390582262-044cdead277a'},
-    {name:'Desk Organizer',category:'stationery',price:520,tag:'Demo pick',image:'photo-1516979187457-63757b27b223'},
-    {name:'School Pencil Bundle',category:'stationery',price:190,tag:'Back to school',image:'photo-1513364776144-60967b0f800f'},
-    {name:'Creative Building Blocks',category:'toys',price:950,tag:'Demo pick',image:'photo-1596461404969-9ae70f2830c1'},
-    {name:'Soft Plush Toy',category:'toys',price:690,tag:'Gift idea',image:'photo-1559454403-b8fb88521f11'},
-    {name:'Kids Activity Set',category:'toys',price:580,tag:'Creative play',image:'photo-1566576912321-d58ddd7a6088'},
-    {name:'Mini Toy Vehicle',category:'toys',price:420,tag:'Demo pick',image:'photo-1599623560574-39d485900c95'},
-    {name:'Gift Box Set',category:'gifts',price:560,tag:'Gift idea',image:'photo-1513201099705-a9746e1e201f'},
-    {name:'Decorative Photo Frame',category:'gifts',price:460,tag:'Thoughtful detail',image:'photo-1513519245088-0e12902e5a38'},
-    {name:'Greeting Card Bundle',category:'gifts',price:250,tag:'Demo pick',image:'photo-1513364776144-60967b0f800f'},
-    {name:'Gift Wrap & Ribbon Kit',category:'gifts',price:320,tag:'Celebration',image:'photo-1513201099705-a9746e1e201f'},
-    {name:'Makeup Brush Set',category:'beauty',price:540,tag:'Self-care',image:'photo-1596462502278-27bfdc403348'},
-    {name:'Travel Grooming Pouch',category:'beauty',price:620,tag:'Demo pick',image:'photo-1601049541289-9b1b7bbbfe19'},
-    {name:'Cosmetic Organizer',category:'beauty',price:490,tag:'Everyday essential',image:'photo-1596462502278-27bfdc403348'},
-    {name:'Compact Vanity Mirror',category:'beauty',price:430,tag:'Self-care',image:'photo-1611930022073-b7a4ba5fcccd'},
-    {name:'Fresh Notes Eau de Parfum',category:'perfumes',price:1250,tag:'Demo item',image:'photo-1541643600914-78b084683601'},
-    {name:'Everyday Fragrance Mist',category:'perfumes',price:790,tag:'Demo item',image:'photo-1594035910387-fea47794261f'},
-    {name:'Travel Spray Bottle Set',category:'perfumes',price:330,tag:'Travel friendly',image:'photo-1541643600914-78b084683601'},
-    {name:'Fragrance Gift Duo',category:'perfumes',price:1450,tag:'Gift idea',image:'photo-1592945403244-b3fbafd7f539'},
-    {name:'Decorative Table Vase',category:'home-decor',price:740,tag:'Home accent',image:'photo-1600210492486-724fe5c67fb0'},
-    {name:'Minimal Wall Clock',category:'home-decor',price:980,tag:'Demo pick',image:'photo-1508057198894-247b23fe5ade'},
-    {name:'Small Accent Planter',category:'home-decor',price:390,tag:'Home accent',image:'photo-1485955900006-10f4d324d411'},
-    {name:'Decorative Storage Jar',category:'home-decor',price:520,tag:'Everyday essential',image:'photo-1600210492486-724fe5c67fb0'},
-    {name:'Reusable Cleaning Cloths',category:'home-general',price:220,tag:'Household',image:'photo-1583947215259-38e31be8751f'},
-    {name:'Laundry Storage Basket',category:'home-general',price:850,tag:'Demo pick',image:'photo-1584622650111-993a426fbf0a'},
-    {name:'Utility Hooks Set',category:'home-general',price:180,tag:'Household',image:'photo-1583947215259-38e31be8751f'},
-    {name:'Multi-use Storage Box',category:'home-general',price:570,tag:'Organization',image:'photo-1586023492125-27b2c045efd7'},
-    {name:'Everyday Wristwatch',category:'accessories',price:1150,tag:'Demo pick',image:'photo-1523275335684-37898b6baf30'},
-    {name:'Compact Travel Pouch',category:'accessories',price:420,tag:'Travel friendly',image:'photo-1553062407-98eeb64c6a62'},
-    {name:'Reusable Water Bottle',category:'accessories',price:480,tag:'Everyday carry',image:'photo-1602143407151-7111542de6e8'},
-    {name:'Desk & Bag Essentials Kit',category:'accessories',price:360,tag:'Demo pick',image:'photo-1523275335684-37898b6baf30'}
-  ];
-
-  function photoUrl(id, width) {
-    return 'https://images.unsplash.com/' + id + '?auto=format&fit=crop&w=' + (width || 700) + '&q=82';
-  }
   function escapeHtml(value) {
     return String(value == null ? '' : value).replace(/[&<>"']/g, function (char) {
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char];
     });
   }
+
+  function hasCoords(item) {
+    return item && typeof item.lat === 'number' && typeof item.lon === 'number' && isFinite(item.lat) && isFinite(item.lon);
+  }
+  function safeUrl(url) {
+    return /^https?:\/\//i.test(String(url || '')) ? url : '#';
+  }
+  function plural(count, one, many) { return count + ' ' + (count === 1 ? one : many); }
 
   // Shared visual utilities: on-scroll reveals, count-up stats, parallax, and pagination.
   var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -361,57 +310,48 @@
   }
   if (backTop) backTop.addEventListener('click', function () { window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); });
 
-  // Catalogue page: sample product cards only. No product detail, cart or checkout routes.
+  // Catalogue page: products come from the database (window.POUND_STORE_CATALOGUE, set in category.blade.php).
   var productRoot = document.querySelector('[data-product-grid]');
   if (productRoot) {
-    var params = new URLSearchParams(window.location.search);
-    var slug = params.get('category') || 'home-kitchen';
-    var category = categories.find(function (item) { return item.slug === slug; }) || categories[0];
-    var titleNode = document.querySelector('[data-category-title]');
-    var descriptionNode = document.querySelector('[data-category-description]');
-    var crumbNode = document.querySelector('[data-category-crumb]');
-    var categoryHeroImage = document.querySelector('[data-category-hero-image]');
+    var catalogue = window.POUND_STORE_CATALOGUE || {};
+    var allProducts = Array.isArray(catalogue.products) ? catalogue.products : [];
+    var outletsUrl = productRoot.getAttribute('data-outlets-url') || '#';
     var countNode = document.querySelector('[data-product-count]');
     var searchNode = document.querySelector('[data-product-search]');
     var sortNode = document.querySelector('[data-product-sort]');
-    var chipsNode = document.querySelector('[data-category-chips]');
-    if (titleNode) titleNode.textContent = category.name;
-    if (descriptionNode) descriptionNode.textContent = category.desc + ' The products and prices on this page are illustrative demo data for the frontend preview.';
-    if (crumbNode) crumbNode.textContent = category.name;
-    if (categoryHeroImage) {
-      categoryHeroImage.src = photoUrl(category.photo, 1100);
-      categoryHeroImage.alt = 'Representative photography for ' + category.name;
-    }
-    if (chipsNode) {
-      chipsNode.innerHTML = categories.map(function (item) {
-        return '<a class="catalogue-chip' + (item.slug === category.slug ? ' active' : '') + '" href="category.html?category=' + encodeURIComponent(item.slug) + '">' + escapeHtml(item.name) + '</a>';
-      }).join('');
-    }
-    var categoryProducts = products.filter(function (item) { return item.category === category.slug; });
     var productPagination = document.querySelector('[data-product-pagination]');
     var productPageSize = 8;
     var productPage = 1;
+    function formatPrice(value) {
+      var price = Number(value) || 0;
+      if (price <= 0) return 'Ask in store';
+      return 'PKR ' + price.toLocaleString('en-PK', {minimumFractionDigits: 0, maximumFractionDigits: 2});
+    }
     function renderProducts() {
       var term = searchNode ? searchNode.value.trim().toLowerCase() : '';
-      var sorted = categoryProducts.filter(function (item) { return !term || item.name.toLowerCase().indexOf(term) !== -1; });
+      var sorted = allProducts.filter(function (item) {
+        return !term || (item.name + ' ' + (item.tag || '')).toLowerCase().indexOf(term) !== -1;
+      });
       if (sortNode && sortNode.value === 'name') sorted.sort(function (a,b) { return a.name.localeCompare(b.name); });
       if (sortNode && sortNode.value === 'price-low') sorted.sort(function (a,b) { return a.price - b.price; });
       if (sortNode && sortNode.value === 'price-high') sorted.sort(function (a,b) { return b.price - a.price; });
-      if (countNode) countNode.textContent = sorted.length + (sorted.length === 1 ? ' demo item' : ' demo items');
+      if (countNode) countNode.textContent = plural(sorted.length, 'item', 'items');
       var totalPages = Math.max(1, Math.ceil(sorted.length / productPageSize));
       productPage = Math.min(productPage, totalPages);
       if (!sorted.length) {
-        productRoot.innerHTML = '<div class="empty-products"><i class="bi bi-search" aria-hidden="true"></i><h3>No demo products match that search</h3><p>Try another keyword or clear the search field.</p></div>';
+        var emptyTitle = allProducts.length ? 'No products match that search' : 'No products in this category yet';
+        var emptyText = allProducts.length ? 'Try another keyword or clear the search field.' : 'Please check back soon or visit a store to see what is available.';
+        productRoot.innerHTML = '<div class="empty-products"><i class="bi bi-search" aria-hidden="true"></i><h3>' + emptyTitle + '</h3><p>' + emptyText + '</p></div>';
         if (productPagination) { productPagination.hidden = true; productPagination.innerHTML = ''; }
         return;
       }
       var pageItems = sorted.slice((productPage - 1) * productPageSize, productPage * productPageSize);
       productRoot.innerHTML = pageItems.map(function (item) {
-        var image = photoUrl(item.image, 700);
-        return '<article class="product-card"><div class="product-image"><img src="' + image + '" alt="Representative image for ' + escapeHtml(item.name) + '" loading="lazy" decoding="async"><span class="product-badge">Demo data</span></div><div class="product-content"><p class="product-category">' + escapeHtml(category.name) + '</p><h3>' + escapeHtml(item.name) + '</h3><div class="product-price-row"><div class="product-price"><small>Illustrative price</small>PKR ' + item.price.toLocaleString('en-PK') + '</div><a class="product-link" href="outlets.html">Find a store <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a></div></div></article>';
+        var badge = item.tag ? '<span class="product-badge">' + escapeHtml(item.tag) + '</span>' : '';
+        return '<article class="product-card"><div class="product-image"><img src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.name) + '" loading="lazy" decoding="async">' + badge + '</div><div class="product-content"><p class="product-category">' + escapeHtml(item.category) + '</p><h3>' + escapeHtml(item.name) + '</h3><div class="product-price-row"><div class="product-price"><small>Price</small>' + escapeHtml(formatPrice(item.price)) + '</div><a class="product-link" href="' + escapeHtml(outletsUrl) + '">Find a store <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a></div></div></article>';
       }).join('');
       registerReveal(productRoot.querySelectorAll('.product-card'));
-      if (productPagination) renderPagination(productPagination, productPage, totalPages, sorted.length, productPageSize, 'demo products', function (nextPage) {
+      if (productPagination) renderPagination(productPagination, productPage, totalPages, sorted.length, productPageSize, 'products', function (nextPage) {
         productPage = nextPage;
         renderProducts();
         scrollToTopOf(productRoot);
@@ -426,6 +366,7 @@
   var mapElement = document.getElementById('branchMap');
   if (mapElement) {
     var cityListings = Array.isArray(window.POUND_STORE_CITY_LISTINGS) ? window.POUND_STORE_CITY_LISTINGS.slice() : [];
+    var mappableCities = cityListings.filter(hasCoords);
     var citySearch = document.querySelector('[data-city-search]');
     var cityList = document.querySelector('[data-city-list]');
     var cityTotal = document.querySelector('[data-city-total]');
@@ -437,9 +378,9 @@
       var term = citySearch ? citySearch.value.trim().toLowerCase() : '';
       var matches = cityListings.filter(function (item) { return !term || item.city.toLowerCase().indexOf(term) !== -1; });
       cityList.innerHTML = matches.map(function (item) {
-        return '<button type="button" class="city-result city-result-button" data-city-jump="' + escapeHtml(item.city) + '"><span><strong>' + escapeHtml(item.city) + '</strong><small>City/area-level listing · approximate pin</small></span><span class="city-count" aria-label="' + item.count + ' listings">' + item.count + '</span></button>';
+        return '<button type="button" class="city-result city-result-button" data-city-jump="' + escapeHtml(item.city) + '"><span><strong>' + escapeHtml(item.city) + '</strong><small>' + plural(item.count, 'active outlet', 'active outlets') + '</small></span><span class="city-count" aria-label="' + item.count + ' listings">' + item.count + '</span></button>';
       }).join('') || '<div class="city-result"><div><h3>No city found</h3><p>Try a different search.</p></div></div>';
-      if (cityTotal) cityTotal.textContent = matches.length + ' of ' + cityListings.length + ' city/area records';
+      if (cityTotal) cityTotal.textContent = matches.length + ' of ' + plural(cityListings.length, 'city', 'cities') + ' with active outlets';
     }
     if (citySearch) citySearch.addEventListener('input', renderCityList);
     if (cityList) {
@@ -447,7 +388,8 @@
         var button = event.target.closest('[data-city-jump]');
         var cityName = button && button.getAttribute('data-city-jump');
         if (!cityName || !map || !markersByCity[cityName]) return;
-        var item = cityListings.find(function (record) { return record.city === cityName; });
+        var item = mappableCities.find(function (record) { return record.city === cityName; });
+        if (!item) return;
         map.flyTo([item.lat, item.lon], 10, {duration:0.45});
         markersByCity[cityName].openPopup();
       });
@@ -456,28 +398,28 @@
       });
     }
     renderCityList();
-    if (window.L && cityListings.length) {
+    if (window.L && mappableCities.length) {
       map = window.L.map(mapElement, {scrollWheelZoom:false, zoomControl:true}).setView([31.8,73.4], 6);
       window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom:18,
         attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
       }).addTo(map);
       var markerBounds = [];
-      cityListings.forEach(function (item) {
+      mappableCities.forEach(function (item) {
         var icon = window.L.divIcon({className:'',html:'<span class="branch-marker">' + item.count + '</span>',iconSize:[32,32],iconAnchor:[16,16]});
         var marker = window.L.marker([item.lat,item.lon],{icon:icon}).addTo(map);
-        marker.bindPopup('<strong>' + escapeHtml(item.city) + '</strong><span>' + item.count + (item.count === 1 ? ' listing' : ' listings') + ' in the published directory.</span><small>Approximate city-centre marker for demo purposes. Exact branch address and pin require confirmation.</small>');
+        marker.bindPopup('<strong>' + escapeHtml(item.city) + '</strong><span>' + plural(item.count, 'active outlet', 'active outlets') + '</span><small>Approximate city-centre marker. Use an outlet card for branch directions.</small>');
         markersByCity[item.city] = marker;
         markerBounds.push([item.lat,item.lon]);
       });
       map.fitBounds(markerBounds,{padding:[24,24],maxZoom:7});
-      if (mapStatus) mapStatus.textContent = cityListings.reduce(function (sum,item) { return sum + item.count; },0) + ' published listings across ' + cityListings.length + ' cities/areas';
+      if (mapStatus) mapStatus.textContent = plural(cityListings.reduce(function (sum,item) { return sum + item.count; },0), 'active outlet', 'active outlets') + ' across ' + plural(cityListings.length, 'city', 'cities');
     } else if (mapStatus) {
-      mapStatus.textContent = 'Map tiles need an internet connection. Use the city/area directory to browse demo records.';
+      mapStatus.textContent = cityListings.length ? 'The map is unavailable. Use the city list and outlet directory below.' : 'No active outlets have been published yet.';
     }
   }
 
-  // Scroll-revealed city directory. Directions intentionally search the city/area because exact branch pins are not verified.
+  // Outlet directory: one card per active outlet (window.POUND_STORE_OUTLETS, built from the admin panel).
   var outletDirectory = document.querySelector('[data-outlet-directory]');
   if (outletDirectory) {
     var directoryGrid = outletDirectory.querySelector('[data-outlet-grid]');
@@ -486,68 +428,63 @@
     var directoryLoadMore = outletDirectory.querySelector('[data-outlet-load-more]');
     var directoryCount = outletDirectory.querySelector('[data-outlet-result-count]');
     var directoryStatus = outletDirectory.querySelector('[data-outlet-pagination-status]');
-    var directoryItems = Array.isArray(window.POUND_STORE_CITY_LISTINGS) ? window.POUND_STORE_CITY_LISTINGS.slice() : [];
-    var directoryVisibleCount = 9;
+    var directoryItems = Array.isArray(window.POUND_STORE_OUTLETS) ? window.POUND_STORE_OUTLETS.slice() : [];
     var directoryPageSize = 9;
-    var outletPhotoIds = [
-      'photo-1604719312566-8912e9c8a213',
-      'photo-1555529669-e69e7aa0ba9a',
-      'photo-1586528116311-ad8dd3c8310d',
-      'photo-1556911220-e15b29be8c8f',
-      'photo-1600210492486-724fe5c67fb0'
-    ];
+    var directoryVisibleCount = directoryPageSize;
+    var outletTypeLabels = {retail_store: 'Retail store', warehouse: 'Warehouse', head_office: 'Head office'};
 
-    function directoryMapUrl(city) {
-      return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Pound Store ' + city + ' Pakistan');
+    function filterOutlets() {
+      var term = directorySearch ? directorySearch.value.trim().toLowerCase() : '';
+      var matches = directoryItems.filter(function (item) {
+        if (!term) return true;
+        return [item.name, item.city, item.area, item.address, item.landmark, item.branch_code].join(' ').toLowerCase().indexOf(term) !== -1;
+      });
+      if (directorySort && directorySort.value === 'az') {
+        matches.sort(function (a, b) { return a.name.localeCompare(b.name); });
+      } else if (directorySort && directorySort.value === 'za') {
+        matches.sort(function (a, b) { return b.name.localeCompare(a.name); });
+      } // "Featured first" keeps the order sent by the server (featured, sort order, name).
+      return matches;
+    }
+
+    function outletCard(item, index) {
+      var directions = safeUrl(item.directions_url);
+      var address = [item.address, item.area].filter(Boolean).join(', ');
+      if (item.landmark) address += ' · Near ' + item.landmark;
+      var typeLabel = outletTypeLabels[item.outlet_type] || 'Outlet';
+      var featured = item.is_featured ? '<span class="outlet-count-badge"><strong><i class="bi bi-star-fill" aria-hidden="true"></i></strong><small>Featured</small></span>' : '';
+      var footerLeft = item.phone ? '<i class="bi bi-telephone" aria-hidden="true"></i> ' + escapeHtml(item.phone) : '<i class="bi bi-info-circle" aria-hidden="true"></i> Call the team for details';
+      return '<article class="outlet-card" style="--reveal-delay:' + ((index % 3) * 85) + 'ms">' +
+        '<a class="outlet-card-image" href="' + escapeHtml(directions) + '" target="_blank" rel="noopener noreferrer" aria-label="Get directions to ' + escapeHtml(item.name) + '">' +
+        '<img src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.name) + '" loading="lazy" decoding="async">' +
+        '<span class="outlet-image-badge"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i> ' + escapeHtml(typeLabel) + '</span>' +
+        '<span class="outlet-image-arrow" aria-hidden="true"><i class="bi bi-arrow-up-right"></i></span></a>' +
+        '<div class="outlet-card-body"><div class="outlet-card-title-row"><div><span class="outlet-card-kicker">' + escapeHtml(item.city || 'Pakistan') + '</span><h3>' + escapeHtml(item.name) + '</h3></div>' + featured + '</div>' +
+        '<p class="outlet-card-address"><i class="bi bi-pin-map" aria-hidden="true"></i><span>' + escapeHtml(address) + '<br>' + escapeHtml(item.hours_today || '') + '</span></p>' +
+        '<div class="outlet-card-footer"><span>' + footerLeft + '</span><a href="' + escapeHtml(directions) + '" target="_blank" rel="noopener noreferrer">Get directions <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a></div></div></article>';
     }
 
     function renderOutletDirectory() {
       if (!directoryGrid) return;
-      var term = directorySearch ? directorySearch.value.trim().toLowerCase() : '';
-      var matches = directoryItems.filter(function (item) {
-        return !term || item.city.toLowerCase().indexOf(term) !== -1;
-      });
-      if (directorySort && directorySort.value === 'az') {
-        matches.sort(function (a, b) { return a.city.localeCompare(b.city); });
-      } else if (directorySort && directorySort.value === 'za') {
-        matches.sort(function (a, b) { return b.city.localeCompare(a.city); });
-      } else {
-        matches.sort(function (a, b) { return b.count - a.count || a.city.localeCompare(b.city); });
-      }
-
+      var matches = filterOutlets();
       if (directoryCount) directoryCount.textContent = String(matches.length);
       if (!matches.length) {
-        directoryGrid.innerHTML = '<div class="outlet-empty-state"><span class="outlet-empty-icon"><i class="bi bi-search" aria-hidden="true"></i></span><h3>No location matched your search</h3><p>Try another city or area name, or clear your search to see all published listings.</p></div>';
+        var none = directoryItems.length ? 'No outlet matched your search' : 'No outlets published yet';
+        var hint = directoryItems.length ? 'Try another outlet name, city or area, or clear your search.' : 'Please check back soon.';
+        directoryGrid.innerHTML = '<div class="outlet-empty-state"><span class="outlet-empty-icon"><i class="bi bi-search" aria-hidden="true"></i></span><h3>' + none + '</h3><p>' + hint + '</p></div>';
         if (directoryLoadMore) directoryLoadMore.hidden = true;
-        if (directoryStatus) directoryStatus.textContent = 'No locations found';
+        if (directoryStatus) directoryStatus.textContent = 'No outlets found';
         return;
       }
-
       var visibleItems = matches.slice(0, directoryVisibleCount);
-      directoryGrid.innerHTML = visibleItems.map(function (item, index) {
-        var image = photoUrl(outletPhotoIds[index % outletPhotoIds.length], 900);
-        var exactWarehouse = item.city === 'Gujranwala';
-        var mapUrl = exactWarehouse ? 'https://maps.app.goo.gl/6cvsH4YfgBciFAMt7' : directoryMapUrl(item.city);
-        var badge = exactWarehouse ? 'Warehouse city' : 'City / area listing';
-        var addressCopy = exactWarehouse
-          ? 'Warehouse listed at Alipur Chowk. Call to confirm the current map pin.'
-          : 'Browse Pound Store results in this area and confirm the exact branch address.';
-        return '<article class="outlet-card" style="--reveal-delay:' + ((index % 3) * 85) + 'ms">' +
-          '<a class="outlet-card-image" href="' + mapUrl + '" target="_blank" rel="noopener noreferrer" aria-label="Search Pound Store locations in ' + escapeHtml(item.city) + '">' +
-          '<img src="' + image + '" alt="Representative retail photography; not a photograph of a confirmed ' + escapeHtml(item.city) + ' branch" loading="lazy" decoding="async">' +
-          '<span class="outlet-image-badge"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i> ' + badge + '</span>' +
-          '<span class="outlet-image-arrow" aria-hidden="true"><i class="bi bi-arrow-up-right"></i></span></a>' +
-          '<div class="outlet-card-body"><div class="outlet-card-title-row"><div><span class="outlet-card-kicker">POUND STORE · PAKISTAN</span><h3>' + escapeHtml(item.city) + '</h3></div><span class="outlet-count-badge"><strong>' + item.count + '</strong><small>' + (item.count === 1 ? 'listing' : 'listings') + '</small></span></div>' +
-          '<p class="outlet-card-address"><i class="bi bi-pin-map" aria-hidden="true"></i> ' + addressCopy + '</p>' +
-          '<div class="outlet-card-footer"><span><i class="bi bi-info-circle" aria-hidden="true"></i> Check current results</span><a href="' + mapUrl + '" target="_blank" rel="noopener noreferrer">Get directions <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a></div></div></article>';
-      }).join('');
+      directoryGrid.innerHTML = visibleItems.map(outletCard).join('');
       registerReveal(directoryGrid.querySelectorAll('.outlet-card'));
-      if (directoryStatus) directoryStatus.textContent = 'Showing ' + visibleItems.length + ' of ' + matches.length + ' city / area listings';
+      if (directoryStatus) directoryStatus.textContent = 'Showing ' + visibleItems.length + ' of ' + plural(matches.length, 'outlet', 'outlets');
       if (directoryLoadMore) {
         directoryLoadMore.hidden = matches.length <= directoryPageSize;
         directoryLoadMore.innerHTML = directoryVisibleCount >= matches.length
-          ? 'Show fewer locations <i class="bi bi-arrow-up-circle" aria-hidden="true"></i>'
-          : 'Show more locations <i class="bi bi-arrow-down-circle" aria-hidden="true"></i>';
+          ? 'Show fewer outlets <i class="bi bi-arrow-up-circle" aria-hidden="true"></i>'
+          : 'Show more outlets <i class="bi bi-arrow-down-circle" aria-hidden="true"></i>';
       }
     }
 
@@ -560,8 +497,7 @@
       renderOutletDirectory();
     });
     if (directoryLoadMore) directoryLoadMore.addEventListener('click', function () {
-      var term = directorySearch ? directorySearch.value.trim().toLowerCase() : '';
-      var matchesCount = directoryItems.filter(function (item) { return !term || item.city.toLowerCase().indexOf(term) !== -1; }).length;
+      var matchesCount = filterOutlets().length;
       directoryVisibleCount = directoryVisibleCount >= matchesCount ? directoryPageSize : Math.min(directoryVisibleCount + directoryPageSize, matchesCount);
       renderOutletDirectory();
       if (directoryVisibleCount === directoryPageSize && matchesCount > directoryPageSize) {
@@ -786,12 +722,13 @@
     window.addEventListener('blur', function () { document.documentElement.classList.remove('cursor-on'); shown = false; });
   })();
 
-  // Homepage network map: approximate city-level markers from outlets-data.js, with a visible fallback.
+  // Homepage network map: approximate city-level markers from the active cities in the admin panel, with a visible fallback.
   (function initHomeMap() {
     var el = document.getElementById('homeMap');
     if (!el) return;
     var frame = el.closest('.netmap-frame');
     var listings = Array.isArray(window.POUND_STORE_CITY_LISTINGS) ? window.POUND_STORE_CITY_LISTINGS.slice() : [];
+    var mappable = listings.filter(hasCoords);
     var card = document.querySelector('[data-map-card]');
     var cityNode = document.querySelector('[data-map-city]');
     var countNode = document.querySelector('[data-map-count]');
@@ -804,11 +741,11 @@
       activeCity = item.city;
       if (cityNode) cityNode.textContent = item.city;
       if (countNode) countNode.textContent = String(item.count);
-      if (countLabel) countLabel.textContent = (item.count === 1 ? 'listing' : 'listings') + ' in the directory';
+      if (countLabel) countLabel.textContent = (item.count === 1 ? 'active outlet' : 'active outlets') + ' in this city';
       if (card) { card.classList.remove('bump'); void card.offsetWidth; card.classList.add('bump'); }
       if (chipsRoot) chipsRoot.querySelectorAll('.city-chip').forEach(function (chip) { var on = chip.getAttribute('data-city') === item.city; chip.classList.toggle('is-active', on); chip.setAttribute('aria-pressed', String(on)); });
       Object.keys(markers).forEach(function (name) { var node = markers[name].getElement && markers[name].getElement(); var inner = node && node.querySelector('.branch-marker'); if (inner) inner.classList.toggle('is-active', name === item.city); });
-      if (map && fly) map.flyTo([item.lat, item.lon], Math.max(map.getZoom(), 8), { duration: reducedMotion ? 0 : 0.7 });
+      if (map && fly && hasCoords(item)) map.flyTo([item.lat, item.lon], Math.max(map.getZoom(), 8), { duration: reducedMotion ? 0 : 0.7 });
     }
     // Chips (also the fallback interaction when the map cannot load): highest listing counts first.
     var top = listings.slice().sort(function (a, b) { return b.count - a.count || a.city.localeCompare(b.city); }).slice(0, 10);
@@ -820,17 +757,17 @@
       });
     }
     if (top[0]) select(top[0], false);
-    if (!window.L || !listings.length) return; // fallback panel stays visible
+    if (!window.L || !mappable.length) return; // fallback panel stays visible
     try {
       map = window.L.map(el, { scrollWheelZoom: false, zoomControl: true, attributionControl: true }).setView([31.2, 73.4], 6);
       var layer = window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors' }).addTo(map);
       layer.once('tileload', function () { if (frame) frame.classList.add('is-live'); });
       var bounds = [];
-      listings.forEach(function (item) {
+      mappable.forEach(function (item) {
         var size = 30 + Math.min(item.count, 5) * 3;
         var icon = window.L.divIcon({ className: '', html: '<span class="branch-marker" style="width:' + size + 'px;height:' + size + 'px">' + item.count + '</span>', iconSize: [size, size], iconAnchor: [size / 2, size / 2] });
-        var marker = window.L.marker([item.lat, item.lon], { icon: icon, title: item.city + ': ' + item.count + (item.count === 1 ? ' listing' : ' listings') + ' (approximate city marker)', keyboard: true, riseOnHover: true }).addTo(map);
-        marker.bindTooltip('<strong>' + escapeHtml(item.city) + '</strong> · ' + item.count + (item.count === 1 ? ' listing' : ' listings'), { direction: 'top', offset: [0, -10], className: 'ps-tip' });
+        var marker = window.L.marker([item.lat, item.lon], { icon: icon, title: item.city + ': ' + plural(item.count, 'active outlet', 'active outlets') + ' (approximate city marker)', keyboard: true, riseOnHover: true }).addTo(map);
+        marker.bindTooltip('<strong>' + escapeHtml(item.city) + '</strong> · ' + plural(item.count, 'outlet', 'outlets'), { direction: 'top', offset: [0, -10], className: 'ps-tip' });
         marker.on('click', function () { select(item, false); });
         markers[item.city] = marker; bounds.push([item.lat, item.lon]);
       });

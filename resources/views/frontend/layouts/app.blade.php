@@ -43,8 +43,8 @@
   <script>
     // These arrays are built from active Cities and Outlets records by AppServiceProvider.
     // Do not reintroduce the old hard-coded demo directory here.
-    window.POUND_STORE_CITY_LISTINGS = @json($frontendCityListings ?? []);
-    window.POUND_STORE_OUTLETS = @json($frontendOutlets ?? []);
+    window.POUND_STORE_CITY_LISTINGS = {{ \Illuminate\Support\Js::from($frontendCityListings ?? []) }};
+    window.POUND_STORE_OUTLETS = {{ \Illuminate\Support\Js::from($frontendOutlets ?? []) }};
   </script>
   <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
 </body>

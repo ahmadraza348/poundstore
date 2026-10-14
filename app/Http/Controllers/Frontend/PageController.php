@@ -3,22 +3,42 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Services\Frontend\CatalogueService;
+use App\Services\Frontend\StoreLocatorService;
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function categories()
+    public function categories(CatalogueService $catalogue)
     {
-        return view('frontend.categories');
+        return view('frontend.categories', [
+            'categories' => $catalogue->getAllCategories(),
+        ]);
     }
 
-    public function category()
+    public function category(Request $request, CatalogueService $catalogue)
     {
-        return view('frontend.category');
+        $slug = $request->query('category');
+
+        // No category in the URL -> go back to the categories list
+        if (!is_string($slug) || $slug === '') {
+            return redirect()->route('frontend.categories');
+        }
+
+        $page = $catalogue->getCategoryPage($slug);
+
+        // Category not found or inactive -> 404 page
+        abort_if($page === null, 404);
+
+        return view('frontend.category', $page);
     }
 
-    public function outlets()
+    public function outlets(StoreLocatorService $stores)
     {
-        return view('frontend.outlets');
+        return view('frontend.outlets', [
+            'frontendCityListings' => $stores->getCities(),
+            'frontendOutlets'      => $stores->getOutlets(),
+        ]);
     }
 
     public function about()

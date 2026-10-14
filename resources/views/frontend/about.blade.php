@@ -33,7 +33,7 @@
             can choose the next useful step.</p>
           <p>As the frontend moves into Laravel, this story, leadership information and network statistics can be
             managed as structured content instead of being duplicated across pages.</p><a class="text-link"
-            href="outlets.html">Explore the network <i class="bi bi-arrow-right"></i></a>
+            href="{{ route('frontend.outlets') }}">Explore the network <i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
     </section>
@@ -174,7 +174,7 @@
         <div>
           <h2>Get to know Pound Store in person.</h2>
           <p>Explore the category range, find a location or ask about the franchise model.</p>
-        </div><a href="outlets.html" class="btn btn-primary">Find a store <i class="bi bi-arrow-up-right"></i></a>
+        </div><a href="{{ route('frontend.outlets') }}" class="btn btn-primary">Find a store <i class="bi bi-arrow-up-right"></i></a>
       </div>
     </section>
   </main>

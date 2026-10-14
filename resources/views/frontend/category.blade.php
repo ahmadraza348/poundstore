@@ -1,14 +1,17 @@
 @extends('frontend.layouts.app')
 
+@section('title', $category['name'] . ' | Pound Store Pakistan')
+@section('description', $category['description'] ?: 'Browse ' . $category['name'] . ' products at Pound Store Pakistan.')
+
 @section('content')
 <main id="main">
     <section class="page-hero">
         <div class="container-wide page-hero-grid">
             <div>
-                <p class="eyebrow"><a href="{{ route('frontend.categories') }}" style="text-decoration:none;color:inherit">Product categories</a> &nbsp; / &nbsp; <span data-category-crumb>Home & Kitchen</span></p>
-                <h1 data-category-title>Home & Kitchen</h1>
-                <p class="lead" data-category-description>Browse sample products from this category.</p><span class="page-hero-kicker"><i class="bi bi-database" aria-hidden="true"></i> Static demo data · Not live stock</span>
-            </div><img class="page-hero-image category-hero-image" data-category-hero-image data-parallax src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1000&q=82" alt="Representative Home and Kitchen category photography" fetchpriority="high">
+                <p class="eyebrow"><a href="{{ route('frontend.categories') }}" style="text-decoration:none;color:inherit">Product categories</a> &nbsp; / &nbsp; <span data-category-crumb>{{ $category['name'] }}</span></p>
+                <h1 data-category-title>{{ $category['name'] }}</h1>
+                <p class="lead" data-category-description>{{ $category['description'] ?: 'Browse products from this category.' }}</p><span class="page-hero-kicker"><i class="bi bi-box-seam" aria-hidden="true"></i> {{ count($products) }} {{ count($products) === 1 ? 'product' : 'products' }} · Availability varies by outlet</span>
+            </div><img class="page-hero-image category-hero-image" data-category-hero-image data-parallax src="{{ $category['image'] ?: asset('frontend/assets/images/placeholder.svg') }}" alt="{{ $category['name'] }}" fetchpriority="high">
         </div>
     </section>
     <section class="section">
@@ -16,11 +19,11 @@
             <div class="catalogue-toolbar">
                 <div>
                     <p class="eyebrow">Browse products</p>
-                    <h2 style="margin-bottom:5px">Sample catalogue</h2>
-                    <p data-product-count class="toolbar-count">4 demo items</p>
+                    <h2 style="margin-bottom:5px">{{ $category['name'] }}</h2>
+                    <p data-product-count class="toolbar-count">{{ count($products) }} {{ count($products) === 1 ? 'item' : 'items' }}</p>
                 </div>
                 <div class="catalogue-controls">
-                    <div class="field"><label for="productSearch">Search this category</label><input id="productSearch" data-product-search type="search" placeholder="Search sample products…"></div>
+                    <div class="field"><label for="productSearch">Search this category</label><input id="productSearch" data-product-search type="search" placeholder="Search products…"></div>
                     <div class="field"><label for="productSort">Sort by</label><select id="productSort" data-product-sort>
                             <option value="featured">Recommended</option>
                             <option value="name">Name A–Z</option>
@@ -29,8 +32,8 @@
                         </select></div>
                 </div>
             </div>
-            <div class="product-grid " data-product-grid aria-live="polite"></div>
-            <nav class="animated-pagination" data-product-pagination aria-label="Product list pages" hidden></nav>           
+            <div class="product-grid " data-product-grid data-outlets-url="{{ route('frontend.outlets') }}" aria-live="polite"></div>
+            <nav class="animated-pagination" data-product-pagination aria-label="Product list pages" hidden></nav>
         </div>
     </section>
     <section class="section section-soft">
@@ -42,4 +45,8 @@
         </div>
     </section>
 </main>
+<script>
+    // Only active products of this category (and its active sub-categories) are included.
+    window.POUND_STORE_CATALOGUE = {{ \Illuminate\Support\Js::from(['products' => $products]) }};
+</script>
 @endsection

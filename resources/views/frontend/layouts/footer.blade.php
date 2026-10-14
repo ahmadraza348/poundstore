@@ -10,7 +10,6 @@
           <h3 class="footer-heading">Explore</h3>
           <ul class="footer-links">
             <li><a href="{{ route('frontend.categories') }}">Product categories</a></li>
-            <li><a href="{{ route('frontend.category', ['category' => 'home-kitchen']) }}">Demo catalogue</a></li>
             <li><a href="{{ route('frontend.outlets') }}">Find a store</a></li>
             <li><a href="{{ route('frontend.about') }}">About Pound Store</a></li>
           </ul>
@@ -52,7 +51,7 @@
         </div>
       </div>
       <div class="footer-bottom"><span>© <span data-current-year>2026</span> Pound Store Pakistan. All rights
-          reserved.</span><span>Static frontend demo · Sample catalogue data only</span><a href="#top">Back to top ↑</a>
+          reserved.</span><span>Product availability and prices can vary by outlet</span><a href="#top">Back to top ↑</a>
       </div>
     </div>
   </footer>

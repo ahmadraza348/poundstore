@@ -61,53 +61,20 @@
         <div class="sec-head" data-reveal>
           <div>
             <h2 id="catsTitle">Find your kind of everyday useful.</h2>
-            <p>Pick a category to browse sample products. Listings are demo content for this preview, not live stock or
-              prices.</p>
+            <p>Pick a category to browse our products. Availability and prices can vary by outlet.</p>
           </div><a class="btn btn-outline" href="{{ route('frontend.categories') }}">All categories <i class="bi bi-arrow-up-right"
               aria-hidden="true"></i></a>
         </div>
         <div class="cat-grid">
-          <a class="cat-tile cat-lg" data-reveal style="--reveal-delay:0ms" href="{{ route('frontend.category', ['category' => 'crockery']) }}"><img
-              src="https://images.unsplash.com/photo-1551892974-bbb8a5216e07?auto=format&fit=crop&w=1000&q=80"
-              alt="Representative Crockery & Dining photography (stock image)" loading="lazy" decoding="async"
-              width="700" height="700"><span class="cat-tile-body"><strong>Crockery & Dining</strong><span>Tableware for
-                everyday meals</span></span><span class="cat-tile-go" aria-hidden="true"><i
-                class="bi bi-arrow-up-right"></i></span></a>
-          <a class="cat-tile " data-reveal style="--reveal-delay:80ms" href="{{ route('frontend.category', ['category' => 'stationery']) }}"><img
-              src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=700&q=80"
-              alt="Representative Stationery photography (stock image)" loading="lazy" decoding="async" width="700"
-              height="700"><span class="cat-tile-body"><strong>Stationery</strong><span>School, office & creative
-                supplies</span></span><span class="cat-tile-go" aria-hidden="true"><i
-                class="bi bi-arrow-up-right"></i></span></a>
-          <a class="cat-tile " data-reveal style="--reveal-delay:160ms" href="{{ route('frontend.category', ['category' => 'gifts']) }}"><img
-              src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=700&q=80"
-              alt="Representative Gifts & Gift Items photography (stock image)" loading="lazy" decoding="async"
-              width="700" height="700"><span class="cat-tile-body"><strong>Gifts & Gift Items</strong><span>Small
-                surprises, big smiles</span></span><span class="cat-tile-go" aria-hidden="true"><i
-                class="bi bi-arrow-up-right"></i></span></a>
-          <a class="cat-tile " data-reveal style="--reveal-delay:240ms" href="{{ route('frontend.category', ['category' => 'toys']) }}"><img
-              src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=700&q=80"
-              alt="Representative Toys photography (stock image)" loading="lazy" decoding="async" width="700"
-              height="700"><span class="cat-tile-body"><strong>Toys</strong><span>Playful finds for young
-                minds</span></span><span class="cat-tile-go" aria-hidden="true"><i
-                class="bi bi-arrow-up-right"></i></span></a>
-          <a class="cat-tile " data-reveal style="--reveal-delay:320ms" href="{{ route('frontend.category', ['category' => 'perfumes']) }}"><img
-              src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=700&q=80"
-              alt="Representative Perfumes photography (stock image)" loading="lazy" decoding="async" width="700"
-              height="700"><span class="cat-tile-body"><strong>Perfumes</strong><span>Fragrance & personal
-                scent</span></span><span class="cat-tile-go" aria-hidden="true"><i
-                class="bi bi-arrow-up-right"></i></span></a>
-          <!-- <a class="cat-tile " data-reveal style="--reveal-delay:400ms" href="category.html?category=home-general"><img
-              src="https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=700&q=80"
-              alt="Representative Home & General photography (stock image)" loading="lazy" decoding="async" width="700"
-              height="700"><span class="cat-tile-body"><strong>Home & General</strong><span>Practical household
-                essentials</span></span><span class="cat-tile-go" aria-hidden="true"><i
-                class="bi bi-arrow-up-right"></i></span></a>
-          <a class="cat-tile cat-more" data-reveal style="--reveal-delay:480ms" href="categories.html"><span
-              class="cat-more-body"><i class="bi bi-grid-3x3-gap-fill" aria-hidden="true"></i><strong>See every
-                category</strong><span>Home &amp; kitchen, beauty, décor, accessories and more</span><span
-                class="cat-more-cta">All categories <i class="bi bi-arrow-right"
-                  aria-hidden="true"></i></span></span></a> -->
+          @forelse ($homeCategories as $category)
+            <a class="cat-tile {{ $loop->first ? 'cat-lg' : '' }}" data-reveal style="--reveal-delay:{{ $loop->index * 80 }}ms" href="{{ $category['url'] }}"><img
+                src="{{ $category['image'] }}"
+                alt="{{ $category['name'] }}" loading="lazy" decoding="async"
+                width="700" height="700"><span class="cat-tile-body"><strong>{{ $category['name'] }}</strong><span>{{ $category['description'] ?: 'Browse ' . $category['name'] }}</span></span><span class="cat-tile-go" aria-hidden="true"><i
+                  class="bi bi-arrow-up-right"></i></span></a>
+          @empty
+            <p>Categories will appear here soon.</p>
+          @endforelse
         </div>
       </div>
     </section>

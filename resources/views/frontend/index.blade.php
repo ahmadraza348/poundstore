@@ -215,11 +215,7 @@
           <div class="franchise-slider-viewport">
             <div class="franchise-slider-track" data-slider-track>
               <article class="franchise-slide is-active" data-franchise-slide aria-label="Slide 1 of 4">
-                <div class="franchise-slide-image"><img
-                    src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80"
-                    alt="Rows of stocked shelving in a large warehouse" loading="lazy"
-                    decoding="async"><span class="slide-image-label"><i class="bi bi-box-seam" aria-hidden="true"></i>
-                    Supply</span></div>
+                <div class="franchise-slide-image franchise-slide-image--placeholder" aria-hidden="true"><span class="slide-ph-no">01</span><span class="slide-ph-icon"><i class="bi bi-box-seam"></i></span><p class="slide-ph-title">Sourcing &amp; warehouse supply</p><span class="slide-image-label"><i class="bi bi-box-seam"></i> Supply</span></div>
                 <div class="franchise-slide-copy"><span class="slide-kicker">Sourcing & warehouse supply</span>
                   <h3>Stock that keeps moving.</h3>
                   <p>The published model links volume-led sourcing with central warehouse supply for a broad everyday
@@ -231,11 +227,7 @@
                 </div>
               </article>
               <article class="franchise-slide" data-franchise-slide aria-label="Slide 2 of 4" aria-hidden="true">
-                <div class="franchise-slide-image"><img
-                    src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1000&q=80"
-                    alt="Bright retail store interior with organised shelves" loading="lazy" decoding="async"><span
-                    class="slide-image-label"><i class="bi bi-wrench-adjustable" aria-hidden="true"></i> Setup</span>
-                </div>
+                <div class="franchise-slide-image franchise-slide-image--placeholder" aria-hidden="true"><span class="slide-ph-no">02</span><span class="slide-ph-icon"><i class="bi bi-wrench-adjustable"></i></span><p class="slide-ph-title">Setup &amp; training</p><span class="slide-image-label"><i class="bi bi-wrench-adjustable"></i> Setup</span></div>
                 <div class="franchise-slide-copy"><span class="slide-kicker">Setup & training</span>
                   <h3>From empty shop to opening day.</h3>
                   <p>Support areas include layout and merchandising guidance, staff training and launch preparation.</p>
@@ -247,10 +239,7 @@
                 </div>
               </article>
               <article class="franchise-slide" data-franchise-slide aria-label="Slide 3 of 4" aria-hidden="true">
-                <div class="franchise-slide-image"><img
-                    src="https://images.unsplash.com/photo-1604719312566-8912e9c8a213?auto=format&fit=crop&w=1000&q=80"
-                    alt="Colourful products arranged on retail shelves" loading="lazy" decoding="async"><span
-                    class="slide-image-label"><i class="bi bi-megaphone" aria-hidden="true"></i> Brand</span></div>
+                <div class="franchise-slide-image franchise-slide-image--placeholder" aria-hidden="true"><span class="slide-ph-no">03</span><span class="slide-ph-icon"><i class="bi bi-megaphone"></i></span><p class="slide-ph-title">Marketing &amp; branding</p><span class="slide-image-label"><i class="bi bi-megaphone"></i> Brand</span></div>
                 <div class="franchise-slide-copy"><span class="slide-kicker">Marketing & branding</span>
                   <h3>A familiar name on your street.</h3>
                   <p>Signage, campaign material and central social media support are listed as part of the proposition.
@@ -262,10 +251,7 @@
                 </div>
               </article>
               <article class="franchise-slide" data-franchise-slide aria-label="Slide 4 of 4" aria-hidden="true">
-                <div class="franchise-slide-image"><img
-                    src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80"
-                    alt="Home goods displayed in an organised retail setting" loading="lazy" decoding="async"><span
-                    class="slide-image-label"><i class="bi bi-geo" aria-hidden="true"></i> Territory</span></div>
+                <div class="franchise-slide-image franchise-slide-image--placeholder" aria-hidden="true"><span class="slide-ph-no">04</span><span class="slide-ph-icon"><i class="bi bi-geo"></i></span><p class="slide-ph-title">Territory arrangements</p><span class="slide-image-label"><i class="bi bi-geo"></i> Territory</span></div>
                 <div class="franchise-slide-copy"><span class="slide-kicker">Territory arrangements</span>
                   <h3>A catchment that makes sense.</h3>
                   <p>Defined catchment areas are referenced in the published model. Exact terms and availability are

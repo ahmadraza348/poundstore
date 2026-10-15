@@ -5,10 +5,8 @@
 
     RewriteEngine On
 
-    # Redirect HTTP and www to HTTPS non-www
-    RewriteCond %{HTTPS} !=on [OR]
-    RewriteCond %{HTTP_HOST} ^www\.kingtascollege\.com$ [NC]
-    RewriteRule ^ https://kingtascollege.com%{REQUEST_URI} [R=301,L,NE]
+    # NOTE: force HTTPS / www redirects from the Hostinger hPanel (SSL > Force HTTPS)
+    # instead of hard-coding a domain here.
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -27,4 +25,11 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+</IfModule>
+
+# Revalidate CSS/JS on every visit; assets are versioned with ?v=filemtime in the layout
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "public, max-age=0, must-revalidate"
+    </FilesMatch>
 </IfModule>

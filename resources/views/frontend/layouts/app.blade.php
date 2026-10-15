@@ -21,7 +21,7 @@
     rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
-  <link href="{{asset('frontend/assets/css/style.css')}}" rel="stylesheet">
+  <link href="{{ asset('frontend/assets/css/style.css') }}?v={{ @filemtime(public_path('frontend/assets/css/style.css')) ?: time() }}" rel="stylesheet">
   <script>
     document.documentElement.classList.add('js');
   </script>
@@ -46,7 +46,7 @@
     window.POUND_STORE_CITY_LISTINGS = {{ \Illuminate\Support\Js::from($frontendCityListings ?? []) }};
     window.POUND_STORE_OUTLETS = {{ \Illuminate\Support\Js::from($frontendOutlets ?? []) }};
   </script>
-  <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
+  <script src="{{ asset('frontend/assets/js/main.js') }}?v={{ @filemtime(public_path('frontend/assets/js/main.js')) ?: time() }}"></script>
 </body>
 
 </html>

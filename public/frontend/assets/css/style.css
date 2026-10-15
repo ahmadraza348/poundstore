@@ -6992,78 +6992,6 @@ html.js .hx h1 .hx-in {
   }
 }
 
-/* ---- Final CTA ---- */
-.final {
-  padding: 0 0 clamp(64px, 9vw, 110px)
-}
-
-.final-inner {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  border-radius: 36px;
-  padding: clamp(40px, 7vw, 88px) clamp(26px, 6vw, 80px);
-  background: linear-gradient(130deg, #0c3322 0%, #176b3d 100%);
-  color: #fff;
-  text-align: left
-  
-}
-
-.final h2 {
-  color: #fff;
-  font-size: clamp(34px, 5.4vw, 70px);
-  max-width: 13ch;
-  margin: 0 0 16px
-}
-
-.final p {
-  font-size: clamp(18px, 2vw, 22px);
-  max-width: 32em;
-  margin: 0 0 28px;
-  color: rgba(255, 255, 255, .9)
-}
-
-.final-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px
-}
-
-.final-contact {
-  list-style: none;
-  margin: 30px 0 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 28px
-}
-
-.final-contact a {
-  color: #fff;
-  font-weight: 700;
-  text-decoration: none;
-  display: inline-flex;
-  gap: 9px;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, .35)
-}
-
-.final-contact a:hover {
-  color: var(--yellow);
-  border-color: var(--yellow)
-}
-
-@media(max-width:560px) {
-  .final-actions .btn {
-    width: 100%
-  }
-
-  .final-inner {
-    border-radius: 26px
-  }
-}
-
 /* ---- Inner pages: richer hero and shared components ---- */
 .page-hero {
   position: relative;
@@ -7481,7 +7409,6 @@ h1, .hx h1, .hero-copy h1 { font-size: var(--fs-h1); line-height: 1.1 }
 .page-hero h1 { font-size: var(--fs-page-h1); line-height: 1.12 }
 h2, .sec-head h2, .section-heading h2, .map-teaser h2, .netmap-copy h2,
 .network-motion h2, .parallax-showcase h2, .form-aside h2, .story-copy h2 { font-size: var(--fs-h2); line-height: 1.2 }
-.final h2 { font-size: clamp(28px, 3.6vw, 44px); line-height: 1.15 }
 .cta-band h2 { font-size: clamp(24px, 2.6vw, 32px) }
 h3, .category-body h3, .feature-card h3, .benefit-card h3, .step-card h3, .value-card h3,
 .contact-card h3, .sup-card h3, .process-content h3, .mission-card h3, .supply-step h3,
@@ -7694,70 +7621,98 @@ h3, .category-body h3, .feature-card h3, .benefit-card h3, .step-card h3, .value
 
 
 /* ============================================================
-   Final CTA ("Ready to visit, or to open your own?"): no decorative
-   circle; copy + actions on the left, contact card on the right.
+   Final CTA ("Ready to visit, or to open your own?")
+   Single source of truth. Every rule is scoped under `.final` so no
+   other rule in this file (or a stale cached copy) can change its layout.
    ============================================================ */
-.final-inner {
+.final { padding: 0 0 clamp(64px, 9vw, 110px); }
+.final .final-inner {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr);
   align-items: center;
   gap: clamp(28px, 5vw, 72px);
+  border-radius: 36px;
   padding: clamp(36px, 6vw, 76px) clamp(24px, 5vw, 72px);
+  background: linear-gradient(130deg, #0c3322 0%, #176b3d 100%);
+  color: #fff;
+  text-align: left;
 }
-.final-main { min-width: 0; }
-.final-eyebrow {
+.final .final-main { min-width: 0; }
+.final .final-eyebrow {
   display: inline-block;
-  margin: 0 0 16px !important;
+  margin: 0 0 16px;
   padding: 6px 12px;
   border-radius: 999px;
   background: rgba(255, 217, 39, .16);
-  color: var(--yellow) !important;
-  font-size: 12px !important;
+  color: var(--yellow);
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: .12em;
   text-transform: uppercase;
 }
-.final h2 { max-width: 16ch; font-size: clamp(32px, 4.4vw, 56px); }
-.final-main > p:not(.final-eyebrow) { max-width: 30em; }
-.final-main .final-actions { margin-top: 4px; }
-.final-contact-card {
+.final .final-main h2 {
+  color: #fff;
+  max-width: 16ch;
+  margin: 0 0 16px;
+  font-size: clamp(32px, 4.4vw, 56px);
+}
+.final .final-main > p:not(.final-eyebrow) {
+  max-width: 30em;
+  margin: 0 0 28px;
+  color: rgba(255, 255, 255, .9);
+  font-size: clamp(18px, 2vw, 22px);
+}
+.final .final-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 4px; }
+.final .final-contact-card {
+  box-sizing: border-box;
+  min-width: 0;
   padding: clamp(20px, 3vw, 30px);
   border: 1px solid rgba(255, 255, 255, .16);
   border-radius: 24px;
   background: rgba(255, 255, 255, .07);
-  backdrop-filter: blur(4px);
 }
-.final-contact-title {
-  margin: 0 0 14px !important;
-  font-size: 13px !important;
+.final .final-contact-title {
+  margin: 0 0 14px;
+  max-width: none;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .7) !important;
+  color: rgba(255, 255, 255, .7);
 }
-.final-contact-card .final-contact {
+.final .final-contact {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   gap: 10px;
-  margin: 0;
 }
-.final-contact-card .final-contact a {
+.final .final-contact a {
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 12px 14px;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
   border: 1px solid rgba(255, 255, 255, .14);
   border-radius: 16px;
   background: rgba(255, 255, 255, .06);
   transition: background .2s ease, border-color .2s ease, transform .2s ease;
 }
-.final-contact-card .final-contact a:hover {
+.final .final-contact a:hover {
   background: rgba(255, 217, 39, .14);
   border-color: var(--yellow);
   color: #fff;
   transform: translateX(3px);
 }
-.final-contact-icon {
+.final .final-contact-icon {
   flex: none;
   display: grid;
   place-items: center;
@@ -7768,7 +7723,7 @@ h3, .category-body h3, .feature-card h3, .benefit-card h3, .step-card h3, .value
   color: var(--green-deep);
   font-size: 18px;
 }
-.final-contact-card .final-contact small {
+.final .final-contact small {
   display: block;
   font-size: 11px;
   font-weight: 700;
@@ -7777,8 +7732,12 @@ h3, .category-body h3, .feature-card h3, .benefit-card h3, .step-card h3, .value
   color: rgba(255, 255, 255, .62);
 }
 @media (max-width: 900px) {
-  .final-inner { grid-template-columns: 1fr; }
-  .final h2 { max-width: 20ch; }
+  .final .final-inner { grid-template-columns: minmax(0, 1fr); }
+  .final .final-main h2 { max-width: 20ch; }
+}
+@media (max-width: 560px) {
+  .final .final-inner { border-radius: 26px; }
+  .final .final-actions .btn { width: 100%; }
 }
 
 /* ============================================================
@@ -7892,3 +7851,66 @@ h3, .category-body h3, .feature-card h3, .benefit-card h3, .step-card h3, .value
 
 /* Team portraits: empty placeholder keeps the same footprint as a real photo. */
 .team-avatar-image { display: block; background: var(--yellow-soft, #fff7c5); }
+
+/* ============================================================
+   Franchise slider: icon placeholders instead of photos
+   (same visual language as the "From source to your local shelf" stage)
+   ============================================================ */
+.fr .franchise-slide-image--placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 300px;
+  padding: clamp(22px, 3vw, 34px);
+  border-radius: 22px;
+  background: linear-gradient(145deg, #0c3322 0%, #176b3d 100%);
+  color: #fff;
+  isolation: isolate;
+}
+.fr .franchise-slide-image--placeholder::after { display: none; }
+.fr .franchise-slide-image--placeholder::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 70%;
+  aspect-ratio: 1;
+  right: -20%;
+  bottom: -24%;
+  border-radius: 50%;
+  background: rgba(255, 217, 39, .14);
+}
+.fr .slide-ph-no {
+  position: absolute;
+  top: 12px;
+  right: 22px;
+  font: 800 clamp(90px, 11vw, 150px)/.85 var(--display, inherit);
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 217, 39, .6);
+  pointer-events: none;
+}
+.fr .slide-ph-icon {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  margin-bottom: 18px;
+  border-radius: 24px;
+  background: var(--yellow);
+  color: var(--green-deep);
+  font-size: 36px;
+}
+.fr .slide-ph-title { margin: 0; color: #fff; font-size: clamp(22px, 2.4vw, 30px); font-weight: 800; line-height: 1.15; }
+.fr .franchise-slide-image--placeholder .slide-image-label { position: static; align-self: flex-start; margin-top: 14px; }
+.fr .franchise-slide.is-active .franchise-slide-image--placeholder .slide-ph-icon { animation: slide-ph-in .7s var(--motion-ease, ease) both; }
+@keyframes slide-ph-in { from { transform: scale(.6) rotate(-14deg); } to { transform: none; } }
+@media (max-width: 700px) { .fr .franchise-slide-image--placeholder { min-height: 220px; } }
+@media (prefers-reduced-motion: reduce) { .fr .franchise-slide.is-active .franchise-slide-image--placeholder .slide-ph-icon { animation: none; } }
+
+/* Custom dropdown: never clipped by a parent card, always above neighbours */
+.cs.is-open { z-index: 70; }
+.cs-list { scrollbar-width: thin; scrollbar-color: #b9cdb7 transparent; }
+.cs-list::-webkit-scrollbar { width: 8px; }
+.cs-list::-webkit-scrollbar-thumb { background: #b9cdb7; border-radius: 8px; }
+.cs-option { transition: background .15s ease, color .15s ease, padding-left .15s ease; }
+.cs-option:hover:not([aria-disabled="true"]) { background: #eef5ec; padding-left: 18px; }
+.form-card, .catalogue-controls, .outlet-controls { overflow: visible; }

@@ -12,17 +12,9 @@
 
         <div class="card">
             <div class="card-body">
-                <form method="GET" action="{{ route('franchise-enquiry.index') }}" class="row align-items-end mb-4">
-                    <div class="col-md-6 col-lg-4 form-group mb-2">
-                        <label for="q">Search name, phone, email or city</label>
-                        <input id="q" type="search" name="q" value="{{ $search }}" class="form-control" placeholder="e.g. Lahore">
-                    </div>
-                    <div class="col-auto mb-2"><button class="btn btn-submit" type="submit">Search</button></div>
-                    @if ($search !== '')<div class="col-auto mb-2"><a class="btn btn-cancel" href="{{ route('franchise-enquiry.index') }}">Clear</a></div>@endif
-                </form>
-
+           
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table datanew">
                         <thead>
                             <tr><th>Date</th><th>Name</th><th>Phone</th><th>Email</th><th>City / Location</th><th>Status</th><th>Action</th></tr>
                         </thead>

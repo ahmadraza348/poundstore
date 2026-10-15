@@ -30,7 +30,9 @@ class Category extends Model
     /** Full public URL of the category image (null when no image uploaded). */
     public function getImageUrlAttribute(): ?string
     {
-        return $this->image ? asset('storage/' . $this->image) : null;
+        return $this->image
+            ? asset(str_starts_with($this->image, 'frontend/') ? $this->image : 'storage/' . $this->image)
+            : null;
     }
 
     public function scopeOrdered($query)

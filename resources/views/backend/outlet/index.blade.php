@@ -13,10 +13,7 @@
                 <div class="alert alert-warning">Create a city first. <a href="{{ route('city.create') }}" class="alert-link">Add a city / area</a>.</div>
             @endif
             <form method="GET" action="{{ route('outlet.index') }}" class="row align-items-end mb-4">
-                <div class="col-md-5 col-lg-4 form-group mb-2">
-                    <label for="q">Search branch, branch code, area or address</label>
-                    <input id="q" type="search" name="q" value="{{ $search }}" class="form-control" placeholder="e.g. Main Market">
-                </div>
+          
                 <div class="col-md-4 col-lg-3 form-group mb-2">
                     <label for="city_id">Filter by city</label>
                     <select id="city_id" name="city_id" class="form-control">
@@ -29,7 +26,7 @@
             </form>
 
             <div class="table-responsive">
-                <table class="table">
+                <table class="table datanew">
                     <thead><tr><th>Image</th><th>Branch</th><th>City / Area</th><th>Type</th><th>Phone</th><th>Featured</th><th>Status</th><th>Action</th></tr></thead>
                     <tbody>
                     @forelse($outlets as $outlet)

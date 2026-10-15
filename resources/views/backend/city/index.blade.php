@@ -13,17 +13,9 @@
 
         <div class="card">
             <div class="card-body">
-                <form method="GET" action="{{ route('city.index') }}" class="row align-items-end mb-4">
-                    <div class="col-md-6 col-lg-4 form-group mb-2">
-                        <label for="q">Search city, district or province</label>
-                        <input id="q" type="search" name="q" value="{{ $search }}" class="form-control" placeholder="e.g. Gujranwala">
-                    </div>
-                    <div class="col-auto mb-2"><button class="btn btn-submit" type="submit">Search</button></div>
-                    @if ($search !== '')<div class="col-auto mb-2"><a class="btn btn-cancel" href="{{ route('city.index') }}">Clear</a></div>@endif
-                </form>
 
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table datanew">
                         <thead><tr><th>City / Area</th><th>Slug</th><th>District</th><th>Province</th><th>Branches</th><th>Map Coordinates</th><th>Status</th><th>Action</th></tr></thead>
                         <tbody>
                         @forelse ($cities as $city)

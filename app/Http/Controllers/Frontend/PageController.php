@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Services\Frontend\CatalogueService;
+use Illuminate\Http\Request;
 use App\Services\Frontend\StoreLocatorService;
 
 class PageController extends Controller
@@ -15,9 +16,13 @@ class PageController extends Controller
         ]);
     }
 
-    public function category(CatalogueService $catalogue, string $category)
+    public function category(Request $request, CatalogueService $catalogue, string $category)
     {
-        $page = $catalogue->getCategoryPage($category);
+        $page = $catalogue->getCategoryPage(
+            $category,
+            (string) $request->query('q', ''),
+            (string) $request->query('sort', 'featured')
+        );
 
         // Category not found or inactive -> 404 page
         abort_if($page === null, 404);

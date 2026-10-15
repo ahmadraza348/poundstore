@@ -12,17 +12,8 @@
 
         <div class="card">
             <div class="card-body">
-                <form method="GET" action="{{ route('contact-message.index') }}" class="row align-items-end mb-4">
-                    <div class="col-md-6 col-lg-4 form-group mb-2">
-                        <label for="q">Search name, phone/email, subject or message</label>
-                        <input id="q" type="search" name="q" value="{{ $search }}" class="form-control" placeholder="Search...">
-                    </div>
-                    <div class="col-auto mb-2"><button class="btn btn-submit" type="submit">Search</button></div>
-                    @if ($search !== '')<div class="col-auto mb-2"><a class="btn btn-cancel" href="{{ route('contact-message.index') }}">Clear</a></div>@endif
-                </form>
-
-                <div class="table-responsive">
-                    <table class="table">
+                         <div class="table-responsive">
+                    <table class="table datanew">
                         <thead>
                             <tr><th>Date</th><th>Name</th><th>Phone / Email</th><th>Subject</th><th>Message</th><th>Status</th><th>Action</th></tr>
                         </thead>

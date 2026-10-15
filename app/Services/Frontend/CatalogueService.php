@@ -4,6 +4,7 @@ namespace App\Services\Frontend;
 
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
 /**
@@ -37,21 +38,27 @@ class CatalogueService
     }
 
     /**
-     * All active categories for the "Categories" page.
+     * Active categories for the "Categories" page, 8 per page.
      */
-    public function getAllCategories(): array
+    public function getAllCategories(int $perPage = 8): LengthAwarePaginator
     {
-        $categories = Category::with('parent:id,name')->active()->ordered()->get();
+        $categories = Category::with('parent:id,name')
+            ->active()
+            ->ordered()
+            ->paginate($perPage)
+            ->withQueryString()
+            ->fragment('categories');
+
         $counts = $this->getProductCounts();
 
-        return $categories->map(fn ($category) => $this->formatCategory($category, $counts))->all();
+        return $categories->through(fn ($category) => $this->formatCategory($category, $counts));
     }
 
     /**
-     * One category and its products. Returns null if the category
-     * does not exist or is inactive.
+     * One category and its products (8 per page, with search + sort).
+     * Returns null if the category does not exist or is inactive.
      */
-    public function getCategoryPage(string $slug): ?array
+    public function getCategoryPage(string $slug, string $search = '', string $sort = 'featured', int $perPage = 8): ?array
     {
         $category = Category::active()->where('slug', $slug)->first();
 
@@ -62,13 +69,34 @@ class CatalogueService
         // Products of this category + products of its sub-categories
         $categoryIds = array_merge([$category->id], $this->getChildIds($category->id));
 
-        $products = Product::with('category:id,name')
-            ->active()
-            ->whereIn('category_id', $categoryIds)
-            ->orderByDesc('is_featured')
-            ->latest('id')
-            ->limit(1000)
-            ->get();
+        $base = Product::active()->whereIn('category_id', $categoryIds);
+        $productTotal = (clone $base)->count();
+
+        $query = (clone $base)->with('category:id,name');
+
+        $search = trim($search);
+        if ($search !== '') {
+            $like = '%' . addcslashes($search, '%_\\') . '%';
+            $query->where(fn ($q) => $q->where('name', 'like', $like)->orWhere('tag', 'like', $like));
+        }
+
+        match ($sort) {
+            'name'       => $query->orderBy('name'),
+            'price-low'  => $query->orderBy('price')->orderBy('name'),
+            'price-high' => $query->orderByDesc('price')->orderBy('name'),
+            default      => $query->orderByDesc('is_featured')->orderByDesc('id'),
+        };
+
+        $products = $query->paginate($perPage)
+            ->withQueryString()
+            ->fragment('products')
+            ->through(fn ($product) => [
+                'name'     => $product->name,
+                'category' => $product->category->name ?? $category->name,
+                'price'    => (float) $product->price,
+                'tag'      => $product->tag,
+                'image'    => $product->image_url ?? asset('frontend/assets/images/hero-store.jpg'),
+            ]);
 
         return [
             'category' => [
@@ -76,13 +104,10 @@ class CatalogueService
                 'description' => $this->cleanText($category->description),
                 'image'       => $category->image_url ?? asset('frontend/assets/images/hero-store.jpg'),
             ],
-            'products' => $products->map(fn ($product) => [
-                'name'     => $product->name,
-                'category' => $product->category->name ?? $category->name,
-                'price'    => (float) $product->price,
-                'tag'      => $product->tag,
-                'image'    => $product->image_url ?? asset('frontend/assets/images/hero-store.jpg'),
-            ])->all(),
+            'products'     => $products,
+            'productTotal' => $productTotal,
+            'search'       => $search,
+            'sort'         => in_array($sort, ['name', 'price-low', 'price-high'], true) ? $sort : 'featured',
         ];
     }
 

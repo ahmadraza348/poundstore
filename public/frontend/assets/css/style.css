@@ -7914,3 +7914,72 @@ h3, .category-body h3, .feature-card h3, .benefit-card h3, .step-card h3, .value
 .cs-option { transition: background .15s ease, color .15s ease, padding-left .15s ease; }
 .cs-option:hover:not([aria-disabled="true"]) { background: #eef5ec; padding-left: 18px; }
 .form-card, .catalogue-controls, .outlet-controls { overflow: visible; }
+
+/* ============================================================
+   Category product listing: search + sort on ONE row,
+   server-side pagination links and empty state
+   ============================================================ */
+.catalogue-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px 28px;
+  margin-bottom: 28px;
+}
+.catalogue-toolbar .catalogue-controls {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 14px;
+  flex: 1 1 540px;
+  min-width: 0;
+  margin: 0;
+}
+.catalogue-controls .catalogue-search { flex: 1 1 260px; min-width: 0; }
+.catalogue-controls .catalogue-sort { flex: 0 0 220px; min-width: 0; }
+.catalogue-controls .catalogue-submit { flex: none; height: 52px; padding-inline: 22px; }
+.catalogue-controls .field input[type="search"] {
+  box-sizing: border-box;
+  min-height: 52px;
+  padding: 12px 15px;
+  border: 1.5px solid #cad6c9;
+  border-radius: 14px;
+  background: #fff;
+  color: var(--green-deep);
+  font-weight: 600;
+  box-shadow: 0 3px 12px rgba(16, 61, 41, .035);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.catalogue-controls .field input[type="search"]:hover { border-color: #7da58a; }
+.catalogue-controls .field input[type="search"]:focus {
+  outline: 0;
+  border-color: var(--green);
+  box-shadow: 0 0 0 4px rgba(23, 107, 61, .14);
+}
+@media (max-width: 760px) {
+  .catalogue-toolbar .catalogue-controls { flex-wrap: wrap; flex-basis: 100%; justify-content: stretch; }
+  .catalogue-controls .catalogue-search { flex: 1 1 100%; }
+  .catalogue-controls .catalogue-sort { flex: 1 1 0; }
+}
+
+/* Pagination rendered by Laravel uses links instead of buttons */
+a.pagination-button { text-decoration: none; }
+.pagination-button.is-disabled { opacity: .38; cursor: not-allowed; pointer-events: none; }
+.pagination-gap { padding: 0 2px; color: var(--muted); font-weight: 900; }
+
+.empty-products {
+  grid-column: 1 / -1;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: clamp(36px, 6vw, 64px) 20px;
+  text-align: center;
+  border: 1px dashed #cad6c9;
+  border-radius: 22px;
+  background: #f7faf5;
+}
+.empty-products i { font-size: 34px; color: var(--green); }
+.empty-products h3 { margin: 0; color: var(--green-deep); }
+.empty-products p { margin: 0 0 6px; color: var(--muted); }
